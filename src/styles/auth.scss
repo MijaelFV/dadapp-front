@@ -1,0 +1,83 @@
+/*LayOut*/
+.container {
+    align-items: center;
+    background: rgb(255,128,0);
+    background: linear-gradient(30deg, rgba(255,128,0,1) 0%, rgba(255,185,98,1) 50%, rgba(255,240,93,1) 100%);
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+
+    &.inverted {
+        background: rgb(0,86,255);
+        background: linear-gradient(30deg, rgba(0,86,255,1) 0%, rgba(113,113,249,1) 50%, rgba(133,127,236,1) 100%);
+    }
+}
+
+/*Formulary*/
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 6px;
+    padding: 2em;
+    width: 390px;
+    box-shadow: rgb(216, 128, 55) 0px 15px  10px -5px;
+}
+
+.formWelcome {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formTitle {
+    margin: 0px 0px 0px 10px;
+    font-family: sans-serif;
+    color: rgb(80, 80, 80);
+}
+
+.form {
+    display: grid;
+    width: 350px;
+}
+
+.textField {
+    border-radius: 4px;
+    display: grid;
+    box-shadow: rgb(228, 227, 235) 0px 5px 5px -1px;
+}
+
+.formButton {
+    margin-top: 20px;   
+}
+
+.formOptional {
+    color: grey;
+    font-size: 15px;
+    display: flex;
+}
+
+.formSignUpOption {
+    display: flex;
+    font-size: 15px;
+    margin-top: 35px;
+    margin-bottom: -25px;
+    align-items: center;
+    
+    .p {
+        transition: color .2s ease;
+        text-decoration: none;
+
+        &:visited {
+            color: inherit;
+        }
+
+        &:hover {
+            color: #7171f9;
+        }
+
+    }
+}
