@@ -1,6 +1,4 @@
 import React from 'react';
-import '../../styles/auth.scss'
-import '../../styles/general.scss'
 import { Button, TextField } from '@material-ui/core';
 import { useForm } from '../../hooks/useForm';
 import { Link } from 'react-router-dom';
@@ -23,23 +21,23 @@ export const RegisterScreen = () => {
         e.preventDefault();
     }
     return (
-        <div className="container inverted">
-            <div className="formContainer">
-                <div className="formWelcome">
+        <div className="auth-container inverted">
+            <div className="form-container">
+                <div className="form-welcome">
                     <div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
-                        <FontAwesomeIcon icon={faUserCircle} size="4x" color="#576bfa"/>
-                        <h2 className="formTitle" style={{margin:"10px 0 0 0", fontWeight:"normal"}}>
-                            Sign Up    
+                        <FontAwesomeIcon icon={faUserCircle} size="4x" color="#ffad4e"/>
+                        <h2 className="form-title" style={{margin:"10px 0 0 0", fontWeight:"normal"}}>
+                            Crear Cuenta    
                         </h2>
                         <p className="tc-grey" style={{marginTop:"6px"}}>
-                            Please fill this form to create an account
+                            Complete el formulario para crear su usuario
                         </p>
                     </div>
                 </div>
                 <form onSubmit={handleLogin} className="form">
-                    <div className="textField">
+                    <div className="text-field">
                         <TextField
-                            label="Name"
+                            label="Nombre"
                             variant="outlined"
                             type="name"
                             name="name"
@@ -47,9 +45,9 @@ export const RegisterScreen = () => {
                             onChange={handleLoginInputChange}
                         />
                     </div>
-                    <div className="textField" style={{marginTop:"30px"}}>
+                    <div className="text-field" style={{marginTop:"30px"}}>
                     <TextField
-                            label="Email"
+                            label="Correo Electronico"
                             variant="outlined"
                             type="text"
                             name="email"
@@ -57,9 +55,9 @@ export const RegisterScreen = () => {
                             onChange={handleLoginInputChange}
                         />
                     </div>
-                    <div className="textField" style={{marginTop:"30px"}}>
+                    <div className="text-field" style={{marginTop:"30px"}}>
                         <TextField
-                            label="Password"
+                            label="Contraseña"
                             variant="outlined"
                             type="password"
                             name="password"
@@ -67,9 +65,9 @@ export const RegisterScreen = () => {
                             onChange={handleLoginInputChange}
                         />
                     </div>
-                    <div className="textField" style={{marginTop:"30px"}}>
+                    <div className="text-field" style={{marginTop:"30px"}}>
                         <TextField
-                            label="Repeat Password"
+                            label="Repetir Contraseña"
                             variant="outlined"
                             type="password"
                             name="password2"
@@ -77,7 +75,7 @@ export const RegisterScreen = () => {
                             onChange={handleLoginInputChange}
                         />
                     </div>
-                    <div className="formButton" style={{marginTop:"50px"}}>
+                    <div className="form-button" style={{marginTop:"50px"}}>
                         <Button
                             size="large"
                             variant="contained"
@@ -85,17 +83,17 @@ export const RegisterScreen = () => {
                             fullWidth={true}
                             type="submit"
                         >
-                            Register
+                            Registrarse
                         </Button>
                     </div>
                     
                 </form>
-                <div className="formSignUpOption">
+                <div className="form-sign-up">
                     <p className="tc-grey">
-                        Already have an account?
+                        ¿Ya tienes una cuenta?
                     </p>
                     <Link to="/login" className="p" style={{marginLeft:"5px"}}>
-                        Sign In
+                        Iniciar Sesion
                     </Link>
                 </div>
             </div>

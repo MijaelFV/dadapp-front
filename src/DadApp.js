@@ -11,6 +11,19 @@ export const DadApp = () => {
         }
     })
 
+    theme.overrides = {
+        MuiTableCell: {
+            root: {
+                padding: '12px'
+            }
+        },
+        MuiButton: {
+            label: {
+                color: 'white'
+            }
+        }
+    }
+
     return (
         <MuiThemeProvider theme={theme}>
             <AppRouter />

@@ -1,6 +1,4 @@
 import React from 'react';
-// import '../../styles/auth.scss'
-// import '../../styles/general.scss'
 import logo from '../../assets/tool.svg'
 import { Button, TextField } from '@material-ui/core';
 import { useForm } from '../../hooks/useForm';
@@ -21,23 +19,23 @@ export const LoginScreen = () => {
     }
 
     return (
-        <div className="container">
-            <div className="formContainer">
-                <div className="formWelcome">
+        <div className="auth-container">
+            <div className="form-container">
+                <div className="form-welcome">
                     <div style={{display:"flex", alignItems:"center"}}>
                         <img src={logo} alt="logo" width="40" height="40"/>
-                        <h2 className="formTitle">
+                        <h2 className="form-title">
                             Inventory Organizer
                         </h2>
                     </div>
                     <p className="tc-grey" style={{marginTop:"6px"}}>
-                        Welcome! Let's get started!
+                        Bienvenido! Comienza a inventariar!
                     </p>
                 </div>
                 <form onSubmit={handleLogin} className="form">
-                    <div className="textField">
+                    <div className="text-field">
                         <TextField
-                            label="Email"
+                            label="Correo Electronico"
                             variant="outlined"
                             type="text"
                             name="email"
@@ -45,9 +43,9 @@ export const LoginScreen = () => {
                             onChange={handleLoginInputChange}
                         />
                     </div>
-                    <div className="textField" style={{marginTop:"30px"}}>
+                    <div className="text-field" style={{marginTop:"30px"}}>
                         <TextField
-                            label="Password"
+                            label="Contraseña"
                             variant="outlined"
                             type="password"
                             name="password"
@@ -55,16 +53,15 @@ export const LoginScreen = () => {
                             onChange={handleLoginInputChange}
                         />
                     </div>
-                    <div className="formOptional">
+                    <div className="form-optional">
                         <p className="p">
-                            Forgot password?
+                            ¿Olvidó su contraseña?
                         </p>
                     </div>
-                    <div className="formButton">
+                    <div className="form-button">
                         <Button
-                            style={{
-                                color:"white"
-                            }}
+                            component={Link} 
+                            to="/"
                             size="large"
                             variant="contained"
                             color="primary"
@@ -76,12 +73,12 @@ export const LoginScreen = () => {
                     </div>
                     
                 </form>
-                <div className="formSignUpOption">
+                <div className="form-sign-up">
                     <p className="tc-grey">
-                        New User?
+                        ¿Nuevo usuario?
                     </p>
                     <Link to="/register" className="p" style={{marginLeft:"5px"}}>
-                        Sign Up
+                        Crear Cuenta
                     </Link>
                 </div>
             </div>

@@ -1,20 +1,21 @@
-/*LayOut*/
-.container {
+//LayOut
+.auth-container {
     align-items: center;
     background: rgb(255,128,0);
     background: linear-gradient(30deg, rgba(255,128,0,1) 0%, rgba(255,185,98,1) 50%, rgba(255,240,93,1) 100%);
     display: flex;
     justify-content: center;
-    height: 100vh;
+    overflow: hidden;
+    height: 100%;
 
     &.inverted {
-        background: rgb(0,86,255);
-        background: linear-gradient(30deg, rgba(0,86,255,1) 0%, rgba(113,113,249,1) 50%, rgba(133,127,236,1) 100%);
+        background: rgb(255,240,93);
+        background: linear-gradient(30deg, rgba(255,240,93,1) 0%, rgba(255,185,98,1) 50%, rgba(255,128,0,1) 100%);
     }
 }
 
-/*Formulary*/
-.formContainer {
+//Formulary
+.form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,18 +23,20 @@
     background-color: white;
     border-radius: 6px;
     padding: 2em;
-    width: 390px;
+    min-width: 310px;
+    width: 75vw;
+    max-width: 390px;
     box-shadow: rgb(216, 128, 55) 0px 15px  10px -5px;
 }
 
-.formWelcome {
+.form-welcome {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.formTitle {
+.form-title {
     margin: 0px 0px 0px 10px;
     font-family: sans-serif;
     color: rgb(80, 80, 80);
@@ -44,23 +47,23 @@
     width: 350px;
 }
 
-.textField {
+.text-field {
     border-radius: 4px;
     display: grid;
-    box-shadow: rgb(228, 227, 235) 0px 5px 5px -1px;
+    box-shadow: rgb(241, 241, 241) 0px 5px 5px -1px;
 }
 
-.formButton {
+.form-button {
     margin-top: 20px;   
 }
 
-.formOptional {
+.form-optional {
     color: grey;
     font-size: 15px;
     display: flex;
 }
 
-.formSignUpOption {
+.form-sign-up {
     display: flex;
     font-size: 15px;
     margin-top: 35px;
@@ -76,7 +79,7 @@
         }
 
         &:hover {
-            color: #7171f9;
+            color: #ffad4e;
         }
 
     }
