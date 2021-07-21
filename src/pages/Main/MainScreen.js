@@ -19,8 +19,7 @@ export const MainScreen = () => {
             textTransform: 'capitalize',
             color: 'black'
         },
-
-      })(Button);
+    })(Button);
 
     const createData = (name, object, row, column, space, type, className) => {
         return { name, object, row, column, space, type, className};

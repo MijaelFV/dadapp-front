@@ -1,9 +1,8 @@
 import { faBox, faHome, faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
+import { BottomNavigation, BottomNavigationAction, withStyles } from "@material-ui/core";
 import React from "react";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -16,6 +15,12 @@ import { SpaceScreen } from "../pages/Spaces/SpaceScreen";
 
 export const NavRoutes = () => {
 
+    const StyledNavBar = withStyles({
+        root: {
+            boxShadow: "rgb(240, 240, 240) 0px 0px 10px 0px",
+        },
+    })(BottomNavigation);
+
     return (
         <>
             <Switch>
@@ -25,12 +30,12 @@ export const NavRoutes = () => {
                 <Route exact path="/" component={MainScreen}/>
                 <Redirect to={"/"} />
             </Switch>
-            <BottomNavigation style={{position:"fixed", bottom:"0px", left:"0px", right:"0px"}}>
+            <StyledNavBar style={{position:"fixed", bottom:"0px", left:"0px", right:"0px"}}>
                 <BottomNavigationAction component={Link} to="/" showLabel={false} label="Inicio" icon={<FontAwesomeIcon icon={faHome}/>}/>
                 <BottomNavigationAction showLabel={false} label="Buscar" icon={<FontAwesomeIcon icon={faSearch}/>}/>
                 <BottomNavigationAction component={Link} to="/spaces"showLabel={false} label="Espacios" icon={<FontAwesomeIcon icon={faBox}/>}/>
                 <BottomNavigationAction showLabel={false} label="Perfil" icon={<FontAwesomeIcon icon={faUser}/>}/>
-            </BottomNavigation>
+            </StyledNavBar>
         </>
     )
 }

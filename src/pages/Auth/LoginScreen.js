@@ -3,19 +3,25 @@ import logo from '../../assets/tool.svg'
 import { Button, TextField } from '@material-ui/core';
 import { useForm } from '../../hooks/useForm';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { startLogin } from '../../actions/auth';
 
 
 export const LoginScreen = () => {
 
+    const dispatch = useDispatch();
+
     const [formLoginValues, handleLoginInputChange] = useForm({
-        email: '',
-        password: ''
+        email: 'mijael@hotmail.com',
+        password: '123456'
     });
 
     const {email, password} = formLoginValues;
     
     const handleLogin = (e) => {
         e.preventDefault();
+
+        dispatch(startLogin(email, password))
     }
 
     return (
@@ -60,8 +66,6 @@ export const LoginScreen = () => {
                     </div>
                     <div className="form-button">
                         <Button
-                            component={Link} 
-                            to="/"
                             size="large"
                             variant="contained"
                             color="primary"

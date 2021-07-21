@@ -4,21 +4,27 @@ import { useForm } from '../../hooks/useForm';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import { startRegister } from '../../actions/auth';
 
 
 export const RegisterScreen = () => {
 
-    const [formLoginValues, handleLoginInputChange] = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password2: ''
+    const dispatch = useDispatch();
+
+    const [formRegisterValues, handleRegisterInputChange] = useForm({
+        name: 'Mijael',
+        email: 'mijael@hotmail.com',
+        password: '123456',
+        password2: '123456'
     });
 
-    const {name, email, password, password2} = formLoginValues;
+    const {name, email, password, password2} = formRegisterValues;
     
-    const handleLogin = (e) => {
+    const handleRegister = (e) => {
         e.preventDefault();
+
+        dispatch(startRegister(name, email, password))
     }
     return (
         <div className="auth-container inverted">
@@ -34,7 +40,7 @@ export const RegisterScreen = () => {
                         </p>
                     </div>
                 </div>
-                <form onSubmit={handleLogin} className="form">
+                <form onSubmit={handleRegister} className="form">
                     <div className="text-field">
                         <TextField
                             label="Nombre"
@@ -42,7 +48,7 @@ export const RegisterScreen = () => {
                             type="name"
                             name="name"
                             value={name}
-                            onChange={handleLoginInputChange}
+                            onChange={handleRegisterInputChange}
                         />
                     </div>
                     <div className="text-field" style={{marginTop:"30px"}}>
@@ -52,7 +58,7 @@ export const RegisterScreen = () => {
                             type="text"
                             name="email"
                             value={email}
-                            onChange={handleLoginInputChange}
+                            onChange={handleRegisterInputChange}
                         />
                     </div>
                     <div className="text-field" style={{marginTop:"30px"}}>
@@ -62,7 +68,7 @@ export const RegisterScreen = () => {
                             type="password"
                             name="password"
                             value={password}
-                            onChange={handleLoginInputChange}
+                            onChange={handleRegisterInputChange}
                         />
                     </div>
                     <div className="text-field" style={{marginTop:"30px"}}>
@@ -72,7 +78,7 @@ export const RegisterScreen = () => {
                             type="password"
                             name="password2"
                             value={password2}
-                            onChange={handleLoginInputChange}
+                            onChange={handleRegisterInputChange}
                         />
                     </div>
                     <div className="form-button" style={{marginTop:"50px"}}>

@@ -6,8 +6,10 @@
     align-items: center;
 
     .space-card-container{
-        width: 546px;
-        // background-color: red;
+        width: 82vw;
+        max-width: 546px;
+        align-content: center;
+        justify-content: center;
         display: flex;
         flex-wrap: wrap;
     }

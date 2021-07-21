@@ -1,6 +1,8 @@
-import { createTheme, MuiThemeProvider } from '@material-ui/core';
 import React from 'react';
+import { createTheme, MuiThemeProvider } from '@material-ui/core';
+import { Provider } from 'react-redux';
 import { AppRouter } from './router/AppRouter';
+import { store } from './store/store';
 
 export const DadApp = () => {
     const theme = createTheme({
@@ -26,7 +28,9 @@ export const DadApp = () => {
 
     return (
         <MuiThemeProvider theme={theme}>
-            <AppRouter />
+            <Provider store={store}>
+                <AppRouter />
+            </Provider>
         </MuiThemeProvider>
     )
 }

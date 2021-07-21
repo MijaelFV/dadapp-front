@@ -11,13 +11,6 @@ const spaces = [
     4,
     3,
     4,
-    3,
-    4,
-    3,
-    4,
-    3,
-    4,
-
 ]
 
 export const SpaceScreen = () => {
