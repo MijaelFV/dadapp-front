@@ -1,0 +1,22 @@
+
+.space-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .space-card-container{
+        width: 546px;
+        // background-color: red;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .space-card {
+        border-radius: 10px;
+        margin: 10px;
+        padding: 30px;
+        background-color: rosybrown;
+    }
+
+}

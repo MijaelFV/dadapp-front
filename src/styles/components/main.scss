@@ -35,6 +35,8 @@ $width-app: 700px;
     width: 350px;
     display: flex;
     justify-content: space-evenly;
+    margin-top: 15px;
+    margin-bottom: 10px;
 
     .dash-card-column {
         display: flex;
@@ -88,5 +90,23 @@ $width-app: 700px;
         font-weight: bold;
         font-size: 18px;
         color:#616161;
+    }
+
+    .add {
+        color: #2cc51e;
+        font-weight: 500;
+        background-color: #DCF1D7;
+        font-size: 12px;
+        padding: 4px;
+        border-radius: 10px;
+    }
+
+    .remove {
+        color: #B72136;
+        font-weight: 500;
+        background-color: #FFE2E1;
+        font-size: 12px;
+        padding: 4px;
+        border-radius: 10px;
     }
 }

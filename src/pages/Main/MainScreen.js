@@ -9,32 +9,34 @@ export const MainScreen = () => {
 
     const StyledButton = withStyles({
         root: {
-          background: "white",
-          height: 35,
-          boxShadow: '0px 0px 0px 0px'
+            background: "white",
+            height: 35,
+        //   boxShadow: '0px 0px 0px 0px'
+            boxShadow: "rgb(240, 240, 240) 0px 0px 10px 0px",
+
         },
         label: {
-          textTransform: 'capitalize',
-          color: 'black'
+            textTransform: 'capitalize',
+            color: 'black'
         },
 
       })(Button);
 
-    const createData = (name, object, row, column, space, type, color) => {
-        return { name, object, row, column, space, type, color};
+    const createData = (name, object, row, column, space, type, className) => {
+        return { name, object, row, column, space, type, className};
       }
     const history = [
-        createData('Horacio', 'Martillo', 2, 3, 'Box1', 'Retiro', 'red'),
-        createData('Matias', 'Amoladora', 3, 1, 'Box2', 'Devolvio', 'green'),
-        createData('Marcos', 'Destornillador', 2, 3, 'Box1', 'Retiro', 'red'),
-        createData('Matias', 'Amoladora', 3, 2, 'Box2', 'Retiro', 'red'),
-        createData('Horacio', 'Cinta metrica', 1, 2, 'Box1', 'Devolvio', 'green'),
-        createData('Matias', 'Nivel', 1, 5, 'Box2', 'Retiro', 'red')
+        createData('Horacio', 'Martillo', 2, 3, 'Box1', 'Retiro', 'remove'),
+        createData('Matias', 'Amoladora', 3, 1, 'Box2', 'Devolvio', 'add'),
+        createData('Marcos', 'Destornillador', 2, 3, 'Box1', 'Retiro', 'remove'),
+        createData('Matias', 'Amoladora', 3, 2, 'Box2', 'Retiro', 'remove'),
+        createData('Horacio', 'Cinta metrica', 1, 2, 'Box1', 'Devolvio', 'add'),
+        createData('Matias', 'Nivel', 1, 5, 'Box2', 'Retiro', 'remove')
     ]
  
     return (
         <div className="main-container">
-            <div className="app-bar">
+            {/* <div className="app-bar">
                 <div className="app-bar-row">
                     <div style={{width:"29px", height:"29px"}}></div>
                     <TextField
@@ -55,7 +57,7 @@ export const MainScreen = () => {
                         
                     </Avatar>
                 </div>
-            </div>
+            </div> */}
             <h1 style={{marginTop:"40px", color:"#616161"}}>
                 Taller de Horacio
             </h1>
@@ -87,15 +89,6 @@ export const MainScreen = () => {
                     </p>
                 </div>
             </div>
-            <StyledButton
-                component={Link} 
-                to="/login"
-                variant="outlined"
-                // fullWidth={true}
-                type="submit"
-            >
-                Administrar
-            </StyledButton>
             <div className="log">
                 <p className="log-title">Movimientos</p>
                 <Table>
@@ -115,7 +108,7 @@ export const MainScreen = () => {
                                 <TableCell align="center">{row.row}</TableCell>
                                 <TableCell align="center">{row.column}</TableCell>
                                 <TableCell align="center">{row.space}</TableCell>
-                                <TableCell style={{color:row.color, fontWeight:"500"}} align="center">{row.type}</TableCell>
+                                <TableCell align="center"><span className={row.className}>{row.type}</span></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
