@@ -1,30 +1,14 @@
-import { faArchive, faMinus, faPlus, faSearch, faTools } from '@fortawesome/free-solid-svg-icons'
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { withStyles, Avatar, Button, InputAdornment, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@material-ui/core'
-import logo from '../../assets/tool.svg'
-import React, { useLayoutEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
+import React from 'react'
 
 export const MainScreen = () => {
-
-    const StyledButton = withStyles({
-        root: {
-            background: "white",
-            height: 35,
-        //   boxShadow: '0px 0px 0px 0px'
-            boxShadow: "rgb(240, 240, 240) 0px 0px 10px 0px",
-
-        },
-        label: {
-            textTransform: 'capitalize',
-            color: 'black'
-        },
-    })(Button);
 
     const createData = (name, object, row, column, space, type, className) => {
         return { name, object, row, column, space, type, className};
       }
-    const history = [
+    const logs = [
         createData('Horacio', 'Martillo', 2, 3, 'Box1', 'Retiro', 'remove'),
         createData('Matias', 'Amoladora', 3, 1, 'Box2', 'Devolvio', 'add'),
         createData('Marcos', 'Destornillador', 2, 3, 'Box1', 'Retiro', 'remove'),
@@ -100,8 +84,8 @@ export const MainScreen = () => {
                         <TableCell align="center">Tipo</TableCell>
                     </TableHead>
                     <TableBody>
-                        {history.map((row) => (
-                            <TableRow key={row.name}>
+                        {logs.map((row) => (
+                            <TableRow key={row.object+row.type}>
                                 <TableCell align="center">{row.name}</TableCell>
                                 <TableCell align="center">{row.object}</TableCell>
                                 <TableCell align="center">{row.row}</TableCell>

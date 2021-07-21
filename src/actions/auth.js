@@ -45,7 +45,6 @@ export const startRegister = (name, email, password) => {
 export const startChecking = () => {
     return async(dispatch) => {
         const resp = await fetch('api/auth/renew');
-        console.log(resp)
         if (resp.statusText === "Created") {
             localStorage.setItem('token', resp.data.token);
             localStorage.setItem('token-init-date', new Date().getTime());

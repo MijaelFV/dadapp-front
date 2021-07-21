@@ -31,7 +31,7 @@ export const LoginScreen = () => {
                     <div style={{display:"flex", alignItems:"center"}}>
                         <img src={logo} alt="logo" width="40" height="40"/>
                         <h2 className="form-title">
-                            Inventory Organizer
+                            Taller Flores
                         </h2>
                     </div>
                     <p className="tc-grey" style={{marginTop:"6px"}}>

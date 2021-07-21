@@ -12,10 +12,9 @@ import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 
 export const AppRouter = () => {
-
     const dispatch = useDispatch();
     const {uid} = useSelector(state => state.auth) 
-
+    
     useEffect(() => {
         dispatch(startChecking());
     }, [dispatch])
