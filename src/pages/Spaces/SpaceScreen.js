@@ -4,20 +4,11 @@ import { Button, withStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { startLoadingSpaces } from '../../actions/space';
+import { openModal } from '../../actions/ui';
+import { SpaceModal } from '../../components/Spaces/SpaceModal';
 import { SpaceRow } from './SpaceRow';
 
 export const SpaceScreen = () => {
-
-    const dispatch = useDispatch();
-    const {spaces} = useSelector(state => state.space);
-
-    const list = spaces || []
-
-    useEffect(() => {
-        if (!spaces) {
-            dispatch(startLoadingSpaces());
-        }
-    }, [dispatch, spaces])
 
     const StyledButton = withStyles({
         root: {
@@ -32,13 +23,28 @@ export const SpaceScreen = () => {
             color: 'black'
         },
     })(Button);
+    
+    const dispatch = useDispatch();
+    const {spaces} = useSelector(state => state.space);
+
+    const list = spaces || []
+
+    useEffect(() => {
+        if (!spaces) {
+            dispatch(startLoadingSpaces());
+        }
+    }, [dispatch, spaces])
+
+    const handleOpenModal = () => {
+        dispatch(openModal());
+    }
 
     return (
         <div className="space-container">
-            
             <div className="space-row-container">
                 <div className="space-options">
                     <StyledButton
+                        onClick={handleOpenModal}
                         startIcon={<FontAwesomeIcon icon={faPlus} style={{fontSize:"15px"}} />}
                     >   
                         <span>Crear Espacio</span>
@@ -48,6 +54,7 @@ export const SpaceScreen = () => {
                     <SpaceRow key={space.uid} {...space}/>
                 ))}
             </div>
+            <SpaceModal />
         </div>
     )
 }

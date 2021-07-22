@@ -17,7 +17,6 @@ export const loadSpaces = (spaces) => ({
 export const startLoadingSpaces = () => {
     return async(dispatch) => {
         const resp = await fetch('api/spaces');
-        console.log(resp )
         const spaces = resp.data.resp
         if (resp.statusText === "OK") {
             dispatch(loadSpaces(spaces))
