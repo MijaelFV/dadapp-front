@@ -19,6 +19,11 @@ export const addSpace = (space) => ({
     payload: space
 })
 
+export const deleteSpace = (space) => ({
+    type: types.spaceDelete,
+    payload: space
+})
+
 export const startLoadingSpaces = () => {
     return async(dispatch) => {
         const resp = await fetch('api/spaces');
@@ -30,11 +35,22 @@ export const startLoadingSpaces = () => {
     }
 }
 
-export const startCreateSpace = (name, rows, columns) => {
+export const startCreateSpace = (name, rows, columns, area) => {
     return async(dispatch) => {
-        const resp = await fetch('api/spaces', {name, rows, columns}, 'POST');
+        const resp = await fetch('api/spaces', {name, rows, columns, area}, 'POST');
         if (resp.status === 201) {
             dispatch(addSpace(resp.data.newSpace))
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const startDeleteSpace = (uid) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/spaces/${uid}`, null, 'DELETE');
+        if (resp.status === 200) {
+            dispatch(deleteSpace(uid))
         } else {
             console.log(resp.data)
         }

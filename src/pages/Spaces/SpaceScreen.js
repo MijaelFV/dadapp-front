@@ -10,7 +10,7 @@ import { SpaceRow } from './SpaceRow';
 
 export const SpaceScreen = () => {
 
-    const StyledButton = withStyles({
+    const CustomButton = withStyles({
         root: {
             background: "white",
             height: 35,
@@ -43,12 +43,12 @@ export const SpaceScreen = () => {
         <div className="space-container">
             <div className="space-row-container">
                 <div className="space-options">
-                    <StyledButton
+                    <CustomButton
                         onClick={handleOpenModal}
                         startIcon={<FontAwesomeIcon icon={faPlus} style={{fontSize:"15px"}} />}
                     >   
                         <span>Crear Espacio</span>
-                    </StyledButton>
+                    </CustomButton>
                 </div>
                 {list.map((space) => (
                     <SpaceRow key={space.uid} {...space}/>

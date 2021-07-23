@@ -9,6 +9,7 @@ export const types = {
 
     spaceLoad: '[Space] Loaded',
     spaceAdd: '[Space] Added',
+    spaceDelete: '[Space] Deleted',
     spaceActive: '[Space] Set Active Space',
     
 }
