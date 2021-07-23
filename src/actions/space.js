@@ -14,14 +14,29 @@ export const loadSpaces = (spaces) => ({
     payload: spaces
 })
 
+export const addSpace = (space) => ({
+    type: types.spaceAdd,
+    payload: space
+})
+
 export const startLoadingSpaces = () => {
     return async(dispatch) => {
         const resp = await fetch('api/spaces');
-        const spaces = resp.data.resp
-        if (resp.statusText === "OK") {
-            dispatch(loadSpaces(spaces))
+        if (resp.status === 200) {
+            dispatch(loadSpaces(resp.data.resp))
         } else {
-            console.log('error')
+            console.log(resp.data)
+        }
+    }
+}
+
+export const startCreateSpace = (name, rows, columns) => {
+    return async(dispatch) => {
+        const resp = await fetch('api/spaces', {name, rows, columns}, 'POST');
+        if (resp.status === 201) {
+            dispatch(addSpace(resp.data.newSpace))
+        } else {
+            console.log(resp.data)
         }
     }
 }

@@ -13,15 +13,15 @@ const checkingFinish = () => ({
 export const startLogin = (email, password) => {
     return async(dispatch) => {
         const resp = await fetch('api/auth/login', {email, password}, 'POST');
-        if (resp.statusText === "OK") {
-            localStorage.setItem('token', resp.data.token);
+        if (resp.status === 200) {
+            localStorage.setItem('token', resp.data.loggedUser.token);
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(login({
-                uid: resp.data.uid,
-                name: resp.data.name
+                uid: resp.data.loggedUser.uid,
+                name: resp.data.loggedUser.name
             }));
         } else {
-            console.log('error')
+            console.log(resp.data)
         }
     }
 }
@@ -29,15 +29,15 @@ export const startLogin = (email, password) => {
 export const startRegister = (name, email, password) => {
     return async(dispatch) => {
         const resp = await fetch('api/users', {name, email, password}, 'POST');
-        if (resp.statusText === "OK") {
-            localStorage.setItem('token', resp.data.token);
+        if (resp.status === 201) {
+            localStorage.setItem('token', resp.data.createdUser.token);
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(login({
-                uid: resp.data.uid,
-                name: resp.data.name
+                uid: resp.data.createdUser.uid,
+                name: resp.data.createdUser.name
             }));
         } else {
-            console.log('error')
+            console.log(resp.data)
         }
     }
 }
@@ -45,12 +45,12 @@ export const startRegister = (name, email, password) => {
 export const startChecking = () => {
     return async(dispatch) => {
         const resp = await fetch('api/auth/renew');
-        if (resp.statusText === "Created") {
-            localStorage.setItem('token', resp.data.token);
+        if (resp.status === 200) {
+            localStorage.setItem('token', resp.data.checkedUser.token);
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(login({
-                uid: resp.data.uid,
-                name: resp.data.name
+                uid: resp.data.checkedUser.uid,
+                name: resp.data.checkedUser.name
             }));
         } else {
             dispatch(checkingFinish());

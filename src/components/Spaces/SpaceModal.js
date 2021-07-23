@@ -1,16 +1,10 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField, withStyles } from '@material-ui/core';
+import { Button, FormControl, InputLabel, Select, TextField, withStyles } from '@material-ui/core';
 import React from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
+import { startCreateSpace } from '../../actions/space';
 import { closeModal } from '../../actions/ui';
 import { useForm } from '../../hooks/useForm';
-
-const StyledTextField = withStyles({
-    root: {
-
-        boxShadow: 'red 0px 0px 0px 0px',
-    },
-})(TextField);
 
 const customStyles = {
     content: {
@@ -39,14 +33,14 @@ export const SpaceModal = () => {
     const handleCreateSpace = (e) => {
         e.preventDefault();
         
-        console.log('Nuevo Espacio');
-        console.log(name, rows, columns);
+        const area = "60efb7d44c8a53491ca93914"
+        dispatch(startCreateSpace(name, rows, columns, area));
         dispatch(closeModal());
     }
     
     const handleCloseModal = () => {
         dispatch(closeModal());
-    }
+    }  
 
     return (
         <Modal
@@ -62,7 +56,7 @@ export const SpaceModal = () => {
             </div>
             <form style={{display:"grid", width:"300px"}} onSubmit={handleCreateSpace}>
                 <div style={{display:"grid"}}>
-                    <StyledTextField
+                    <TextField
                         label="Nombre de espacio"
                         variant="outlined"
                         type="text"

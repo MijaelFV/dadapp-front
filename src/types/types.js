@@ -8,6 +8,7 @@ export const types = {
     authLogin: '[AUTH] Login',
 
     spaceLoad: '[Space] Loaded',
+    spaceAdd: '[Space] Added',
     spaceActive: '[Space] Set Active Space',
     
 }
