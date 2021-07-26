@@ -1,12 +1,13 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, withStyles } from '@material-ui/core';
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { deleteInventory } from '../../actions/inv';
 import { startLoadingSpaces } from '../../actions/space';
 import { openModal } from '../../actions/ui';
 import { SpaceModal } from '../../components/Spaces/SpaceModal';
-import { SpaceRow } from './SpaceRow';
+import { SpaceRow } from '../../components/Spaces/SpaceRow';
 
 export const SpaceScreen = () => {
 
@@ -26,10 +27,15 @@ export const SpaceScreen = () => {
     
     const dispatch = useDispatch();
     const {spaces} = useSelector(state => state.space);
+    const {items} = useSelector(state => state.inv);
 
     const list = spaces || []
+    
+    if (items !== null) {
+        dispatch(deleteInventory());
+    }
 
-    useEffect(() => {
+    useMemo(() => {
         if (!spaces) {
             dispatch(startLoadingSpaces());
         }

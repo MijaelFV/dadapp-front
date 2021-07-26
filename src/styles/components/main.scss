@@ -10,25 +10,6 @@ $width-app: 700px;
     overflow: hidden;
 }
 
-// AppBar
-.app-bar {
-    // border-bottom: 1px solid rgb(220,220,220);
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    box-shadow: #f3f3f3 0px 0px 20px 0px;
-    width: 100%;
-    
-    .app-bar-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-width: 400px;
-        width: 50vw;
-        max-width: $width-app;
-    }
-}
-
 // Dashboard
 .dashboard {
     background-color: white;

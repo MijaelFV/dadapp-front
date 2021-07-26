@@ -1,4 +1,4 @@
-import { faBox, faHome, faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faPallet, faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BottomNavigation, BottomNavigationAction, withStyles } from "@material-ui/core";
 import React from "react";
@@ -8,9 +8,8 @@ import {
   Redirect,
   Link
 } from "react-router-dom";
-import { LoginScreen } from "../pages/Auth/LoginScreen";
-import { RegisterScreen } from "../pages/Auth/RegisterScreen";
 import { MainScreen } from "../pages/Main/MainScreen";
+import { SpaceInfo } from "../pages/Spaces/SpaceInfo";
 import { SpaceScreen } from "../pages/Spaces/SpaceScreen";
 
 export const NavRoutes = () => {
@@ -24,8 +23,7 @@ export const NavRoutes = () => {
     return (
         <>
             <Switch>
-                <Route exact path="/login" component={LoginScreen}/>
-                <Route exact path="/register" component={RegisterScreen}/>
+                <Route exact path="/space/:spaceId" component={SpaceInfo} />
                 <Route exact path="/spaces" component={SpaceScreen}/>
                 <Route exact path="/" component={MainScreen}/>
                 <Redirect to={"/"} />
@@ -33,7 +31,7 @@ export const NavRoutes = () => {
             <StyledNavBar style={{position:"fixed", bottom:"0px", left:"0px", right:"0px"}}>
                 <BottomNavigationAction component={Link} to="/" showLabel={false} label="Inicio" icon={<FontAwesomeIcon icon={faHome}/>}/>
                 <BottomNavigationAction showLabel={false} label="Buscar" icon={<FontAwesomeIcon icon={faSearch}/>}/>
-                <BottomNavigationAction component={Link} to="/spaces"showLabel={false} label="Espacios" icon={<FontAwesomeIcon icon={faBox}/>}/>
+                <BottomNavigationAction component={Link} to="/spaces"showLabel={false} label="Espacios" icon={<FontAwesomeIcon icon={faPallet}/>}/>
                 <BottomNavigationAction showLabel={false} label="Perfil" icon={<FontAwesomeIcon icon={faUser}/>}/>
             </StyledNavBar>
         </>

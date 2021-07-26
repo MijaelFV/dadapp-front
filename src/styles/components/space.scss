@@ -1,4 +1,5 @@
 
+// * SpaceScreen
 .space-container {
     height: 100%;
     display: flex;
@@ -11,6 +12,7 @@
         align-content: center;
         align-items: center;
         margin: 10px;
+        padding-bottom: 20px;
         border-radius: 4px;
         // background-color: red;
         box-shadow: rgb(218, 218, 218) 0px 0px 10px 1px;
@@ -28,13 +30,15 @@
         display: flex;
         border-radius: 4px;
         justify-content: space-between;
-        margin: 5px;
+        margin: 3px;
+        margin-inline: 10px;
         padding-inline: 10px;
         padding-block: 15px;
-        min-width: 400px;
+        min-width: 380px;
         width: 50vw;
         max-width: 700px;
         color: white;
+        cursor: pointer;
         background-color: #ffad4e;
 
         .row-data-margin {
@@ -53,13 +57,77 @@
         border-radius: 10px;
         box-shadow: rgb(240, 240, 240) 0px 0px 10px 0px;
         overflow-x: hidden;
+
+        .space-card {
+            border-radius: 10px;
+            margin: 10px;
+            padding: 30px;
+            background-color: rgb(0, 183, 255);
+        }
+    }
+}
+
+// * SpaceInfo
+.spaceInfo-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    .matrix {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(248, 248, 248);
+        padding: 10px;
+        // min-width: 400px;
+        // width: 50vw;
+        max-width: 500px;
+        box-shadow: rgb(226, 226, 226) 0px 0px 10px 0px;
+
+        .matrix-row {
+            display: flex;
+        }
+
+        .matrix-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            padding: 4px;
+            margin: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 25px;
+            background-color: #ffbf76;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color .2s ease;
+            -webkit-tap-highlight-color: transparent;
+            
+            &:hover {
+                background-color: #ff9a26;
+            }
+            
+        }
+
+        .matrix-col-active {
+            background-color: #ff9a26;
+        }
     }
 
-    .space-card {
+    .dataGrid {
+        min-width: 400px;
+        width: 50vw;
+        max-width: 500px;
         border-radius: 10px;
-        margin: 10px;
-        padding: 30px;
-        background-color: rgb(0, 183, 255);
+        box-shadow: rgb(240, 240, 240) 0px 0px 10px 0px;
+        margin-top: 55px;
+        height: 435px;
+        overflow-x: hidden;
     }
-
 }

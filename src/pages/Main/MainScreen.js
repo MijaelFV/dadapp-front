@@ -19,28 +19,6 @@ export const MainScreen = () => {
  
     return (
         <div className="main-container">
-            {/* <div className="app-bar">
-                <div className="app-bar-row">
-                    <div style={{width:"29px", height:"29px"}}></div>
-                    <TextField
-                        placeholder="Buscar"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <FontAwesomeIcon icon={faSearch} style={{color:"grey"}}/>
-                                </InputAdornment>
-                            )
-                        }}
-                        variant="outlined"
-                        size="small"
-                    />
-                    <Avatar
-                        style={{backgroundColor:"#ffad4e", width:"29px", height:"29px"}}
-                    >
-                        
-                    </Avatar>
-                </div>
-            </div> */}
             <h1 style={{marginTop:"40px", color:"#616161"}}>
                 Taller de Horacio
             </h1>
