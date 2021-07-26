@@ -8,86 +8,135 @@ $width-app: 700px;
     justify-content: flex-start;
     height: 100%;
     overflow: hidden;
-}
 
-// Dashboard
-.dashboard {
-    background-color: white;
-    width: 350px;
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 15px;
-    margin-bottom: 10px;
-
-    .dash-card-column {
+    .topBar {
         display: flex;
-        flex-direction: column;
         align-items: center;
-    }
+        justify-content: space-between;
+        padding: 10px;
+        min-width: 400px;
+        width: 80%;
+        max-width: 450px;
 
-    .dash-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-radius: 20px;
-        height: 60px;
-        width: 60px;
-        cursor: pointer;
-
-        &:focus {
+        .topBar-search {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 30px;
+            background-color: rgb(243, 243, 243);
+            cursor: pointer;
             -webkit-tap-highlight-color: transparent;
-            outline: none;
-            -ms-touch-action: manipulation;
-            touch-action: manipulation;
+
+            .topBar-icon {
+                font-size: 18px;
+            }
         }
     }
 
-    .dash-icon {
-        font-size: 30px;
+    .areaName {
+        margin-top: -20px;
+        color: #616161;
     }
 
-    .dash-card-label {
-        margin: 8px 0px 0px 0px;
-        color: grey;
+    .board {
+        background-color: white;
+        width: 300px;
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 15px;
+    
+        .board-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            // Es solo una clase solo utilizada como base
+            %board-button {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                border-radius: 12px;
+                height: 50px;
+                width: 50px;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            
+                .board-icon {
+                    font-size: 26px;
+                }
+            }
+
+            .board-button-add {
+                @extend %board-button;
+                background-color: #C8FACD;
+                color:#00e817;
+            }
+
+            .board-button-pending {
+                @extend %board-button;
+                background-color: #FFF7CD;
+                color: #ffd600;
+                
+                h1{
+                    font-size: 26px;
+                    margin: 0;
+                }
+            }
+
+            .board-button-remove{
+                @extend %board-button;
+                background-color: #F2C2BB;
+                color:#FF3535;
+            }
+        
+            .board-label {
+                margin: 8px 0px 0px 0px;
+                color: grey;
+                font-size: 15px;
+            }
+        }
+    }
+
+    .log {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 400px;
+        width: 50vw;
+        max-width: $width-app;
+        border-radius: 10px;
+        box-shadow: rgb(240, 240, 240) 0px 0px 10px 0px;
+        margin-top: 35px;
+        height: 435px;
+        overflow-x: hidden;
+    
+        .log-title {
+            margin-left: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            color:#616161;
+        }
+    
+        .log-add {
+            color: #2cc51e;
+            font-weight: 500;
+            background-color: #DCF1D7;
+            font-size: 12px;
+            padding: 4px;
+            border-radius: 10px;
+        }
+    
+        .log-remove {
+            color: #B72136;
+            font-weight: 500;
+            background-color: #FFE2E1;
+            font-size: 12px;
+            padding: 4px;
+            border-radius: 10px;
+        }
     }
 }
 
-.log {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-width: 400px;
-    width: 50vw;
-    max-width: $width-app;
-    border-radius: 10px;
-    box-shadow: rgb(240, 240, 240) 0px 0px 10px 0px;
-    margin-top: 55px;
-    height: 435px;
-    overflow-x: hidden;
-
-    .log-title {
-        margin-left: 15px;
-        font-weight: bold;
-        font-size: 18px;
-        color:#616161;
-    }
-
-    .add {
-        color: #2cc51e;
-        font-weight: 500;
-        background-color: #DCF1D7;
-        font-size: 12px;
-        padding: 4px;
-        border-radius: 10px;
-    }
-
-    .remove {
-        color: #B72136;
-        font-weight: 500;
-        background-color: #FFE2E1;
-        font-size: 12px;
-        padding: 4px;
-        border-radius: 10px;
-    }
-}

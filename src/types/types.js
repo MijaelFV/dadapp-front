@@ -2,8 +2,9 @@ export const types = {
     
     uiOpenModal: '[UI] Open Modal',
     uiCloseModal: '[UI] Close Modal',
+    uiSetNavValue: '[UI] Nav Value Setted',
 
-    authCheckingFinish: '[AUTH] Finish Checking Login State',
+    authCheckingFinish: '[AUTH] Finished Checking Login State',
     authStartLogin: '[AUTH] Start login',
     authLogin: '[AUTH] Login',
 

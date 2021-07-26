@@ -31,11 +31,11 @@ export const LoginScreen = () => {
                     <div style={{display:"flex", alignItems:"center"}}>
                         <img src={logo} alt="logo" width="40" height="40"/>
                         <h2 className="form-title">
-                            Taller Flores
+                            Inventory Administrator
                         </h2>
                     </div>
                     <p className="tc-grey" style={{marginTop:"6px"}}>
-                        Bienvenido! Comienza a inventariar!
+                        ¡Comienza a inventariar!
                     </p>
                 </div>
                 <form onSubmit={handleLogin} className="form">

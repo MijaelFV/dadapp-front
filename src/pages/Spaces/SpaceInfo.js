@@ -24,10 +24,8 @@ export const SpaceInfo = () => {
         }
     }, [spaceId, dispatch, items])
     
-
     // Indica cual posicion se selecciono
     const handleLocationClick = (row, column) => {
-        console.log('handleLocationClick');
         const res = itemList.filter(
             item => (item.row === row && item.column === column) 
         );
@@ -76,7 +74,6 @@ export const SpaceInfo = () => {
                                 onClick={()=>{
                                     handleLocationClick(row, col)
                                     setShowActive({col: col, row: row})
-                                    // setShowActive({all: true})
                                 }}
                                 key={row+col} 
                             >

@@ -1,7 +1,8 @@
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faMinus, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
+import { Avatar, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 export const MainScreen = () => {
 
@@ -9,43 +10,81 @@ export const MainScreen = () => {
         return { name, object, row, column, space, type, className};
       }
     const logs = [
-        createData('Horacio', 'Martillo', 2, 3, 'Box1', 'Retiro', 'remove'),
-        createData('Matias', 'Amoladora', 3, 1, 'Box2', 'Devolvio', 'add'),
-        createData('Marcos', 'Destornillador', 2, 3, 'Box1', 'Retiro', 'remove'),
-        createData('Matias', 'Amoladora', 3, 2, 'Box2', 'Retiro', 'remove'),
-        createData('Horacio', 'Cinta metrica', 1, 2, 'Box1', 'Devolvio', 'add'),
-        createData('Matias', 'Nivel', 1, 5, 'Box2', 'Retiro', 'remove')
+        createData('Horacio', 'Martillo', 2, 3, 'Box1', 'Retiro', 'log-remove'),
+        createData('Matias', 'Amoladora', 3, 1, 'Box2', 'Devolvio', 'log-add'),
+        createData('Marcos', 'Destornillador', 2, 3, 'Box1', 'Retiro', 'log-remove'),
+        createData('Matias', 'Amoladora', 3, 2, 'Box2', 'Retiro', 'log-remove'),
+        createData('Horacio', 'Cinta metrica', 1, 2, 'Box1', 'Devolvio', 'log-add'),
+        createData('Matias', 'Nivel', 1, 5, 'Box2', 'Retiro', 'log-remove')
     ]
+
+    const history = useHistory()
+
+    // const dispatch = useDispatch();
+    // const {spaces} = useSelector(state => state.space);
+    // const {items} = useSelector(state => state.inv);
+
+    // const logs = spaces || []
+    
+    // if (items !== null) {
+    //     dispatch(deleteInventory());
+    // }
+
+    // useMemo(() => {
+    //     if (!spaces) {
+    //         dispatch(startLoadingSpaces());
+    //     }
+    // }, [dispatch, spaces])
+
+    const handleSearchClick = () => {
+        history.push("/search")
+    }
  
     return (
         <div className="main-container">
-            <h1 style={{marginTop:"40px", color:"#616161"}}>
+            <div className="topBar">
+                <div className="topBar-search">
+                    <FontAwesomeIcon 
+                        onClick={handleSearchClick}
+                        icon={faSearch} 
+                        className="topBar-icon"
+                    />
+                </div>
+                <Avatar/>
+            </div>
+            <h1 className="areaName">
                 Taller de Horacio
             </h1>
-            <div className="dashboard">
-                <div className="dash-card-column">
-                    <div className="dash-card" style={{backgroundColor:"#C8FACD", color:"#00e817"}}>
-                        <FontAwesomeIcon icon={faPlus} className="dash-icon"/>
+            <div className="board">
+                <div className="board-column">
+                    <div className="board-button-add">
+                        <FontAwesomeIcon 
+                            icon={faPlus} 
+                            className="board-icon"
+                        />
                     </div>
-                    <p className="dash-card-label">
+                    <p className="board-label">
                         Devolver
                     </p>
                 </div>
-                <div className="dash-card-column">
-                    <div className="dash-card" style={{backgroundColor:"#FFF7CD", color:"#ffd600"}}>
-                        <h1 className="m-0" style={{fontSize:"30px"}}>
+                <div className="board-column">
+                    <div className="board-button-pending">
+                        <h1>
                             0
                         </h1>
                     </div>
-                    <p className="dash-card-label">
+                    <p className="board-label">
                         Pendientes
                     </p>
-                </div>
-                <div className="dash-card-column">
-                    <div className="dash-card" style={{backgroundColor:"#F2C2BB", color:"#FF3535"}}>
-                        <FontAwesomeIcon icon={faMinus} className="dash-icon"/>
+                </div> 
+                <div className="board-column">
+                    <div className="board-button-remove">
+                        <FontAwesomeIcon 
+                            icon={faMinus} 
+                            className="board-icon"
+                        />
                     </div>
-                    <p className="dash-card-label">
+                    <p className="board-label">
                         Retirar
                     </p>
                 </div>

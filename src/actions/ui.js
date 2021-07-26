@@ -7,3 +7,8 @@ export const closeModal = () => ({
 export const openModal = () => ({
     type: types.uiOpenModal
 })
+
+export const setNavValue = (navValue) => ({
+    type: types.uiSetNavValue,
+    payload: navValue
+})

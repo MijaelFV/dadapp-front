@@ -1,7 +1,7 @@
 import { faBoxes, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Menu, MenuItem, makeStyles, ListItemIcon, ListItemText} from '@material-ui/core';
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { startDeleteSpace } from '../../actions/space';
@@ -20,7 +20,7 @@ export const SpaceRow = ({name, rows, columns, items = 0, uid}) => {
     })
     const classes = useStyles();
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleSetEl = (event) => {
         setAnchorEl(event.currentTarget);
@@ -39,14 +39,14 @@ export const SpaceRow = ({name, rows, columns, items = 0, uid}) => {
     }
 
     return (
-        <div className="space-row">    
+        <div className="rowContainer-row">    
             <span style={{display:"flex", alignItems:"center"}}><FontAwesomeIcon icon={faBoxes} style={{marginRight:"6px"}} />{name}</span>
             <div style={{display:"flex", alignItems:"center"}} onClick={() => {
                 handleRowClick(uid)
             }}>
-                <span className="row-data-margin">{rows} Filas</span>
-                <span className="row-data-margin">{columns} Columnas</span>
-                <span className="row-data-margin">{items} Objetos</span>
+                <span className="rowContainer-data-margin">{rows} Filas</span>
+                <span className="rowContainer-data-margin">{columns} Columnas</span>
+                <span className="rowContainer-data-margin">{items} Objetos</span>
             </div>
             <Button
                 className={classes.root}

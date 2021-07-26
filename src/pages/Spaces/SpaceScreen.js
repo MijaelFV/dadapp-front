@@ -47,8 +47,8 @@ export const SpaceScreen = () => {
 
     return (
         <div className="space-container">
-            <div className="space-row-container">
-                <div className="space-options">
+            <div className="rowContainer">
+                <div className="rowContainer-options">
                     <CustomButton
                         onClick={handleOpenModal}
                         startIcon={<FontAwesomeIcon icon={faPlus} style={{fontSize:"15px"}} />}
