@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 
 const initialState = {
-    spaces: null,
+    spaces: [],
     active: null
 }
 

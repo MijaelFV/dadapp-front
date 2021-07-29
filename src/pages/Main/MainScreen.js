@@ -2,7 +2,10 @@ import { faMinus, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { openModal } from '../../actions/ui'
+import { MainModal } from '../../components/Main/MainModal'
 
 export const MainScreen = () => {
 
@@ -19,8 +22,8 @@ export const MainScreen = () => {
     ]
 
     const history = useHistory()
+    const dispatch = useDispatch();
 
-    // const dispatch = useDispatch();
     // const {spaces} = useSelector(state => state.space);
     // const {items} = useSelector(state => state.inv);
 
@@ -39,25 +42,43 @@ export const MainScreen = () => {
     const handleSearchClick = () => {
         history.push("/search")
     }
+
+    const handleAddClick = () => {
+        dispatch(openModal());
+    }
+    
+    const handleRemoveClick = () => {
+        dispatch(openModal());
+    }
  
     return (
         <div className="main-container">
             <div className="topBar">
-                <div className="topBar-search">
+                <div 
+                    className="topBar-search"
+                    onClick={handleSearchClick}
+                >
                     <FontAwesomeIcon 
-                        onClick={handleSearchClick}
                         icon={faSearch} 
                         className="topBar-icon"
                     />
                 </div>
                 <Avatar/>
             </div>
-            <h1 className="areaName">
-                Taller de Horacio
-            </h1>
+            <div className="area">
+                <h3 className="area-label">
+                    ÁREA
+                </h3>
+                <h1 className="area-name">
+                    Taller de Horacio
+                </h1>
+            </div>
             <div className="board">
                 <div className="board-column">
-                    <div className="board-button-add">
+                    <div 
+                        className="board-button-add"
+                        onClick={handleAddClick}
+                    >
                         <FontAwesomeIcon 
                             icon={faPlus} 
                             className="board-icon"
@@ -78,7 +99,10 @@ export const MainScreen = () => {
                     </p>
                 </div> 
                 <div className="board-column">
-                    <div className="board-button-remove">
+                    <div 
+                        className="board-button-remove"
+                        onClick={handleRemoveClick}
+                    >
                         <FontAwesomeIcon 
                             icon={faMinus} 
                             className="board-icon"
@@ -114,6 +138,7 @@ export const MainScreen = () => {
                     </TableBody>
                 </Table>
             </div>
+            <MainModal />
         </div>
     )
 }

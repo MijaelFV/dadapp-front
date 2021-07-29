@@ -1,6 +1,7 @@
 import { types } from "../types/types";
 const initialState = {
-    items: null
+    items: [],
+    categories: []
 }
 
 export const invReducer = (state = initialState, action) => {
@@ -11,10 +12,22 @@ export const invReducer = (state = initialState, action) => {
                 items: [...action.payload]
             }
 
+        case types.invAdd: 
+            return {
+                ...state,
+                items: [...state.items, action.payload]
+            }
+
         case types.invDelete: 
             return {
                 ...state,
                 items:  null
+            }
+
+        case types.invLoadCategories:
+            return {
+                ...state,
+                categories: [...action.payload]
             }
 
         default:

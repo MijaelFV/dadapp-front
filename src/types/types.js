@@ -14,6 +14,8 @@ export const types = {
     spaceActive: '[SPACE] Set Active Space',
  
     invLoad: '[INV] Loaded',
-    invDelete: '[INV] Deleted'
+    invAdd: '[INV] Object Added',
+    invDelete: '[INV] Deleted',
+    invLoadCategories: '[INV] Categories Loaded'
     
 }

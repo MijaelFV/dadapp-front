@@ -16,35 +16,39 @@ export const BottomNav = () => {
     const dispatch = useDispatch();
     const {navValue} = useSelector(state => state.ui)
 
-    console.log(navValue);
-
     const handleChange = (e, newValue) => {
-        console.log(newValue + "change")
         dispatch(setNavValue(newValue))
     };
+    
+    const lastPath = localStorage.getItem("lastPath")
 
-    return (
-        <>
-            <StyledNavBar 
-                value={navValue}
-                onChange={handleChange}
-                style={{position:"fixed", bottom:"0px", left:"0px", right:"0px"}}
-            >
-                <BottomNavigationAction 
-                    component={Link} 
-                    to="/" 
-                    value="home"
-                    label="Inicio"
-                    icon={<FontAwesomeIcon icon={faHome}/>}
-                />
-                <BottomNavigationAction 
-                    component={Link} 
-                    to="/spaces"
-                    value="spaces"
-                    label="Espacios" 
-                    icon={<FontAwesomeIcon icon={faPallet}/>}
-                />
-            </StyledNavBar>
-        </>
-    )
+    if (lastPath === "/search") {
+        return null;
+    } else {
+        return (
+            <>
+                <StyledNavBar 
+                    value={navValue}
+                    onChange={handleChange}
+                    style={{position:"fixed", bottom:"0px", left:"0px", right:"0px"}}
+                >
+                    <BottomNavigationAction 
+                        component={Link} 
+                        to="/" 
+                        value="home"
+                        label="Inicio"
+                        icon={<FontAwesomeIcon icon={faHome}/>}
+                    />
+                    <BottomNavigationAction 
+                        component={Link} 
+                        to="/spaces"
+                        value="spaces"
+                        label="Espacios" 
+                        icon={<FontAwesomeIcon icon={faPallet}/>}
+                    />
+                </StyledNavBar>
+            </>
+        )
+    }
+
 }

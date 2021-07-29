@@ -1,40 +1,50 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { DataGrid } from '@material-ui/data-grid';
 import { getInventoryBySpace } from '../../actions/inv';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBox } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faBox, faCogs, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NumToArray } from '../../helpers/numToArray';
+import { StyledIconButton } from '../../styles/components/materialUi/styledComponents';
+import { openModal } from '../../actions/ui';
+import { SpaceItemModal } from '../../components/Spaces/SpaceItemModal';
 
 export const SpaceInfo = () => {
+    console.log('render');
+
+    const history = useHistory()
     const dispatch = useDispatch();
 
     const {spaceId} = useParams();
-    const {spaces} = useSelector(state => state.space);
+    const spaces = useSelector(state => state.space.spaces);
     const space = spaces.find(space => space.uid === spaceId)
-
-    const [filteredList, setFilteredList] = useState(Array);
-    const {items} = useSelector(state => state.inv);
-    const itemList = items || []
-
-    useMemo(() => {
-        if (!items) {
-            dispatch(getInventoryBySpace(spaceId));
-        }
-    }, [spaceId, dispatch, items])
     
+    useMemo(() => {
+        dispatch(getInventoryBySpace(spaceId));
+    }, [dispatch, spaceId]) 
+    
+    const items = useSelector(state => state.inv.items);
+    const [filteredList, setFilteredList] = useState(Array);
+    useEffect(() => {setFilteredList(items)}, [items] )
+
     // Indica cual posicion se selecciono
-    const handleLocationClick = (row, column) => {
-        const res = itemList.filter(
-            item => (item.row === row && item.column === column) 
-        );
-        setFilteredList(res);
+    const handleFilterByPositionClick = (row, column, all) => {
+        if (all !== true) {
+            const res = items?.filter(
+                item => (item.row === row && item.column === column) 
+            );
+            setFilteredList(res);
+            setShowActive({all: false})
+        } else {
+            setFilteredList(items);
+            setShowActive({all: true})
+        }
     };
 
     // Activa el color en el item seleccionado
     const [showActive, setShowActive] = useState({
-        all: null,
+        all: true,
         row: null,
         col: null
     });
@@ -45,7 +55,6 @@ export const SpaceInfo = () => {
 
     // Son los props requeridos en el DataGrid
     const dataGridCols = [
-        { field: 'id', headerName: 'ID', width: 70 },
         {
           field: 'object',
           headerName: 'Objeto',
@@ -57,22 +66,63 @@ export const SpaceInfo = () => {
           width: 150,
         }
     ];
+
     const dataGridRows = filteredList.map((object, i) => (
-        {id: i, object: object.item.name, category: object.item.category.name}
+        {
+            id: i, 
+            object: object.item.name, 
+            category: object.item.category.name
+        }
     ))
+
+    const handleOpenModal = () => {
+        dispatch(openModal());
+    }
+
+    const handleReturnClick = () => {
+        history.push("/spaces")
+    }
 
     return (
         <div className="spaceInfo-container">
-            <h1 style={{marginTop:"40px", color:"#616161"}}>
-               {space.name }
+            <div className="topBar">
+                <StyledIconButton
+                    onClick={handleReturnClick}
+                    style={{marginRight:"auto"}}
+                >
+                    <FontAwesomeIcon 
+                        icon={faArrowLeft} 
+                    />
+                </StyledIconButton>
+                <StyledIconButton
+                    onClick={() => {
+                        handleOpenModal()
+                        handleFilterByPositionClick(null, null, true)
+                    }}
+                    style={{marginRight:"10px"}}
+                >
+                    <FontAwesomeIcon 
+                        icon={faPlus} 
+                    />
+                </StyledIconButton>
+                <StyledIconButton
+                    onClick={() => {handleFilterByPositionClick(null, null, true)}}
+                >
+                    <FontAwesomeIcon 
+                        icon={faCogs} 
+                    />
+                </StyledIconButton>
+            </div>
+            <h1 style={{margin:"0", marginBottom:"15px", color:"#616161"}}>
+               {space.name}
             </h1>
             <div className="matrix">
                 {rows.map((row) => (
                     <div key={row} className="matrix-row">
                         {cols.map((col) => (
-                            <div className={"matrix-col " + ( ((row === showActive.row && col === showActive.col) || showActive.all === true) ? "matrix-col-active" : "")}
+                            <div className={"matrix-col " + (((col === showActive.col && row === showActive.row) || showActive.all === true) ? "matrix-col-active" : "")}
                                 onClick={()=>{
-                                    handleLocationClick(row, col)
+                                    handleFilterByPositionClick(row, col, false)
                                     setShowActive({col: col, row: row})
                                 }}
                                 key={row+col} 
@@ -93,6 +143,7 @@ export const SpaceInfo = () => {
                     disableSelectionOnClick
                 />
             </div>
+            <SpaceItemModal spaceId={spaceId} rows={rows} cols={cols}/>
         </div>
     )
 }

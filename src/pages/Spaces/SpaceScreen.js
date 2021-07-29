@@ -1,45 +1,29 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, withStyles } from '@material-ui/core';
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteInventory } from '../../actions/inv';
+import { getCategoriesByArea } from '../../actions/category';
 import { startLoadingSpaces } from '../../actions/space';
 import { openModal } from '../../actions/ui';
 import { SpaceModal } from '../../components/Spaces/SpaceModal';
 import { SpaceRow } from '../../components/Spaces/SpaceRow';
+import { StyledButton } from '../../styles/components/materialUi/styledComponents';
 
 export const SpaceScreen = () => {
-
-    const CustomButton = withStyles({
-        root: {
-            background: "white",
-            height: 35,
-            // boxShadow: '0px 0px 0px 0px'
-            boxShadow: "rgb(240, 240, 240) 0px 0px 10px 0px",
-
-        },
-        label: {
-            textTransform: 'capitalize',
-            color: 'black'
-        },
-    })(Button);
-    
     const dispatch = useDispatch();
-    const {spaces} = useSelector(state => state.space);
-    const {items} = useSelector(state => state.inv);
-
-    const list = spaces || []
-    
-    if (items !== null) {
-        dispatch(deleteInventory());
-    }
+    const spaces = useSelector(state => state.space.spaces);
+    const {categories} = useSelector(state => state.inv);
 
     useMemo(() => {
-        if (!spaces) {
+        if (spaces.length === 0) {
             dispatch(startLoadingSpaces());
         }
     }, [dispatch, spaces])
+
+    useMemo(() => {
+        if (categories.length === 0) {
+            const area = "60efb7d44c8a53491ca93914"
+            dispatch(getCategoriesByArea(area));
+        }
+    }, [dispatch, categories])
 
     const handleOpenModal = () => {
         dispatch(openModal());
@@ -49,14 +33,13 @@ export const SpaceScreen = () => {
         <div className="space-container">
             <div className="rowContainer">
                 <div className="rowContainer-options">
-                    <CustomButton
+                    <StyledButton
                         onClick={handleOpenModal}
-                        startIcon={<FontAwesomeIcon icon={faPlus} style={{fontSize:"15px"}} />}
                     >   
                         <span>Crear Espacio</span>
-                    </CustomButton>
+                    </StyledButton>
                 </div>
-                {list.map((space) => (
+                {spaces.map((space) => (
                     <SpaceRow key={space.uid} {...space}/>
                 ))}
             </div>

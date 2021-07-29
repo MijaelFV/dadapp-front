@@ -12,7 +12,6 @@ export const DadApp = () => {
             }
         }
     })
-
     theme.overrides = {
         MuiTableCell: {
             root: {

@@ -11,17 +11,16 @@
         flex-direction: column;
         align-content: center;
         align-items: center;
-        margin: 10px;
         margin-top: 10px;
         padding-bottom: 20px;
         border-radius: 4px;
-        box-shadow: rgb(218, 218, 218) 0px 0px 10px 1px;
+        box-shadow: rgb(235, 235, 235) 0px 0px 10px 1px;
 
         .rowContainer-options {
             margin: 5px;
             min-width: 400px;
             width: 80vw;
-            max-width: 700px;
+            max-width: 500px;
         }
 
         .rowContainer-row {
@@ -35,7 +34,7 @@
             padding-block: 15px;
             min-width: 380px;
             width: 80vw;
-            max-width: 700px;
+            max-width: 500px;
             color: white;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
@@ -54,6 +53,16 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+
+    .topBar {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-top: 10px;
+        min-width: 390px;
+        width: 50%;
+        max-width: 450px;
+    }
 
     .matrix {
         display: flex;
@@ -92,10 +101,10 @@
             &:hover {
                 background-color: #ff9a26;
             }
-            
-            .matrix-col-active {
-                background-color: #ff9a26;
-            }
+        }
+        
+        .matrix-col-active {
+            background-color: #ff9a26;
         }
     }
 

@@ -14,8 +14,9 @@ $width-app: 700px;
         align-items: center;
         justify-content: space-between;
         padding: 10px;
-        min-width: 400px;
-        width: 80%;
+        margin: 10px;
+        min-width: 390px;
+        width: 50%;
         max-width: 450px;
 
         .topBar-search {
@@ -35,9 +36,23 @@ $width-app: 700px;
         }
     }
 
-    .areaName {
-        margin-top: -20px;
-        color: #616161;
+    .area {
+        margin-top: -40px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .area-label {
+            margin: 0;
+            color: #616161;
+        }
+    
+        .area-name {
+            margin: 0;
+            color: #ff8800;
+        }
     }
 
     .board {
@@ -71,14 +86,16 @@ $width-app: 700px;
 
             .board-button-add {
                 @extend %board-button;
-                background-color: #C8FACD;
+                background-color: #d4ffd9;
                 color:#00e817;
+                // #d4ffd9
             }
 
             .board-button-pending {
                 @extend %board-button;
-                background-color: #FFF7CD;
+                background-color: #fff8d2;
                 color: #ffd600;
+                // #fff8d2
                 
                 h1{
                     font-size: 26px;
@@ -88,8 +105,9 @@ $width-app: 700px;
 
             .board-button-remove{
                 @extend %board-button;
-                background-color: #F2C2BB;
+                background-color: #ffd9d4;
                 color:#FF3535;
+                // #ffd9d4
             }
         
             .board-label {

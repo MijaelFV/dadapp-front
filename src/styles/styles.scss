@@ -1,8 +1,12 @@
 // Base
-@import './components/base.scss';
+@import './base.scss';
 //
 
-@import './components/auth.scss';
-@import './components/main.scss';
-@import './components/space.scss';
-@import './components/modal.scss'
+// Components
+@import './components/spaceItemModal.scss';
+
+// Pages
+@import './pages/auth.scss';
+@import './pages/main.scss';
+@import './pages/space.scss';
+@import './pages/search.scss';
