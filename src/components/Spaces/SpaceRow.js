@@ -1,4 +1,4 @@
-import { faBoxes, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsAltH, faArrowsAltV, faBoxes, faCube, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Menu, MenuItem, makeStyles, ListItemIcon, ListItemText} from '@material-ui/core';
 import React, { useState } from 'react'
@@ -39,14 +39,33 @@ export const SpaceRow = ({name, rows, columns, items = 0, uid}) => {
     }
 
     return (
-        <div className="rowContainer-row">    
-            <span style={{display:"flex", alignItems:"center"}}><FontAwesomeIcon icon={faBoxes} style={{marginRight:"6px"}} />{name}</span>
-            <div style={{display:"flex", alignItems:"center"}} onClick={() => {
-                handleRowClick(uid)
-            }}>
-                <span className="rowContainer-data-margin">{rows} Filas</span>
-                <span className="rowContainer-data-margin">{columns} Columnas</span>
-                <span className="rowContainer-data-margin">{items} Objetos</span>
+        <div className="spaceRow">    
+            {/* <FontAwesomeIcon icon={faBoxes} style={{marginRight:"15px", color:"#ffd9ae", fontSize:"32px"}} /> */}
+            <div className="spaceName">
+                <span>{name}</span>
+            </div>
+            <div 
+                className="contentInfo-container"
+                onClick={() => {
+                    handleRowClick(uid)
+                }}
+            >
+                <div className="contentInfo">
+                    <span className="contentInfo-value">
+                        {rows}
+                    </span>
+                    <div className="contentInfo-icon">
+                        <FontAwesomeIcon icon={faArrowsAltV}/>
+                    </div>
+                </div>
+                <div className="contentInfo">
+                    <span className="contentInfo-value">
+                        {columns}
+                    </span>
+                    <div className="contentInfo-icon">
+                        <FontAwesomeIcon icon={faArrowsAltH}/>
+                    </div>
+                </div>
             </div>
             <Button
                 className={classes.root}

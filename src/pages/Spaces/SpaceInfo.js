@@ -85,63 +85,68 @@ export const SpaceInfo = () => {
 
     return (
         <div className="spaceInfo-container">
-            <div className="topBar">
-                <StyledIconButton
-                    onClick={handleReturnClick}
-                    style={{marginRight:"auto"}}
-                >
-                    <FontAwesomeIcon 
-                        icon={faArrowLeft} 
-                    />
-                </StyledIconButton>
-                <StyledIconButton
-                    onClick={() => {
-                        handleOpenModal()
-                        handleFilterByPositionClick(null, null, true)
-                    }}
-                    style={{marginRight:"10px"}}
-                >
-                    <FontAwesomeIcon 
-                        icon={faPlus} 
-                    />
-                </StyledIconButton>
-                <StyledIconButton
-                    onClick={() => {handleFilterByPositionClick(null, null, true)}}
-                >
-                    <FontAwesomeIcon 
-                        icon={faCogs} 
-                    />
-                </StyledIconButton>
-            </div>
-            <h1 style={{margin:"0", marginBottom:"15px", color:"#616161"}}>
-               {space.name}
-            </h1>
-            <div className="matrix">
-                {rows.map((row) => (
-                    <div key={row} className="matrix-row">
-                        {cols.map((col) => (
-                            <div className={"matrix-col " + (((col === showActive.col && row === showActive.row) || showActive.all === true) ? "matrix-col-active" : "")}
-                                onClick={()=>{
-                                    handleFilterByPositionClick(row, col, false)
-                                    setShowActive({col: col, row: row})
-                                }}
-                                key={row+col} 
-                            >
-                                <FontAwesomeIcon icon={faBox}/>
+            <div className="spaceInfo-column">
+                <div className="topBar">
+                    <StyledIconButton
+                        onClick={handleReturnClick}
+                        style={{marginRight:"auto"}}
+                    >
+                        <FontAwesomeIcon 
+                            icon={faArrowLeft} 
+                        />
+                    </StyledIconButton>
+                    <StyledIconButton
+                        onClick={() => {
+                            handleOpenModal()
+                            handleFilterByPositionClick(null, null, true)
+                        }}
+                        style={{marginRight:"10px"}}
+                    >
+                        <FontAwesomeIcon 
+                            icon={faPlus} 
+                        />
+                    </StyledIconButton>
+                    <StyledIconButton
+                        onClick={() => {handleFilterByPositionClick(null, null, true)}}
+                    >
+                        <FontAwesomeIcon 
+                            icon={faCogs} 
+                        />
+                    </StyledIconButton>
+                </div>
+                <h1 className="spaceName">
+                    {space.name}
+                </h1>
+                <div className="matrix-container">
+                    <div className="matrix">
+                        {rows.map((row) => (
+                            <div key={row} className="matrix-row">
+                                {cols.map((col) => (
+                                    <div className={"matrix-col " + (((col === showActive.col && row === showActive.row) || showActive.all === true) ? "matrix-col-active" : "")}
+                                        onClick={()=>{
+                                            handleFilterByPositionClick(row, col, false)
+                                            setShowActive({col: col, row: row})
+                                        }}
+                                        key={row+col} 
+                                    >
+                                        {/* <span className="matrix-position">{row}-{col}</span> */}
+                                        <FontAwesomeIcon icon={faBox} className="matrix-icon"/>
+                                    </div>
+                                ))}
                             </div>
                         ))}
                     </div>
-                ))}
-            </div>
-            <div className="dataGrid">
-                <DataGrid
-                    getRowId={(row) => row.id}
-                    rows={dataGridRows}
-                    columns={dataGridCols}
-                    pageSize={10}
-                    checkboxSelection
-                    disableSelectionOnClick
-                />
+                </div>
+                <div className="dataGrid">
+                    <DataGrid
+                        getRowId={(row) => row.id}
+                        rows={dataGridRows}
+                        columns={dataGridCols}
+                        pageSize={10}
+                        checkboxSelection
+                        disableSelectionOnClick
+                    />
+                </div>
             </div>
             <SpaceItemModal spaceId={spaceId} rows={rows} cols={cols}/>
         </div>

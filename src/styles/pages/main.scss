@@ -118,43 +118,19 @@ $width-app: 700px;
         }
     }
 
-    .log {
+    .log-container {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        min-width: 400px;
+        min-width: 415px;
         width: 50vw;
-        max-width: $width-app;
+        max-width: 500px;
         border-radius: 10px;
-        box-shadow: rgb(240, 240, 240) 0px 0px 10px 0px;
+        box-shadow: rgb(245, 245, 245) 0px 0px 10px 0px;
         margin-top: 35px;
-        height: 435px;
-        overflow-x: hidden;
-    
-        .log-title {
-            margin-left: 15px;
-            font-weight: bold;
-            font-size: 18px;
-            color:#616161;
-        }
-    
-        .log-add {
-            color: #2cc51e;
-            font-weight: 500;
-            background-color: #DCF1D7;
-            font-size: 12px;
-            padding: 4px;
-            border-radius: 10px;
-        }
-    
-        .log-remove {
-            color: #B72136;
-            font-weight: 500;
-            background-color: #FFE2E1;
-            font-size: 12px;
-            padding: 4px;
-            border-radius: 10px;
-        }
+        padding-block: 5px;
+        height: fit-content;
+        overflow-y: auto;
+        margin-bottom: 57px;
     }
 }
 

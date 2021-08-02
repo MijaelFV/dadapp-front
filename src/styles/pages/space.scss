@@ -16,32 +16,12 @@
         border-radius: 4px;
         box-shadow: rgb(235, 235, 235) 0px 0px 10px 1px;
 
+        
         .rowContainer-options {
             margin: 5px;
             min-width: 400px;
             width: 80vw;
             max-width: 500px;
-        }
-
-        .rowContainer-row {
-            display: flex;
-            border-radius: 4px;
-            justify-content: space-between;
-            background-color: #ffad4e;
-            margin: 3px;
-            margin-inline: 10px;
-            padding-inline: 10px;
-            padding-block: 15px;
-            min-width: 380px;
-            width: 80vw;
-            max-width: 500px;
-            color: white;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-    
-            .rowContainer-data-margin {
-                margin-inline: 10px;
-            }
         }
     }
 }
@@ -54,68 +34,109 @@
     justify-content: flex-start;
     align-items: center;
 
-    .topBar {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        margin-top: 10px;
-        min-width: 390px;
-        width: 50%;
-        max-width: 450px;
-    }
-
-    .matrix {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: rgb(248, 248, 248);
-        padding: 10px;
-        // min-width: 400px;
-        // width: 50vw;
+    .spaceInfo-column {
+        width: 95vw;
         max-width: 500px;
-        box-shadow: rgb(226, 226, 226) 0px 0px 10px 0px;
+        // overflow-x: hidden;
+        overflow-y: visible;
 
-        .matrix-row {
+
+        .topBar {
             display: flex;
+            align-items: center;
+            margin-top: 20px;
         }
 
-        .matrix-col {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            align-items: center;
-            width: 50px;
-            height: 50px;
-            padding: 4px;
-            margin: 4px;
-            color: white;
-            font-weight: bold;
-            font-size: 25px;
-            background-color: #ffbf76;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color .2s ease;
-            -webkit-tap-highlight-color: transparent;
-            
-            &:hover {
-                background-color: #ff9a26;
+        .spaceName {
+            margin: auto;
+            color: rgb(97, 97, 97);
+            width: fit-content;
+            margin-bottom: 10px;
+        }
+    
+        .matrix-container {
+                display: flex;
+                border-radius: 5px;
+                background-color: rgb(248, 248, 248);
+                padding: 10px;
+                width: fit-content;
+                max-width: 95%;
+                box-shadow: rgb(226, 226, 226) 0px 0px 5px 0px;
+                margin: auto;
+                
+    
+            .matrix {
+                display: flex;
+                flex-direction: column;
+                min-width: fit-content;
+                // width: fit-content;
+                // height: fit-content;
+                max-height: 50vw;
+                max-width: 50%;
+                border-radius: 5px;
+                overflow: auto;
+        
+                .matrix-row {
+                    display: flex;
+                }
+        
+                .matrix-col {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    min-width: 50px;
+                    min-height: 50px;
+                    padding: 4px;
+                    margin: 4px;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 25px;
+                    background-color: #ffbf76;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color .2s ease;
+                    -webkit-tap-highlight-color: transparent;
+                    
+                    .matrix-position {
+                        position: fixed;
+                        color: white;
+                    }
+        
+                    .matrix-icon {
+                        color: #ffad50;
+                        font-size: 42px;
+                        transition: color .2s ease;
+                    }
+        
+                    &:hover {
+                        background-color: #ff9a26;
+        
+                        .matrix-icon {
+                            color: #eb7c22;
+                        }
+                    }
+                }
+                
+                .matrix-col-active {
+                    background-color: #ff9a26;
+        
+                    .matrix-icon {
+                        color: #eb7c22;
+                    }
+                }
             }
         }
-        
-        .matrix-col-active {
-            background-color: #ff9a26;
+    
+        .dataGrid {
+            min-width: 400px;
+            // width: 50vw;
+            // max-width: 500px;
+            border-radius: 10px;
+            box-shadow: rgb(240, 240, 240) 0px 0px 10px 0px;
+            margin-top: 25px;
+            height: 435px;
+            overflow-x: hidden;
         }
-    }
-
-    .dataGrid {
-        min-width: 400px;
-        width: 50vw;
-        max-width: 500px;
-        border-radius: 10px;
-        box-shadow: rgb(240, 240, 240) 0px 0px 10px 0px;
-        margin-top: 55px;
-        height: 435px;
-        overflow-x: hidden;
     }
 }
