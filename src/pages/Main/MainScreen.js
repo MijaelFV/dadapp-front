@@ -16,13 +16,11 @@ export const MainScreen = () => {
     const {logs} = useSelector(state => state.log);
     const [skip, setSkip] = useState(0)
 
-    console.log(skip)
     useMemo(() => {
-        // if (logs.length === 0) {
-            dispatch(startLoadingLogs(skip));
-            console.log('dispatch')
-        // }
-    }, [dispatch, skip])
+        if (logs.length === 0) {
+            dispatch(startLoadingLogs());
+        }
+    }, [dispatch])
 
     const handleSearchClick = () => {
         history.push("/search")
@@ -36,13 +34,13 @@ export const MainScreen = () => {
         dispatch(openModal());
     }
 
-    const handleLogScroll = (e) => {
-        const { offsetHeight, scrollTop, scrollHeight} = e.target
+    // const handleLogScroll = (e) => {
+    //     const { offsetHeight, scrollTop, scrollHeight} = e.target
     
-        if (offsetHeight + scrollTop === scrollHeight) {
-          setSkip(logs.length)
-        }
-      }
+    //     if (offsetHeight + scrollTop === scrollHeight) {
+    //       setSkip(logs.length)
+    //     }
+    //   }
  
     return (
         <div className="main-container">
@@ -106,7 +104,7 @@ export const MainScreen = () => {
                     </p>
                 </div>
             </div>
-            <div className="log-container" onScroll={handleLogScroll}>
+            <div className="log-container">
                 {logs.map((log) => (
                     <MainLogs key={log.uid} log={log} />
                 ))}

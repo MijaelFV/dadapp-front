@@ -9,6 +9,7 @@ import { NumToArray } from '../../helpers/numToArray';
 import { StyledIconButton } from '../../styles/components/materialUi/styledComponents';
 import { openModal } from '../../actions/ui';
 import { SpaceItemModal } from '../../components/Spaces/SpaceItemModal';
+import { Button } from '@material-ui/core';
 
 export const SpaceInfo = () => {
     console.log('render');
@@ -129,13 +130,22 @@ export const SpaceInfo = () => {
                                         }}
                                         key={row+col} 
                                     >
-                                        {/* <span className="matrix-position">{row}-{col}</span> */}
+                                        <span className="matrix-position">{row}-{col}</span>
                                         <FontAwesomeIcon icon={faBox} className="matrix-icon"/>
                                     </div>
                                 ))}
                             </div>
                         ))}
                     </div>
+                    <Button
+                        onClick={() => {handleFilterByPositionClick(null, null, true)}}
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        fullWidth={true}
+                    >
+                        Seleccionar Todos
+                    </Button>
                 </div>
                 <div className="dataGrid">
                     <DataGrid

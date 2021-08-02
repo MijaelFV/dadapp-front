@@ -18,6 +18,10 @@
             color: rgb(77, 77, 77);
             font-size: 17px;
             font-weight: 500;
+            overflow: hidden;
+            max-width: 120px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         
         .col-time {
@@ -40,12 +44,20 @@
             font-size: 17px;
             font-weight: 700;
             color: rgb(99, 99, 99);
+            overflow: hidden;
+            max-width: 140px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .col-space {
             font-size: 15px;
             font-weight: 500;
             color: rgb(128, 128, 128);
+            overflow: hidden;
+            max-width: 120px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     }
 
