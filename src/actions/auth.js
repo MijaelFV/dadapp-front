@@ -1,14 +1,27 @@
 import { types } from "../types/types";
 import { fetch } from "../helpers/axios";
+import { startClearArea } from "./area";
 
 const login = (user) => ({
     type: types.authLogin,
     payload: user
 })
 
+const logOut = () => ({
+    type: types.authLogOut,
+})
+
 const checkingFinish = () => ({
     type: types.authCheckingFinish
 })
+
+export const startLogout = () => {
+    return (dispatch) => {
+        localStorage.clear();
+        dispatch(startClearArea());
+        dispatch(logOut());
+    }
+}
 
 export const startLogin = (email, password) => {
     return async(dispatch) => {
@@ -58,15 +71,3 @@ export const startChecking = () => {
     }
 }
 
-
-// export const startLogout = () => {
-//     return (dispatch) => {
-//         localStorage.clear();
-//         dispatch(logout());
-//         dispatch(eventClearing());
-//     }
-// }
-
-// const logout = () => ({
-//     type: types.authLogout
-// })

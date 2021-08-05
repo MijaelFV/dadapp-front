@@ -15,6 +15,10 @@ export const deleteInventory = () => ({
     type: types.invDelete,
 })
 
+export const clearInventory = () => ({
+    type: types.invClear,
+})
+
 export const getInventoryBySpace = (spaceId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/inventories/${spaceId}`);

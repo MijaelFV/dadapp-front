@@ -25,6 +25,11 @@ export const uiReducer = (state = initialState, action) => {
                 ...state,
                 navValue: action.payload
             }
+
+        case types.uiClear:
+            return {
+                ...initialState
+            }
     
         default:
             return state;

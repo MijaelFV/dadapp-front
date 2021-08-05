@@ -30,6 +30,11 @@ export const invReducer = (state = initialState, action) => {
                 categories: [...action.payload]
             }
 
+        case types.invClear:
+            return {
+                ...initialState
+            }
+
         default:
             return state;
     }

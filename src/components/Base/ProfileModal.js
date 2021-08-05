@@ -1,10 +1,10 @@
-import { Avatar, Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
 import React, { useMemo } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { startCreateObject } from '../../actions/inv';
 import { closeModal } from '../../actions/ui';
-import { useForm } from "react-hook-form";
+import { startLogout } from '../../actions/auth';
+import { startClearArea } from '../../actions/area';
 
 const customStyles = {
     content: {
@@ -12,9 +12,8 @@ const customStyles = {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        width: "75%",
-        maxWidth: "350px",
-        height: "350px",
+        width: "240px",
+        height: "300px",
         top: '30%',
         left: '50%',
         right: 'auto',
@@ -30,7 +29,8 @@ Modal.setAppElement('#root');
 
 export const ProfileModal = () => {
     const dispatch = useDispatch();
-    const {categories} = useSelector(state => state.inv);
+    
+    const userName = useSelector(state => state.auth.name)
     
     const {modalIsOpen} = useSelector(state => state.ui)
     const id = "ProfileModal"
@@ -42,9 +42,13 @@ export const ProfileModal = () => {
         }
     }, [modalIsOpen])
 
-    const { register, handleSubmit, errors } = useForm();
 
-    const onSubmit = (data) => {
+    const handleLogOutClick = () => {
+        dispatch(startLogout());
+    }
+    
+    const handleChangeAreaClick = () => {
+        dispatch(startClearArea());
     }
     
     const handleCloseModal = () => {
@@ -57,13 +61,32 @@ export const ProfileModal = () => {
             onRequestClose={handleCloseModal}
             style={customStyles}
             closeTimeoutMS={200}
-            overlayClassName="spaceItemModal"
+            overlayClassName="modal"
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <Avatar />                    
+            <div className="modal-container">
+                <Avatar className="avatar" />                    
+                <div className="userName">
+                    <span>{userName}</span>
                 </div>
-            </form>
+                <div className="userRole">
+                    <span>Administrador</span>
+                </div>
+                <div className="userSettings">
+                    <span>Configuración de Cuenta</span>
+                </div>
+                <div 
+                    className="changeArea"
+                    onClick={handleChangeAreaClick} 
+                >
+                    <span>Cambiar de Área</span>
+                </div>
+                <div 
+                    className="logOut"
+                    onClick={handleLogOutClick}
+                >
+                    <span>Cerrar sesion</span>
+                </div>
+            </div>
         </Modal>
     )
 }

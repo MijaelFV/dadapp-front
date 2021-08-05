@@ -6,6 +6,10 @@ export const loadLogs = (logs) => ({
     payload: logs
 })
 
+export const clearLogs = () => ({
+    type: types.logClear,
+})
+
 export const startLoadingLogs = (areaId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/inventories/logs/${areaId}`);

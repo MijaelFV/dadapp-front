@@ -10,6 +10,11 @@ export const logReducer = (state = initialState, action) => {
                 ...state,
                 logs: [...action.payload]
             }
+        
+        case types.logClear:
+            return {
+                ...initialState
+            }
 
         default:
             return state;

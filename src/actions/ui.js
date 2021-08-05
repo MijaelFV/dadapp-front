@@ -13,3 +13,7 @@ export const setNavValue = (navValue) => ({
     type: types.uiSetNavValue,
     payload: navValue
 })
+
+export const clearUi = () => ({
+    type: types.uiClear,
+})

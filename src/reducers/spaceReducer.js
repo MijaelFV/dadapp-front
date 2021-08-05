@@ -34,6 +34,11 @@ export const spaceReducer = (state = initialState, action) => {
                     space => (space.uid !== action.payload)
                 ),
             }
+
+        case types.spaceClear:
+            return {
+                ...initialState
+            }
     
         default:
             return state;

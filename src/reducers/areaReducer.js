@@ -18,6 +18,11 @@ export const areaReducer = (state = initialState, action) => {
                 active: action.payload
             }
 
+        case types.areaClear:
+            return {
+                ...initialState
+            }
+
         default:
             return state;
     }

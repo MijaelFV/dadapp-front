@@ -24,6 +24,11 @@ export const deleteSpace = (space) => ({
     payload: space
 })
 
+export const clearSpace = () => ({
+    type: types.spaceClear
+})
+
+
 export const startLoadingSpaces = (area) => {
     return async(dispatch) => {
         const resp = await fetch(`api/spaces/${area}`);
