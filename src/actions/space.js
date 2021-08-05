@@ -24,9 +24,9 @@ export const deleteSpace = (space) => ({
     payload: space
 })
 
-export const startLoadingSpaces = () => {
+export const startLoadingSpaces = (area) => {
     return async(dispatch) => {
-        const resp = await fetch('api/spaces');
+        const resp = await fetch(`api/spaces/${area}`);
         if (resp.status === 200) {
             dispatch(loadSpaces(resp.data.resp))
         } else {

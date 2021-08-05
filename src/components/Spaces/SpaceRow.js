@@ -39,34 +39,37 @@ export const SpaceRow = ({name, rows, columns, items = 0, uid}) => {
     }
 
     return (
-        <div className="spaceRow">    
-            {/* <FontAwesomeIcon icon={faBoxes} style={{marginRight:"15px", color:"#ffd9ae", fontSize:"32px"}} /> */}
-            <div className="spaceName">
-                <span>{name}</span>
-            </div>
-            <div 
-                className="contentInfo-container"
+        <div className="spaceRow" >   
+            <div
+                style={{display:"Flex", width:"100%", paddingBlock:"10px"}}
                 onClick={() => {
                     handleRowClick(uid)
                 }}
             >
-                <div className="contentInfo">
-                    <span className="contentInfo-value">
-                        {rows}
-                    </span>
-                    <div className="contentInfo-icon">
-                        <FontAwesomeIcon icon={faArrowsAltV}/>
+                <div className="spaceName">
+                    <span>{name}</span>
+                </div>
+                <div 
+                    className="contentInfo-container"
+                >
+                    <div className="contentInfo">
+                        <span className="contentInfo-value">
+                            {rows}
+                        </span>
+                        <div className="contentInfo-icon">
+                            <FontAwesomeIcon icon={faArrowsAltV}/>
+                        </div>
+                    </div>
+                    <div className="contentInfo">
+                        <span className="contentInfo-value">
+                            {columns}
+                        </span>
+                        <div className="contentInfo-icon">
+                            <FontAwesomeIcon icon={faArrowsAltH}/>
+                        </div>
                     </div>
                 </div>
-                <div className="contentInfo">
-                    <span className="contentInfo-value">
-                        {columns}
-                    </span>
-                    <div className="contentInfo-icon">
-                        <FontAwesomeIcon icon={faArrowsAltH}/>
-                    </div>
-                </div>
-            </div>
+            </div> 
             <Button
                 className={classes.root}
                 aria-controls="simple-menu" 

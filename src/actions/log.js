@@ -6,9 +6,9 @@ export const loadLogs = (logs) => ({
     payload: logs
 })
 
-export const startLoadingLogs = (skip) => {
+export const startLoadingLogs = (areaId) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/inventories/logs?skip=${skip}`);
+        const resp = await fetch(`api/inventories/logs/${areaId}`);
         if (resp.status === 200) {
             dispatch(loadLogs(resp.data.resp))
         } else {

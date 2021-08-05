@@ -10,6 +10,7 @@ import { StyledIconButton } from '../../styles/components/materialUi/styledCompo
 import { openModal } from '../../actions/ui';
 import { SpaceItemModal } from '../../components/Spaces/SpaceItemModal';
 import { Button } from '@material-ui/core';
+import { SpaceModifyModal } from '../../components/Spaces/SpaceModifyModal';
 
 export const SpaceInfo = () => {
     console.log('render');
@@ -76,8 +77,12 @@ export const SpaceInfo = () => {
         }
     ))
 
-    const handleOpenModal = () => {
-        dispatch(openModal());
+    const handleOpenItemModal = () => {
+        dispatch(openModal("SpaceItemModal"));
+    }
+
+    const handleOpenModifyModal = () => {
+        dispatch(openModal("SpaceModifyModal"));
     }
 
     const handleReturnClick = () => {
@@ -98,7 +103,7 @@ export const SpaceInfo = () => {
                     </StyledIconButton>
                     <StyledIconButton
                         onClick={() => {
-                            handleOpenModal()
+                            handleOpenItemModal()
                             handleFilterByPositionClick(null, null, true)
                         }}
                         style={{marginRight:"10px"}}
@@ -108,7 +113,10 @@ export const SpaceInfo = () => {
                         />
                     </StyledIconButton>
                     <StyledIconButton
-                        onClick={() => {handleFilterByPositionClick(null, null, true)}}
+                        onClick={() => {
+                            handleOpenModifyModal()
+                            handleFilterByPositionClick(null, null, true)
+                        }}
                     >
                         <FontAwesomeIcon 
                             icon={faCogs} 
@@ -159,6 +167,7 @@ export const SpaceInfo = () => {
                 </div>
             </div>
             <SpaceItemModal spaceId={spaceId} rows={rows} cols={cols}/>
+            <SpaceModifyModal spaceId={spaceId} rows={rows} cols={cols}/>
         </div>
     )
 }

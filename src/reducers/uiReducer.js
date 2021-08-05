@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 
 const initialState = {
-    modalIsOpen: false,
+    modalIsOpen: null,
     navValue: "home"
 }
 
@@ -11,13 +11,13 @@ export const uiReducer = (state = initialState, action) => {
         case types.uiOpenModal:
             return {
                 ...state,
-                modalIsOpen: true
+                modalIsOpen: action.payload
             }
 
         case types.uiCloseModal:
             return {
                 ...state,
-                modalIsOpen: false
+                modalIsOpen: null
             }
 
         case types.uiSetNavValue:

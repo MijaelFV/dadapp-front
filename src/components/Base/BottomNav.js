@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNavValue } from '../../actions/ui';
 
-export const BottomNav = () => {
+export const BottomNav = ({isActiveArea}) => {
     const StyledNavBar = withStyles({
         root: {
             boxShadow: "rgb(240, 240, 240) 0px 0px 10px 0px",
@@ -21,8 +21,8 @@ export const BottomNav = () => {
     };
     
     const lastPath = localStorage.getItem("lastPath")
-
-    if (lastPath === "/search") {
+    
+    if (lastPath === "/search" || isActiveArea === null) {
         return null;
     } else {
         return (

@@ -18,5 +18,8 @@ export const types = {
     invDelete: '[INV] Deleted',
     invLoadCategories: '[INV] Categories Loaded',
     
-    logLoad: '[LOG] Loaded'
+    logLoad: '[LOG] Loaded',
+
+    areaLoad: '[AREA] Loaded',
+    areaActive: '[AREA] Set Active Area'
 }

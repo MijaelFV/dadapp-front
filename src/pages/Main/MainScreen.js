@@ -6,24 +6,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { startLoadingLogs } from '../../actions/log'
 import { openModal } from '../../actions/ui'
+import { ProfileModal } from '../../components/Base/ProfileModal'
 import { MainLogs } from '../../components/Main/MainLogs'
 import { MainModal } from '../../components/Main/MainModal'
 
 export const MainScreen = () => {
-    const history = useHistory()
+    const history = useHistory() 
     const dispatch = useDispatch();
 
-    const {logs} = useSelector(state => state.log);
-    const [skip, setSkip] = useState(0)
+    const area = useSelector(state => state.area.active);
+    const logs = useSelector(state => state.log.logs);
+    // const [skip, setSkip] = useState(0)
 
     useMemo(() => {
         if (logs.length === 0) {
-            dispatch(startLoadingLogs());
+            dispatch(startLoadingLogs(area.uid));
         }
     }, [dispatch])
 
     const handleSearchClick = () => {
         history.push("/search")
+    }
+    
+    const handleProfileClick = () => {
+        dispatch(openModal("ProfileModal"));
     }
 
     const handleAddClick = () => {
@@ -41,7 +47,16 @@ export const MainScreen = () => {
     //       setSkip(logs.length)
     //     }
     //   }
- 
+
+    const noLogsAdvise = () => {
+        if (logs.length === 0) {
+            return <span
+                className="noLogs"
+            >
+                No existen movimientos
+            </span>
+        }
+    } 
     return (
         <div className="main-container">
             <div className="topBar">
@@ -54,14 +69,14 @@ export const MainScreen = () => {
                         className="topBar-icon"
                     />
                 </div>
-                <Avatar/>
+                <Avatar onClick={handleProfileClick} className="p"/>
             </div>
             <div className="area">
                 <h3 className="area-label">
                     ÁREA
                 </h3>
                 <h1 className="area-name">
-                    Taller de Horacio
+                    {area.name}
                 </h1>
             </div>
             <div className="board">
@@ -105,11 +120,13 @@ export const MainScreen = () => {
                 </div>
             </div>
             <div className="log-container">
+                {noLogsAdvise()}
                 {logs.map((log) => (
                     <MainLogs key={log.uid} log={log} />
                 ))}
             </div>
-            <MainModal />
+            <ProfileModal />
+            {/* <MainModal /> */}
         </div>
     )
 }

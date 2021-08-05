@@ -4,8 +4,9 @@ export const closeModal = () => ({
     type: types.uiCloseModal
 })
 
-export const openModal = () => ({
-    type: types.uiOpenModal
+export const openModal = (id) => ({
+    type: types.uiOpenModal,
+    payload: id
 })
 
 export const setNavValue = (navValue) => ({

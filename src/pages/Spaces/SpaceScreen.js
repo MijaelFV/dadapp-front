@@ -3,27 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategoriesByArea } from '../../actions/category';
 import { startLoadingSpaces } from '../../actions/space';
 import { openModal } from '../../actions/ui';
-import { SpaceModal } from '../../components/Spaces/SpaceModal';
+import { SpaceCreateModal } from '../../components/Spaces/SpaceCreateModal';
 import { SpaceRow } from '../../components/Spaces/SpaceRow';
 import { StyledButton } from '../../styles/components/materialUi/styledComponents';
 
 export const SpaceScreen = () => {
     const dispatch = useDispatch();
     const spaces = useSelector(state => state.space.spaces);
-    const {categories} = useSelector(state => state.inv);
+    const area = useSelector(state => state.area.active);
 
     useMemo(() => {
-        if (spaces.length === 0) {
-            dispatch(startLoadingSpaces());
-        }
-    }, [dispatch, spaces])
+        dispatch(startLoadingSpaces(area.uid));
+    }, [dispatch])
 
     useMemo(() => {
-        if (categories.length === 0) {
-            const area = "60efb7d44c8a53491ca93914"
-            dispatch(getCategoriesByArea(area));
-        }
-    }, [dispatch, categories])
+        dispatch(getCategoriesByArea(area.uid));
+    }, [dispatch])
 
     const handleOpenModal = () => {
         dispatch(openModal());
@@ -43,7 +38,7 @@ export const SpaceScreen = () => {
                     <SpaceRow key={space.uid} {...space}/>
                 ))}
             </div>
-            <SpaceModal />
+            <SpaceCreateModal />
         </div>
     )
 }

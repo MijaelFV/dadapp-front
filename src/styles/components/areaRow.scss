@@ -1,0 +1,19 @@
+.areaRow {
+    display: flex;
+    border-radius: 4px;
+    background-color: #ffad4e;
+    margin-block: 3px;
+    padding-block: 4px;
+    padding-inline: 10px;
+    color: white;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    align-items: center;
+
+    .areaName {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 18px;
+    }
+}

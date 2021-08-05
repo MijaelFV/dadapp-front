@@ -18,8 +18,10 @@ const customStyles = {
 };
 Modal.setAppElement('#root');
 
-export const SpaceModal = () => {
+export const SpaceCreateModal = () => {
     const dispatch = useDispatch();
+
+    const area = useSelector(state => state.area.active)
     const {modalIsOpen} = useSelector(state => state.ui)
     
     const [formCreateValues, handleCreateInputChange] = useForm({
@@ -33,8 +35,7 @@ export const SpaceModal = () => {
     const handleCreateSpace = (e) => {
         e.preventDefault();
         
-        const area = "60efb7d44c8a53491ca93914"
-        dispatch(startCreateSpace(name, rows, columns, area));
+        dispatch(startCreateSpace(name, rows, columns, area.uid));
         dispatch(closeModal());
     }
     

@@ -4,7 +4,6 @@ import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { startCreateObject } from '../../actions/inv';
 import { closeModal } from '../../actions/ui';
-// import { useForm } from '../../hooks/useForm';
 import { useForm } from "react-hook-form";
 
 const customStyles = {
@@ -14,7 +13,7 @@ const customStyles = {
         alignItems: "center",
         justifyContent: "center",
         width: "440px",
-        height: "440px",
+        height: "350px",
         top: '50%',
         left: '50%',
         right: 'auto',
@@ -28,12 +27,12 @@ const customStyles = {
 };
 Modal.setAppElement('#root');
 
-export const SpaceItemModal = ({spaceId, cols, rows}) => {
+export const SpaceModifyModal = ({spaceId, cols, rows}) => {
     const dispatch = useDispatch();
     const {categories} = useSelector(state => state.inv);
     
     const {modalIsOpen} = useSelector(state => state.ui)
-    const id = "SpaceItemModal"
+    const id = "SpaceModifyModal"
     const ThisModalIsOpen = useMemo(() => {
         if (modalIsOpen === id) {
             return true;
@@ -64,7 +63,7 @@ export const SpaceItemModal = ({spaceId, cols, rows}) => {
         >
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className="form-title">
-                    Nuevo Objeto
+                    Modificar Espacio
                 </h2>
                 <div>
                     <TextField
@@ -72,18 +71,8 @@ export const SpaceItemModal = ({spaceId, cols, rows}) => {
                         className="form-textField"
                         variant="outlined"
                         type="text"
-                        label="Nombre del objeto"
+                        label="Nombre del espacio"
                         {...register("name")}
-                    />
-                    <TextField
-                        fullWidth
-                        multiline
-                        rows={2}
-                        maxRows={4}
-                        className="form-textField"
-                        variant="outlined"
-                        label="Descripcion"
-                        {...register("description")}
                     />
                 </div>
                 <div className="form-selects">
@@ -91,34 +80,14 @@ export const SpaceItemModal = ({spaceId, cols, rows}) => {
                         className="form-control" 
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="category-select">Categoria</InputLabel>
+                        <InputLabel htmlFor="rows-select">Filas</InputLabel>
                         <Select
                             native
-                            label="category"
-                            {...register("category")}
-                            inputProps={{
-                                name: "category",
-                                id: "category-select"
-                            }}
-                        >
-                            <option aria-label="None" value="" />
-                            {categories.map((category) => (
-                                <option key={category.uid} value={category.uid}>{category.name}</option>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <FormControl
-                        className="form-control" 
-                        variant="outlined"
-                    >
-                        <InputLabel htmlFor="row-select">Fila</InputLabel>
-                        <Select
-                            native
-                            label="row"
+                            label="rows"
                             {...register("row")}
                             inputProps={{
-                                name: "row",
-                                id: "row-select"
+                                name: "rows",
+                                id: "rows-select"
                             }}
                         >
                             <option aria-label="None" value="" />
@@ -131,14 +100,14 @@ export const SpaceItemModal = ({spaceId, cols, rows}) => {
                         className="form-control" 
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="column-select">Columna</InputLabel>
+                        <InputLabel htmlFor="columns-select">Columnas</InputLabel>
                         <Select
                             native
-                            label="column"
-                            {...register("column")}
+                            label="columns"
+                            {...register("columns")}
                             inputProps={{
-                                name: "column",
-                                id: "column-select"
+                                name: "columns",
+                                id: "columns-select"
                             }}
                         >
                             <option aria-label="None" value="" />

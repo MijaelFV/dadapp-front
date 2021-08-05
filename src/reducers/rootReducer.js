@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { areaReducer } from "./areaReducer";
 import { authReducer } from "./authReducer";
 import { invReducer } from "./invReducer";
 import { logReducer } from "./logReducer";
@@ -10,5 +11,6 @@ export const rootReducer = combineReducers({
     space: spaceReducer,
     ui: uiReducer,
     inv: invReducer,
-    log: logReducer
+    log: logReducer,
+    area: areaReducer
 })
