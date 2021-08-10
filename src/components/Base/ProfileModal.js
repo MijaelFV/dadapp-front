@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../actions/ui';
 import { startLogout } from '../../actions/auth';
 import { startClearArea } from '../../actions/area';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const customStyles = {
     content: {
@@ -13,14 +15,14 @@ const customStyles = {
         alignItems: "center",
         justifyContent: "center",
         width: "240px",
-        height: "300px",
+        // height: "300px",
         top: '30%',
         left: '50%',
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        boxShadow: "rgb(230, 230, 230) 0px 0px 20px 0px",
+        boxShadow: "rgb(230, 230, 230) 0px 0px 5px 0px",
         border: "none",
         borderRadius: "10px"
     },
@@ -31,6 +33,7 @@ export const ProfileModal = () => {
     const dispatch = useDispatch();
     
     const userName = useSelector(state => state.auth.name)
+    const activeArea = useSelector(state => state.area.active);
     
     const {modalIsOpen} = useSelector(state => state.ui)
     const id = "ProfileModal"
@@ -55,6 +58,23 @@ export const ProfileModal = () => {
         dispatch(closeModal());
     }  
 
+    const ifActiveArea = () => {
+        if (activeArea !== null) {
+            return [
+            <div className="userRole">
+                <span>Administrador</span>
+            </div>,
+            <div 
+                className="changeArea"
+                onClick={handleChangeAreaClick} 
+            >
+                <span>Cambiar de Área</span>
+            </div>]
+        } else {
+            return
+        }
+    }
+
     return (
         <Modal
             isOpen={ThisModalIsOpen}
@@ -64,27 +84,22 @@ export const ProfileModal = () => {
             overlayClassName="modal"
         >
             <div className="modal-container">
-                <Avatar className="avatar" />                    
+                <div className="nose">
+                    <Avatar className="avatar" />                    
+                    <FontAwesomeIcon 
+                        icon={faSignOutAlt} 
+                        className="logoutIcon"
+                        onClick={handleLogOutClick}
+                    />
+                </div>
                 <div className="userName">
                     <span>{userName}</span>
                 </div>
-                <div className="userRole">
-                    <span>Administrador</span>
-                </div>
+                {
+                    ifActiveArea()
+                }
                 <div className="userSettings">
                     <span>Configuración de Cuenta</span>
-                </div>
-                <div 
-                    className="changeArea"
-                    onClick={handleChangeAreaClick} 
-                >
-                    <span>Cambiar de Área</span>
-                </div>
-                <div 
-                    className="logOut"
-                    onClick={handleLogOutClick}
-                >
-                    <span>Cerrar sesion</span>
                 </div>
             </div>
         </Modal>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { startCreateObject } from '../../actions/inv';
 import { closeModal } from '../../actions/ui';
 // import { useForm } from '../../hooks/useForm';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 const customStyles = {
     content: {
@@ -31,6 +31,7 @@ Modal.setAppElement('#root');
 export const SpaceItemModal = ({spaceId, cols, rows}) => {
     const dispatch = useDispatch();
     const {categories} = useSelector(state => state.inv);
+    const area = useSelector(state => state.area.active)
     
     const {modalIsOpen} = useSelector(state => state.ui)
     const id = "SpaceItemModal"
@@ -42,15 +43,17 @@ export const SpaceItemModal = ({spaceId, cols, rows}) => {
         }
     }, [modalIsOpen])
 
-    const { register, handleSubmit, errors } = useForm();
+    const { control, reset, handleSubmit } = useForm();
 
     const onSubmit = (data) => {
         const space = spaceId
-        dispatch(startCreateObject(data.name, data.description, data.category, data.row, data.column, space));
+        dispatch(startCreateObject(data.name, data.description, data.category, data.row, data.column, space, area.uid));
+        reset();
         dispatch(closeModal());
     }
     
     const handleCloseModal = () => {
+        reset();
         dispatch(closeModal());
     }  
 
@@ -67,23 +70,36 @@ export const SpaceItemModal = ({spaceId, cols, rows}) => {
                     Nuevo Objeto
                 </h2>
                 <div>
-                    <TextField
-                        fullWidth
-                        className="form-textField"
-                        variant="outlined"
-                        type="text"
-                        label="Nombre del objeto"
-                        {...register("name")}
+                    <Controller 
+                        name="name"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            fullWidth
+                            className="form-textField"
+                            label="Nombre de objeto"
+                            variant="outlined"
+                            type="text"
+                        />}
                     />
-                    <TextField
-                        fullWidth
-                        multiline
-                        rows={2}
-                        maxRows={4}
-                        className="form-textField"
-                        variant="outlined"
-                        label="Descripcion"
-                        {...register("description")}
+                    <Controller 
+                        name="description"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            fullWidth
+                            multiline
+                            rows={2}
+                            maxRows={4}
+                            className="form-textField"
+                            label="Descripcion"
+                            variant="outlined"
+                        />}
+
                     />
                 </div>
                 <div className="form-selects">
@@ -92,60 +108,81 @@ export const SpaceItemModal = ({spaceId, cols, rows}) => {
                         variant="outlined"
                     >
                         <InputLabel htmlFor="category-select">Categoria</InputLabel>
-                        <Select
-                            native
-                            label="category"
-                            {...register("category")}
-                            inputProps={{
-                                name: "category",
-                                id: "category-select"
-                            }}
-                        >
-                            <option aria-label="None" value="" />
-                            {categories.map((category) => (
-                                <option key={category.uid} value={category.uid}>{category.name}</option>
-                            ))}
-                        </Select>
+                        <Controller 
+                            name="category"
+                            control={control}
+                            defaultValue=""
+                            render={({field}) => 
+                                <Select
+                                    {...field} 
+                                    native
+                                    label="category"
+                                    inputProps={{
+                                        name: "category",
+                                        id: "category-select"
+                                    }}
+                                >
+                                    <option aria-label="None" value="" />
+                                    {categories.map((category) => (
+                                        <option key={category.uid} value={category.uid}>{category.name}</option>
+                                    ))}
+                                </Select>
+                            }
+                        />
                     </FormControl>
                     <FormControl
                         className="form-control" 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="row-select">Fila</InputLabel>
-                        <Select
-                            native
-                            label="row"
-                            {...register("row")}
-                            inputProps={{
-                                name: "row",
-                                id: "row-select"
-                            }}
-                        >
-                            <option aria-label="None" value="" />
-                            {rows.map((row) => (
-                                <option key={row} value={row}>{row}</option>
-                            ))}
-                        </Select>
+                        <Controller 
+                            name="row"
+                            control={control}
+                            defaultValue=""
+                            render={({field}) => 
+                                <Select
+                                    {...field} 
+                                    native
+                                    label="row"
+                                    inputProps={{
+                                        name: "row",
+                                        id: "row-select"
+                                    }}
+                                >
+                                    <option aria-label="None" value="" />
+                                    {rows.map((row) => (
+                                        <option key={row} value={row}>{row}</option>
+                                    ))}
+                                </Select>
+                            }
+                        />
                     </FormControl>
                     <FormControl
                         className="form-control" 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="column-select">Columna</InputLabel>
-                        <Select
-                            native
-                            label="column"
-                            {...register("column")}
-                            inputProps={{
-                                name: "column",
-                                id: "column-select"
-                            }}
-                        >
-                            <option aria-label="None" value="" />
-                            {cols.map((row) => (
-                                <option key={row} value={row}>{row}</option>
-                            ))}
-                        </Select>
+                        <Controller 
+                            name="column"
+                            control={control}
+                            defaultValue=""
+                            render={({field}) => 
+                                <Select
+                                    {...field} 
+                                    native
+                                    label="column"
+                                    inputProps={{
+                                        name: "column",
+                                        id: "column-select"
+                                    }}
+                                >
+                                    <option aria-label="None" value="" />
+                                    {cols.map((row) => (
+                                        <option key={row} value={row}>{row}</option>
+                                    ))}
+                                </Select>
+                            }
+                        />
                     </FormControl>
                 </div>
                 <div className="form-button">

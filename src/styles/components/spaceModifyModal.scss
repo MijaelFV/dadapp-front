@@ -1,0 +1,89 @@
+.formSpace-title {
+    margin-inline: 0;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #ff9d2c;
+    padding-bottom: 20px;
+    border-bottom: #ff9d2cbe 2px solid;
+}
+
+.categoryAdd {
+    display: flex;
+    align-items: center;
+    color: grey;
+    cursor: pointer;
+    height: 56px;
+    padding-inline: 4px;
+    margin-right: -8px;
+    font-size: 18px;
+    -webkit-tap-highlight-color: transparent;
+
+    :hover {
+        color: #ff9d2c;
+    }
+}
+
+.options-row {
+    display: flex;
+    margin-top: 20px;
+
+    .categories {
+        display: flex;
+        flex-direction: column;
+    
+        .categories-show {
+            display: flex;
+            flex-direction: column;
+            height: 112px;
+            width: 210px;
+            margin-top: 10px;
+            box-sizing: border-box;
+            border-color: rgba(0, 0, 0, 0.23);
+            border-style: inset;
+            border-width: 1px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 500;
+            color: rgb(100, 100, 100);
+            overflow-y: auto;
+
+            span {
+                border-bottom: rgb(212, 212, 212) 1px solid;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-inline: 13px;
+                margin-top: 8px;
+                padding-bottom: 8px;
+
+                .iconButton {
+                    cursor: pointer;
+                    color: grey;
+
+                    :hover {
+                        color: #ff9d2c;
+                    }
+                }
+            }
+        }
+    }
+
+    .formSpace-selects {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+
+        .selects-rows {
+            width: 120px;
+        }
+
+        .selects-cols {
+            margin-top: 10px;
+            width: 120px;
+        }
+    }
+}
+
+.formSpace-button {
+    margin-top: 60px;
+}

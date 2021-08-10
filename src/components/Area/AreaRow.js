@@ -18,16 +18,14 @@ export const AreaRow = ({area}) => {
     }
 
     return (
-        <div className="areaRow" >   
-            <div
-                style={{display:"Flex", width:"100%", paddingBlock:"10px"}}
-                onClick={() => {
-                    handleRowClick()
-                }}
-            >
-                <div className="areaName">
-                    <span>{area.name}</span>
-                </div>
+        <div 
+            className="areaRow" 
+            onClick={() => {
+                handleRowClick()
+            }}
+        >   
+            <div className="areaName">
+                <span>{area.name}</span>
             </div> 
         </div>
     )

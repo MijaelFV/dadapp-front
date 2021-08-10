@@ -11,6 +11,7 @@ import { openModal } from '../../actions/ui';
 import { SpaceItemModal } from '../../components/Spaces/SpaceItemModal';
 import { Button } from '@material-ui/core';
 import { SpaceModifyModal } from '../../components/Spaces/SpaceModifyModal';
+import { getCategoriesBySpace } from '../../actions/category';
 
 export const SpaceInfo = () => {
     console.log('render');
@@ -23,6 +24,7 @@ export const SpaceInfo = () => {
     const space = spaces.find(space => space.uid === spaceId)
     
     useMemo(() => {
+        dispatch(getCategoriesBySpace(spaceId));
         dispatch(getInventoryBySpace(spaceId));
     }, [dispatch, spaceId]) 
     
@@ -161,13 +163,15 @@ export const SpaceInfo = () => {
                         rows={dataGridRows}
                         columns={dataGridCols}
                         pageSize={10}
-                        checkboxSelection
+                        // checkboxSelection
+                        density="comfortable"
+                        disableMultipleSelection
                         disableSelectionOnClick
                     />
                 </div>
             </div>
             <SpaceItemModal spaceId={spaceId} rows={rows} cols={cols}/>
-            <SpaceModifyModal spaceId={spaceId} rows={rows} cols={cols}/>
+            <SpaceModifyModal spaceName={space.name} spaceId={spaceId} rows={rows} cols={cols}/>
         </div>
     )
 }

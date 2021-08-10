@@ -51,6 +51,17 @@ export const startCreateSpace = (name, rows, columns, area) => {
     }
 }
 
+// export const modifySpace = (name, rows, cols) => {
+//     return async(dispatch) => {
+//         const resp = await fetch(`api/categories/${spaceId}`, {name, rows, cols}, 'POST');
+//         if (resp.status === 200) {
+//             dispatch(loadInvCategories(resp.data.resp))
+//         } else {
+//             console.log(resp.data)
+//         }
+//     }
+// }
+
 export const startDeleteSpace = (uid) => {
     return async(dispatch) => {
         const resp = await fetch(`api/spaces/${uid}`, null, 'DELETE');

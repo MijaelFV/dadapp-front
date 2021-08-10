@@ -4,53 +4,76 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background: rgb(255,240,93);
-    background: linear-gradient(30deg, rgba(255,240,93,1) 0%, rgba(255,185,98,1) 50%, rgba(255,128,0,1) 100%);
+    background: rgb(255, 156, 90);
+    background: linear-gradient(30deg, rgb(255, 134, 54) 0%, rgb(255, 143, 68) 50%, rgb(255, 145, 71) 100%);
 
     .area-column {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         width: 95vw;
         max-width: 500px;
         height: 100%;
 
-        .topBar {
+        .areaList-container {
             display: flex;
-            margin-top: 10px;
-            margin-inline: 6px;
-            margin-bottom: 15px;
-            align-items: flex-end;
-            justify-content: space-between;
-
-            .topBar-title {
-                font-size: 20px;
-                font-weight: 600;
-                color: rgb(92, 92, 92);
-            }
-        }
-
-        .areaList {
-            padding-bottom: 8px;
-            border-end-start-radius: 5px;
-            border-end-end-radius: 5px;
-            padding-inline: 8px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow:inset 0px 0px 0px 5px #cfcfcf;
+            border-start-start-radius: 24px;
+            border-start-end-radius: 24px;
+            border-end-start-radius: 11px;
+            border-end-end-radius: 11px;
             box-sizing: border-box;
-            background-color: white;
+            background-color: #F6F6F6;
+            z-index: 1;
             width: 100%;
+
+            .avatarContainer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-start-start-radius: 24px;
+                border-start-end-radius: 24px;
+                margin-top: -45px;
+                width: 60px;
+                height: 55px;
+                background-color: #F6F6F6;
+            }
+
+            .hint {
+                margin-block: 10px;
+                font-weight: 600;
+                font-size: 18px;
+                color: #4E4E4E;
+            }
+
+            .areaList {
+                width: 90%;
+                overflow-x: hidden;
+                overflow-y: auto;
+                border-radius: 9px;
+                background-color: white;
+                margin-bottom: 20px;
+                height: 300px;
+            }
+
         }
 
         .buttons-container {
             display: flex;
+            box-shadow:inset 0px 0px 0px 5px #cfcfcf;   
             flex-direction: column;
             align-items: center;
-            margin-top: auto;
             width: 100%;
             font-weight: 600;
-            font-size: 18px;
+            font-size: 18px;            
             white-space: nowrap;
-            border-start-start-radius: 25px;
-            border-start-end-radius: 25px;
+            margin-top: -10px;
+            border-end-start-radius: 24px;
+            border-end-end-radius: 24px;
             text-transform: uppercase;
             background-color: white;
 
@@ -61,7 +84,7 @@
                 justify-content: center;
                 width: 85%;
                 padding: 15px;
-                margin-top: 20px;
+                margin-top: 30px;
                 background-color: #422603;
                 color: white;
                 -webkit-tap-highlight-color: transparent;

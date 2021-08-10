@@ -1,19 +1,28 @@
 import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
-import React from 'react'
+import React, { useMemo } from 'react'
+import { Controller, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { startCreateSpace } from '../../actions/space';
 import { closeModal } from '../../actions/ui';
-import { useForm } from '../../hooks/useForm';
 
 const customStyles = {
     content: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "420px",
+        height: "350px",
         top: '50%',
         left: '50%',
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
+        boxShadow: "rgb(230, 230, 230) 0px 0px 20px 0px",
+        border: "none",
+        borderRadius: "10px"
     },
 };
 Modal.setAppElement('#root');
@@ -24,98 +33,125 @@ export const SpaceCreateModal = () => {
     const area = useSelector(state => state.area.active)
     const {modalIsOpen} = useSelector(state => state.ui)
     
-    const [formCreateValues, handleCreateInputChange] = useForm({
-        name: '',
-        rows: '',
-        columns: ''
-    });
-    
-    const {name, rows, columns} = formCreateValues;
-    
-    const handleCreateSpace = (e) => {
-        e.preventDefault();
-        
-        dispatch(startCreateSpace(name, rows, columns, area.uid));
+    const id = "SpaceCreateModal"
+    const ThisModalIsOpen = useMemo(() => {
+        if (modalIsOpen === id) {
+            return true;
+        } else {
+            return false;
+        }
+    }, [modalIsOpen])
+
+    const { control, reset, handleSubmit } = useForm();
+
+    const onSubmit = (data) => {
+        dispatch(startCreateSpace(data.name, data.rows, data.columns, area.uid));
+        reset();
         dispatch(closeModal());
     }
-    
+
     const handleCloseModal = () => {
+        reset();
         dispatch(closeModal());
     }  
 
     return (
         <Modal
-            isOpen={modalIsOpen}
+            isOpen={ThisModalIsOpen}
             onRequestClose={handleCloseModal}
             style={customStyles}
             closeTimeoutMS={200}
+            overlayClassName="spaceItemModal"
         >
-            <div style={{marginBottom:"20px"}}>
-                <h3 style={{fontWeight:"500", margin:"0"}}>
-                    Crear nuevo espacio
-                </h3>
-            </div>
-            <form style={{display:"grid", width:"300px"}} onSubmit={handleCreateSpace}>
-                <div style={{display:"grid"}}>
-                    <TextField
-                        label="Nombre de espacio"
-                        variant="outlined"
-                        type="text"
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <h2 className="form-title">
+                    Nuevo Espacio
+                </h2>
+                <div>
+                    <Controller 
                         name="name"
-                        value={name}
-                        onChange={handleCreateInputChange}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            fullWidth
+                            className="form-textField"
+                            label="Nombre de espacio"
+                            variant="outlined"
+                            type="text"
+                        />}
+
                     />
                 </div>
-                <div style={{display:"flex", justifyContent:"space-between", marginTop:"20px"}}>
-                    <FormControl style={{width:"120px"}} variant="outlined">
+                <div className="form-selects">
+                    <FormControl
+                        className="form-control"
+                        variant="outlined"
+                    >
                         <InputLabel htmlFor="rows-select">Filas</InputLabel>
-                        <Select
-                            native
-                            label="rows"
-                            value={rows}
-                            onChange={handleCreateInputChange}
-                            inputProps={{
-                                name: "rows",
-                                id: "rows-select"
-                            }}
-                        >
-                            <option aria-label="None" value="" />
-                            <option value={1}>1</option>
-                            <option value={2}>2</option>
-                            <option value={3}>3</option>
-                            <option value={4}>4</option>
-                            <option value={5}>5</option>
-                            <option value={6}>6</option>
-                            <option value={7}>7</option>
-                            <option value={8}>8</option>
-                            <option value={9}>9</option>
-                            <option value={10}>10</option>
-                        </Select>
+                        <Controller 
+                            name="rows"
+                            control={control}
+                            defaultValue=""
+                            render={({field}) => 
+                                <Select
+                                    {...field} 
+                                    native
+                                    label="rows"
+                                    inputProps={{
+                                        name: "rows",
+                                        id: "rows-select"
+                                    }}
+                                >
+                                    <option aria-label="None" value="" />
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
+                                    <option value={6}>6</option>
+                                    <option value={7}>7</option>
+                                    <option value={8}>8</option>
+                                    <option value={9}>9</option>
+                                    <option value={10}>10</option>
+                                </Select>
+                            }
+                        />
                     </FormControl>
-                    <FormControl style={{width:"120px"}} variant="outlined">
+                    <FormControl 
+                        className="form-control"
+                        variant="outlined"
+                    >
                         <InputLabel htmlFor="columns-select">Columnas</InputLabel>
-                        <Select
-                            native
-                            label="columns"
-                            value={columns}
-                            onChange={handleCreateInputChange}
-                            inputProps={{
-                                name: "columns",
-                                id: "columns-select"
-                            }}
-                        >
-                            <option aria-label="None" value="" />
-                            <option value={1}>1</option>
-                            <option value={2}>2</option>
-                            <option value={3}>3</option>
-                            <option value={4}>4</option>
-                            <option value={5}>5</option>
-                            <option value={6}>6</option>
-                            <option value={7}>7</option>
-                            <option value={8}>8</option>
-                            <option value={9}>9</option>
-                            <option value={10}>10</option>
-                        </Select>
+                        <Controller 
+                            name="columns"
+                            control={control}
+                            defaultValue=""
+                            render={({field}) => 
+                                <Select
+                                    {...field} 
+                                    native
+                                    label="columns"
+                                    inputProps={{
+                                        name: "columns",
+                                        id: "columns-select"
+                                    }}
+                                >
+                                    <option aria-label="None" value="" />
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
+                                    <option value={6}>6</option>
+                                    <option value={7}>7</option>
+                                    <option value={8}>8</option>
+                                    <option value={9}>9</option>
+                                    <option value={10}>10</option>
+                                </Select>
+                            }
+                        />
                     </FormControl>
                 </div>
                 <div className="form-button">

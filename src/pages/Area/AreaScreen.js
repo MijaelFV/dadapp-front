@@ -2,7 +2,9 @@ import { Avatar } from '@material-ui/core'
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { startLoadingAreas } from '../../actions/area';
+import { openModal } from '../../actions/ui';
 import { AreaRow } from '../../components/Area/AreaRow';
+import { ProfileModal } from '../../components/Base/ProfileModal';
 
 export const AreaScreen = () => {
 
@@ -18,6 +20,10 @@ export const AreaScreen = () => {
         }
     }, [dispatch, areas])
 
+    const handleProfileClick = () => {
+        dispatch(openModal("ProfileModal"));
+    }
+
     const handleButton1Click = () => {
         
     }
@@ -29,14 +35,16 @@ export const AreaScreen = () => {
     return (
         <div className="area-container">
             <div className="area-column">
-                <div className="areaList">
-                    <div className="topBar">
-                        <span className="topBar-title">Selecciona un área para trabajar</span>
-                        <Avatar/>
+                <div className="areaList-container">
+                    <div className="avatarContainer">
+                        <Avatar onClick={handleProfileClick} className="p" />
                     </div>
-                    {areas.map((area) => (
-                        <AreaRow key={area.uid} area={area} />
-                    ))}
+                    <span className="hint">Selecciona un área para trabajar</span>
+                    <div className="areaList">
+                        {areas.map((area) => (
+                            <AreaRow key={area.uid} area={area} />
+                        ))}
+                    </div>
                 </div>
                 <div className="buttons-container">
                     <div className="button1">
@@ -55,6 +63,7 @@ export const AreaScreen = () => {
                     </div>
                 </div>
             </div>
+            <ProfileModal />
         </div>
     )
 }

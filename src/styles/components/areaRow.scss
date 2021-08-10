@@ -1,16 +1,16 @@
 .areaRow {
     display: flex;
-    border-radius: 4px;
-    background-color: #ffad4e;
-    margin-block: 3px;
-    padding-block: 4px;
-    padding-inline: 10px;
+    background-color: #ff8747;
+    // background-color: #ffad4e;
+    margin-bottom: 3px;
     color: white;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     align-items: center;
+    justify-content: center;
 
     .areaName {
+        padding-block: 10px;
         display: flex;
         align-items: center;
         font-weight: 600;
