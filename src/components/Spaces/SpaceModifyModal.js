@@ -1,12 +1,15 @@
-import { Button, FormControl, InputAdornment, InputLabel, Select, TextField } from '@material-ui/core';
+import { FormControl, InputAdornment, InputLabel, Select, TextField } from '@material-ui/core';
 import React, { useMemo } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../actions/ui';
 import { Controller, useForm } from "react-hook-form";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faPlusSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { createCategory } from '../../actions/category';
+import { faPlusCircle, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { createCategory, deleteCategory } from '../../actions/category';
+import { StyBtn, StySpaceBtnDel } from '../../styles/components/materialUi/styledComponents';
+import { startDeleteSpace, startModifySpace } from '../../actions/space';
+import { useHistory } from 'react-router-dom';
 
 const customStyles = {
     content: {
@@ -27,12 +30,12 @@ const customStyles = {
 };
 Modal.setAppElement('#root');
 
-export const SpaceModifyModal = ({spaceName, spaceId, cols, rows}) => {
+export const SpaceModifyModal = ({spaceId, space}) => {
     const dispatch = useDispatch();
+    const history = useHistory();
+    const {area} = useSelector(state => state.area.active.uid);
     const {categories} = useSelector(state => state.inv);
     
-    console.log(categories);
-
     const {modalIsOpen} = useSelector(state => state.ui)
     const id = "SpaceModifyModal"
     const ThisModalIsOpen = useMemo(() => {
@@ -42,35 +45,62 @@ export const SpaceModifyModal = ({spaceName, spaceId, cols, rows}) => {
             return false;
         }
     }, [modalIsOpen])
-
-    const { control, register, handleSubmit, reset} = useForm({
+    
+    const { control, handleSubmit, reset} = useForm({
         defaultValues: {
-            name: spaceName,
-            rows: rows.length,
-            columns: cols.length
+            name: space.name,
+            rows: space.rows,
+            columns: space.columns
         }
     });
 
     const onSubmit = (data) => {
-        // const space = spaceId
-        // dispatch(startCreateObject(data.name, data.description, data.rows, data.columns));
-        console.log(data);
+        dispatch(startModifySpace(area, spaceId, data.name, data.rows, data.columns));
+        dispatch(closeModal());
+        reset({name: data.name, rows: data.rows, columns: data.columns});
+    }
+
+    const handleDeleteSpace = () => {
+        history.replace('/spaces');
+        dispatch(startDeleteSpace(spaceId));
+        dispatch(closeModal());
         reset();
-        // dispatch(closeModal());
     }
     
     const handleAddCategory = (data) => {
         dispatch(createCategory(spaceId, data.newCategory))
     }
+
+    const handleDeleteCategory = (categoryUid) => {
+        dispatch(deleteCategory(spaceId, categoryUid))
+    }
     
     const handleCloseModal = () => {
-        reset();
         dispatch(closeModal());
+        reset();
     }  
+
+    const showCategories = () => {
+        if (categories.length > 0) {
+            return categories.map((category) => (
+                <span key={category.uid}>
+                    {category.name}
+                    <FontAwesomeIcon 
+                        icon={faTimesCircle} 
+                        className="iconButton"
+                        onClick={() => {
+                            handleDeleteCategory(category.uid)
+                        }}
+                    />
+                </span>
+            ))
+        } else {
+            return <span className="noCategories">No hay categorias</span>
+        }
+    }
 
     return (
         <Modal
-            
             isOpen={ThisModalIsOpen}
             onRequestClose={handleCloseModal}
             style={customStyles}
@@ -84,10 +114,9 @@ export const SpaceModifyModal = ({spaceName, spaceId, cols, rows}) => {
                 <Controller 
                     name="name"
                     control={control}
-                    defaultValue=""
                     render={({ field }) => 
                     <TextField
-                        {...field} 
+                        {...field}
                         fullWidth
                         type="text"
                         variant="outlined"
@@ -120,12 +149,7 @@ export const SpaceModifyModal = ({spaceName, spaceId, cols, rows}) => {
                             />}
                         />
                         <div className="categories-show">
-                            {categories.map((category) => (
-                                <span key={category.uid}>
-                                    {category.name}
-                                    <FontAwesomeIcon icon={faTrashAlt} className="iconButton"/>
-                                </span>
-                            ))}
+                            {showCategories()}
                         </div>
                     </div>
                     <div className="formSpace-selects">
@@ -194,21 +218,21 @@ export const SpaceModifyModal = ({spaceName, spaceId, cols, rows}) => {
                     </div>
                 </div>
                 <div className="formSpace-button">
-                    <Button
-                        size="large"
-                        variant="contained"
+                    <StyBtn
+                        fullWidth
+                        style={{marginRight:"2px"}}
                         color="primary"
+                        variant="contained"
                         type="submit"
                     >
                         Modificar
-                    </Button>
-                    <Button
-                        size="large"
+                    </StyBtn>
+                    <StySpaceBtnDel
                         variant="contained"
-                        color="primary"
+                        onClick={handleDeleteSpace}
                     >
-                        Eliminar
-                    </Button>
+                        <FontAwesomeIcon icon={faTrashAlt}/>
+                    </StySpaceBtnDel>
                 </div>
             </form>
         </Modal>

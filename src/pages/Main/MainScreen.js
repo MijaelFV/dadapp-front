@@ -1,14 +1,14 @@
 import { faMinus, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar } from '@material-ui/core'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { startLoadingLogs } from '../../actions/log'
 import { openModal } from '../../actions/ui'
 import { ProfileModal } from '../../components/Base/ProfileModal'
 import { MainLogs } from '../../components/Main/MainLogs'
-import { MainModal } from '../../components/Main/MainModal'
+// import { MainModal } from '../../components/Main/MainModal'
 
 export const MainScreen = () => {
     const history = useHistory() 
@@ -16,13 +16,12 @@ export const MainScreen = () => {
 
     const area = useSelector(state => state.area.active);
     const logs = useSelector(state => state.log.logs);
-    // const [skip, setSkip] = useState(0)
 
     useMemo(() => {
         if (logs.length === 0) {
             dispatch(startLoadingLogs(area.uid));
         }
-    }, [dispatch])
+    }, [dispatch, area.uid, logs])
 
     const handleSearchClick = () => {
         history.push("/search")

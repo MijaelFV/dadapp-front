@@ -18,7 +18,7 @@ export const AreaScreen = () => {
             console.log('log')
             dispatch(startLoadingAreas(userId));
         }
-    }, [dispatch, areas])
+    }, [dispatch, areas, userId])
 
     const handleProfileClick = () => {
         dispatch(openModal("ProfileModal"));

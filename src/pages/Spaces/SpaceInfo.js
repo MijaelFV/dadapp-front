@@ -171,7 +171,7 @@ export const SpaceInfo = () => {
                 </div>
             </div>
             <SpaceItemModal spaceId={spaceId} rows={rows} cols={cols}/>
-            <SpaceModifyModal spaceName={space.name} spaceId={spaceId} rows={rows} cols={cols}/>
+            <SpaceModifyModal spaceId={spaceId} space={space}/>
         </div>
     )
 }

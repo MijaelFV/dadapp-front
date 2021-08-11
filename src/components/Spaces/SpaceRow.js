@@ -1,4 +1,4 @@
-import { faArrowsAltH, faArrowsAltV, faBoxes, faCube, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsAltH, faArrowsAltV, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Menu, MenuItem, makeStyles, ListItemIcon, ListItemText} from '@material-ui/core';
 import React, { useState } from 'react'

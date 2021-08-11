@@ -2,9 +2,9 @@
     margin-inline: 0;
     margin-top: 0;
     margin-bottom: 30px;
-    color: #ff9d2c;
+    color: #FF8747;
     padding-bottom: 20px;
-    border-bottom: #ff9d2cbe 2px solid;
+    border-bottom: #FF8747 2px solid;
 }
 
 .categoryAdd {
@@ -34,7 +34,7 @@
         .categories-show {
             display: flex;
             flex-direction: column;
-            height: 112px;
+            height: 95px;
             width: 210px;
             margin-top: 10px;
             box-sizing: border-box;
@@ -46,15 +46,27 @@
             font-weight: 500;
             color: rgb(100, 100, 100);
             overflow-y: auto;
+            padding-block: 2px;
+
+            .noCategories {
+                display: flex;
+                justify-content: center;
+                margin-top: auto;
+                margin-bottom: auto;
+                color: #797979;
+                height: 100%;
+                margin: 0;
+            }
 
             span {
-                border-bottom: rgb(212, 212, 212) 1px solid;
+                background-color: #f5f5f5;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-inline: 13px;
-                margin-top: 8px;
-                padding-bottom: 8px;
+                margin-inline: 7px;
+                margin-block: 2px;
+                border-radius: 2px;
+                padding: 4px;
 
                 .iconButton {
                     cursor: pointer;
@@ -85,5 +97,6 @@
 }
 
 .formSpace-button {
+    display: flex;
     margin-top: 60px;
 }
