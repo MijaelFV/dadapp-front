@@ -1,4 +1,4 @@
-import { Button, withStyles } from "@material-ui/core";
+import { Button, TableRow, withStyles } from "@material-ui/core";
 
 export const StyBtn = withStyles({
     root: {
@@ -12,7 +12,7 @@ export const StyledIconButton = withStyles({
         background: "#FF8747",
         height: "40px",
         minWidth: "40px",
-        borderRadius: "20px",
+        borderRadius: "15px",
         boxShadow: "rgb(240, 240, 240) 0px 0px 0px 0px",
         "&:hover": {
             background: "#FF8747",
@@ -38,3 +38,13 @@ export const StySpaceBtnDel = withStyles({
         color: 'white'
     },
 })(Button);
+
+export const StyTableRow = withStyles({
+    root: {
+        '&.MuiTableRow-root': {
+            '&.Mui-selected, .Mui-selected:hover': {
+                backgroundColor: 'rgba(255, 135, 71, 0.12) !important'
+            },
+        }
+    }
+})(TableRow);

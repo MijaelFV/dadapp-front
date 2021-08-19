@@ -30,9 +30,10 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 export const ProfileModal = () => {
+    const baseUrl = process.env.REACT_APP_API_URL;
     const dispatch = useDispatch();
     
-    const userName = useSelector(state => state.auth.name)
+    const user = useSelector(state => state.auth)
     const activeArea = useSelector(state => state.area.active);
     
     const {modalIsOpen} = useSelector(state => state.ui)
@@ -74,7 +75,7 @@ export const ProfileModal = () => {
             return
         }
     }
-
+    
     return (
         <Modal
             isOpen={ThisModalIsOpen}
@@ -85,7 +86,7 @@ export const ProfileModal = () => {
         >
             <div className="modal-container">
                 <div className="nose">
-                    <Avatar className="avatar" />                    
+                    <Avatar className="avatar" alt={user.name} src={`${baseUrl}api/uploads/users/${user.uid}`} />                    
                     <FontAwesomeIcon 
                         icon={faSignOutAlt} 
                         className="logoutIcon"
@@ -93,7 +94,7 @@ export const ProfileModal = () => {
                     />
                 </div>
                 <div className="userName">
-                    <span>{userName}</span>
+                    <span>{user.name}</span>
                 </div>
                 {
                     ifActiveArea()

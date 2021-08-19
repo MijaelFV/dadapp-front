@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { DataGrid } from '@material-ui/data-grid';
 import { getInventoryBySpace } from '../../actions/inv';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faBox, faCogs, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -12,10 +11,9 @@ import { SpaceItemModal } from '../../components/Spaces/SpaceItemModal';
 import { Button } from '@material-ui/core';
 import { SpaceModifyModal } from '../../components/Spaces/SpaceModifyModal';
 import { getCategoriesBySpace } from '../../actions/category';
+import { SpaceItemsTable } from '../../components/Spaces/SpaceItemsTable';
 
 export const SpaceInfo = () => {
-    console.log('render');
-
     const history = useHistory()
     const dispatch = useDispatch();
 
@@ -57,27 +55,6 @@ export const SpaceInfo = () => {
     const cols = NumToArray(space.columns)
     const rows = NumToArray(space.rows)
 
-    // Son los props requeridos en el DataGrid
-    const dataGridCols = [
-        {
-          field: 'object',
-          headerName: 'Objeto',
-          width: 150,
-        },
-        {
-          field: 'category',
-          headerName: 'Categoria',
-          width: 150,
-        }
-    ];
-
-    const dataGridRows = filteredList.map((object, i) => (
-        {
-            id: i, 
-            object: object.item.name, 
-            category: object.item.category.name
-        }
-    ))
 
     const handleOpenItemModal = () => {
         dispatch(openModal("SpaceItemModal"));
@@ -108,7 +85,7 @@ export const SpaceInfo = () => {
                             handleOpenItemModal()
                             handleFilterByPositionClick(null, null, true)
                         }}
-                        style={{marginRight:"10px"}}
+                        style={{marginRight:"8px"}}
                     >
                         <FontAwesomeIcon 
                             icon={faPlus} 
@@ -158,16 +135,7 @@ export const SpaceInfo = () => {
                     </Button>
                 </div>
                 <div className="dataGrid">
-                    <DataGrid
-                        getRowId={(row) => row.id}
-                        rows={dataGridRows}
-                        columns={dataGridCols}
-                        pageSize={10}
-                        // checkboxSelection
-                        density="comfortable"
-                        disableMultipleSelection
-                        disableSelectionOnClick
-                    />
+                    <SpaceItemsTable objectList={filteredList} />
                 </div>
             </div>
             <SpaceItemModal spaceId={spaceId} rows={rows} cols={cols}/>

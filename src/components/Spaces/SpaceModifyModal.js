@@ -33,7 +33,6 @@ Modal.setAppElement('#root');
 export const SpaceModifyModal = ({spaceId, space}) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const {area} = useSelector(state => state.area.active.uid);
     const {categories} = useSelector(state => state.inv);
     
     const {modalIsOpen} = useSelector(state => state.ui)
@@ -55,7 +54,7 @@ export const SpaceModifyModal = ({spaceId, space}) => {
     });
 
     const onSubmit = (data) => {
-        dispatch(startModifySpace(area, spaceId, data.name, data.rows, data.columns));
+        dispatch(startModifySpace(spaceId, data.name, data.rows, data.columns));
         dispatch(closeModal());
         reset({name: data.name, rows: data.rows, columns: data.columns});
     }

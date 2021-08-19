@@ -5,8 +5,9 @@ import { faArrowsAltH, faArrowsAltV } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar } from '@material-ui/core'
 
-export const MainLogs = ({log}) => {
 
+export const MainLogs = ({log}) => {
+    const baseUrl = process.env.REACT_APP_API_URL;
     const time = moment(log.time).locale("es").format('DD/MM/YY HH:mm')
 
     const ColRowInfo = () => {
@@ -34,7 +35,7 @@ export const MainLogs = ({log}) => {
 
     return (
         <div className="log">
-            <Avatar/>
+            <Avatar alt={log.user.name} src={`${baseUrl}api/uploads/users/${log.user._id}`} />
             <div className="log-col1">
                 <span className="col-name">{log.user.name}</span>
                 <span className="col-time">{time}</span>

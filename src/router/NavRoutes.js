@@ -10,6 +10,7 @@ import { AreaScreen } from "../pages/Area/AreaScreen";
 import { MainScreen } from "../pages/Main/MainScreen";
 import { SearchScreen } from "../pages/Search/SearchScreen";
 import { SpaceInfo } from "../pages/Spaces/SpaceInfo";
+import { SpaceItemInfo } from "../pages/Spaces/SpaceItemInfo";
 import { SpaceScreen } from "../pages/Spaces/SpaceScreen";
 
 export const NavRoutes = () => {
@@ -25,6 +26,7 @@ export const NavRoutes = () => {
             ]
         } else {
             return <Route exact path="/" component={AreaScreen}/>
+            // return <Route exact path="/" component={SpaceItemInfo}/>
         }
     }
 

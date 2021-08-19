@@ -1,0 +1,118 @@
+.spaceInfo-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    .spaceInfo-column {
+        width: 95vw;
+        max-width: 500px;
+        // overflow-x: hidden;
+        overflow-y: visible;
+
+        .topBar {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .spaceName {
+            margin: auto;
+            color: rgb(97, 97, 97);
+            width: fit-content;
+            margin-bottom: 10px;
+        }
+    
+        .matrix-container {
+                display: flex;
+                flex-direction: column;
+                border-radius: 10px;
+                box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px, rgba(145, 158, 171, 0.24) 0px 16px 32px -4px;
+                background-color: #fffaf7;
+                margin: auto;
+                overflow: hidden;
+                width: fit-content;                
+    
+            .matrix {
+                display: flex;
+                margin: 10px;
+                flex-direction: column;
+                max-height: 300px;
+                max-width: 380px;
+                border-radius: 5px;
+                overflow: auto;
+        
+                .matrix-row {
+                    display: flex;
+                }
+        
+                .matrix-col {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    min-width: 50px;
+                    min-height: 50px;
+                    padding: 4px;
+                    margin: 3px;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 21px;
+                    background-color: #a86541;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color .2s ease;
+                    -webkit-tap-highlight-color: transparent;
+                    position: relative;
+                    
+                    .matrix-position {
+                        transition: color .2s ease;
+                        position: absolute;
+                        color: rgb(226, 171, 135);
+                    }
+        
+                    .matrix-icon {
+                        color: #995733;
+                        font-size: 45px;
+                        transition: color .2s ease;
+                    }
+        
+                    &:hover {
+                        background-color: #ffbd99;
+        
+                        .matrix-position {
+                            position: absolute;
+                            color: white;
+                        }
+
+                        .matrix-icon {
+                            color: #FF8747
+                        }
+                    }
+                }
+                
+                .matrix-col-active {
+                    background-color: #ffbd99;
+
+                    .matrix-position {
+                        position: absolute;
+                        color: white;
+                    }
+        
+                    .matrix-icon {
+                        color: #FF8747
+                    }
+                }
+            }
+        }
+    
+        .dataGrid {
+            border-radius: 10px;
+            box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px, rgba(145, 158, 171, 0.24) 0px 16px 32px -4px;
+            margin-top: 25px;
+            margin-bottom: 95px;
+            overflow-x: hidden;
+        }
+    }
+}

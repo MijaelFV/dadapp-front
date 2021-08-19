@@ -11,10 +11,12 @@ import { MainLogs } from '../../components/Main/MainLogs'
 // import { MainModal } from '../../components/Main/MainModal'
 
 export const MainScreen = () => {
+    const baseUrl = process.env.REACT_APP_API_URL;
     const history = useHistory() 
     const dispatch = useDispatch();
 
     const area = useSelector(state => state.area.active);
+    const user = useSelector(state => state.auth)
     const logs = useSelector(state => state.log.logs);
 
     useMemo(() => {
@@ -68,7 +70,7 @@ export const MainScreen = () => {
                         className="topBar-icon"
                     />
                 </div>
-                <Avatar onClick={handleProfileClick} className="p"/>
+                <Avatar onClick={handleProfileClick} className="p" alt={user.name} src={`${baseUrl}api/uploads/users/${user.uid}`}/>
             </div>
             <div className="area">
                 <h3 className="area-label">

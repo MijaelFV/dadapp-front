@@ -2,10 +2,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    background: rgb(255, 156, 90);
-    background: linear-gradient(30deg, rgb(255, 134, 54) 0%, rgb(255, 143, 68) 50%, rgb(255, 145, 71) 100%);
 
     .area-column {
         display: flex;
@@ -14,14 +12,17 @@
         justify-content: center;
         width: 95vw;
         max-width: 500px;
-        height: 100%;
+        border-radius: 24px;
+        box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px, rgba(145, 158, 171, 0.24) 0px 16px 32px -4px;
+        // height: 100%;
 
         .areaList-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow:inset 0px 0px 0px 5px #cfcfcf;
+            // box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px, rgba(145, 158, 171, 0.24) 0px 16px 32px -4px;
+            box-shadow:inset 0px 0px 0px 2px #f0f0f0;
             border-start-start-radius: 24px;
             border-start-end-radius: 24px;
             border-end-start-radius: 11px;
@@ -44,13 +45,14 @@
             }
 
             .hint {
-                margin-block: 10px;
+                margin-bottom: 10px;
                 font-weight: 600;
                 font-size: 18px;
-                color: #4E4E4E;
+                color: #6b6b6b;
             }
 
             .areaList {
+                box-shadow: 0px 0px 0px 2px #f0f0f0;
                 width: 90%;
                 overflow-x: hidden;
                 overflow-y: auto;
@@ -64,7 +66,7 @@
 
         .buttons-container {
             display: flex;
-            box-shadow:inset 0px 0px 0px 5px #cfcfcf;   
+            // box-shadow:inset 0px 0px 0px 5px #cfcfcf;   
             flex-direction: column;
             align-items: center;
             width: 100%;
@@ -85,14 +87,14 @@
                 width: 85%;
                 padding: 15px;
                 margin-top: 30px;
-                background-color: #422603;
+                background-color: #FF8747;
                 color: white;
                 -webkit-tap-highlight-color: transparent;
             }
 
             .button2 {
                 width: 85%;
-                box-shadow:inset 0px 0px 0px 2px #422603;
+                box-shadow:inset 0px 0px 0px 2px #FF8747;
                 box-sizing: content-box;
                 cursor: pointer;
                 border-radius: 10px;
@@ -101,7 +103,7 @@
                 padding: 15px;
                 margin-top: 10px;
                 margin-bottom: 30px;
-                color: #422603;
+                color: #FF8747;
                 -webkit-tap-highlight-color: transparent;
             }
         }

@@ -4,6 +4,7 @@
 
 // Components
 @import './components/spaceItemModal.scss';
+@import './components/spaceItemsTable.scss';
 @import './components/profileModal.scss';
 @import './components/spaceModifyModal.scss';
 @import './components/spaceRow.scss';
@@ -14,5 +15,7 @@
 @import './pages/auth.scss';
 @import './pages/main.scss';
 @import './pages/space.scss';
+@import './pages/spaceInfo.scss';
+@import './pages/spaceItemInfo.scss';
 @import './pages/search.scss';
 @import './pages/area.scss';

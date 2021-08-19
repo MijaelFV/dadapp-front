@@ -7,18 +7,18 @@ import { AreaRow } from '../../components/Area/AreaRow';
 import { ProfileModal } from '../../components/Base/ProfileModal';
 
 export const AreaScreen = () => {
-
+    const baseUrl = process.env.REACT_APP_API_URL;
     const dispatch = useDispatch();
-    const userId = useSelector(state => state.auth.uid);
+    const user = useSelector(state => state.auth);
     const areas = useSelector(state => state.area.areas);
 
 
     useMemo(() => {
         if (areas.length === 0) {
             console.log('log')
-            dispatch(startLoadingAreas(userId));
+            dispatch(startLoadingAreas(user.uid));
         }
-    }, [dispatch, areas, userId])
+    }, [dispatch, areas, user])
 
     const handleProfileClick = () => {
         dispatch(openModal("ProfileModal"));
@@ -37,7 +37,7 @@ export const AreaScreen = () => {
             <div className="area-column">
                 <div className="areaList-container">
                     <div className="avatarContainer">
-                        <Avatar onClick={handleProfileClick} className="p" />
+                    <Avatar onClick={handleProfileClick} className="p" alt={user.name} src={`${baseUrl}api/uploads/users/${user.uid}`}/>
                     </div>
                     <span className="hint">Selecciona un área para trabajar</span>
                     <div className="areaList">

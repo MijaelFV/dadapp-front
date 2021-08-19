@@ -52,11 +52,12 @@ export const startCreateSpace = (name, rows, columns, area) => {
     }
 }
 
-export const startModifySpace = (area, spaceId, name, rows, columns) => {
+export const startModifySpace = (spaceId, name, rows, columns) => {
     return async(dispatch) => {
         const resp = await fetch(`api/spaces/${spaceId}`, {name, rows, columns}, 'PUT');
+        console.log(resp);
         if (resp.status === 200) {
-            dispatch(startLoadingSpaces(area))
+            dispatch(startLoadingSpaces(resp.data.updatedSpace.area))
         } else {
             console.log(resp.data)
         }
