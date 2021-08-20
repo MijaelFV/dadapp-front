@@ -21,7 +21,7 @@ export const clearInventory = () => ({
 
 export const getInventoryBySpace = (spaceId) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/inventories/${spaceId}`);
+        const resp = await fetch(`api/inventory/${spaceId}`);
         if (resp.status === 200) {
             dispatch(loadInventory(resp.data.inventory))
         } else {
@@ -32,7 +32,7 @@ export const getInventoryBySpace = (spaceId) => {
 
 export const createInventory = (item, row, column, space, area) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/inventories`, {item, row, column, space, area}, 'POST');
+        const resp = await fetch(`api/inventory`, {item, row, column, space, area}, 'POST');
         if (resp.status === 201) {
             dispatch(getInventoryBySpace(space));
         } else {
@@ -43,7 +43,7 @@ export const createInventory = (item, row, column, space, area) => {
 
 export const startCreateObject = (name, description, category, row, column, space, area) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/items`, {name, description, category }, 'POST');
+        const resp = await fetch(`api/item`, {name, description, category }, 'POST');
         if (resp.status === 201) {
             const {uid: item} = resp.data.newItem
             dispatch(createInventory(item, row, column, space, area))

@@ -86,7 +86,7 @@ export const ProfileModal = () => {
         >
             <div className="modal-container">
                 <div className="nose">
-                    <Avatar className="avatar" alt={user.name} src={`${baseUrl}api/uploads/users/${user.uid}`} />                    
+                    <Avatar className="avatar" alt={user.name} src={`${baseUrl}api/upload/users/${user.uid}`} />                    
                     <FontAwesomeIcon 
                         icon={faSignOutAlt} 
                         className="logoutIcon"

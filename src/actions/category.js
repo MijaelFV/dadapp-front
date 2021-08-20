@@ -8,7 +8,7 @@ export const loadCategories = (categories) => ({
 
 export const getCategoriesBySpace = (spaceId) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/categories/${spaceId}`);
+        const resp = await fetch(`api/category/${spaceId}`);
         if (resp.status === 200) {
             dispatch(loadCategories(resp.data.resp))
         } else {
@@ -19,7 +19,7 @@ export const getCategoriesBySpace = (spaceId) => {
 
 export const createCategory = (spaceId, name) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/categories/${spaceId}`, {name}, 'POST');
+        const resp = await fetch(`api/category/${spaceId}`, {name}, 'POST');
         if (resp.status === 201) {
             dispatch(getCategoriesBySpace(spaceId))
         } else {
@@ -30,7 +30,7 @@ export const createCategory = (spaceId, name) => {
 
 export const deleteCategory = (spaceId, categoryUid) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/categories/${categoryUid}`, null, 'DELETE');
+        const resp = await fetch(`api/category/${categoryUid}`, null, 'DELETE');
         if (resp.status === 200) {
             dispatch(getCategoriesBySpace(spaceId))
         } else {

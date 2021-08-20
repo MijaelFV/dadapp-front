@@ -70,7 +70,7 @@ export const MainScreen = () => {
                         className="topBar-icon"
                     />
                 </div>
-                <Avatar onClick={handleProfileClick} className="p" alt={user.name} src={`${baseUrl}api/uploads/users/${user.uid}`}/>
+                <Avatar onClick={handleProfileClick} className="p" alt={user.name} src={`${baseUrl}api/upload/users/${user.uid}`}/>
             </div>
             <div className="area">
                 <h3 className="area-label">

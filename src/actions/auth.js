@@ -41,7 +41,7 @@ export const startLogin = (email, password) => {
 
 export const startRegister = (name, email, password) => {
     return async(dispatch) => {
-        const resp = await fetch('api/users', {name, email, password}, 'POST');
+        const resp = await fetch('api/user', {name, email, password}, 'POST');
         if (resp.status === 201) {
             localStorage.setItem('token', resp.data.createdUser.token);
             localStorage.setItem('token-init-date', new Date().getTime());

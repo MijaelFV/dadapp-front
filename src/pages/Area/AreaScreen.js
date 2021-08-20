@@ -37,7 +37,7 @@ export const AreaScreen = () => {
             <div className="area-column">
                 <div className="areaList-container">
                     <div className="avatarContainer">
-                    <Avatar onClick={handleProfileClick} className="p" alt={user.name} src={`${baseUrl}api/uploads/users/${user.uid}`}/>
+                    <Avatar onClick={handleProfileClick} className="p" alt={user.name} src={`${baseUrl}api/upload/users/${user.uid}`}/>
                     </div>
                     <span className="hint">Selecciona un área para trabajar</span>
                     <div className="areaList">

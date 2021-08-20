@@ -31,7 +31,7 @@ export const startClearArea = () => {
 
 export const startLoadingAreas = (userId) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/areas/${userId}`);
+        const resp = await fetch(`api/area/${userId}`);
         if (resp.status === 200) {
             dispatch(loadAreas(resp.data.resp))
         } else {

@@ -35,7 +35,7 @@ export const MainLogs = ({log}) => {
 
     return (
         <div className="log">
-            <Avatar alt={log.user.name} src={`${baseUrl}api/uploads/users/${log.user._id}`} />
+            <Avatar alt={log.user.name} src={`${baseUrl}api/upload/users/${log.user._id}`} />
             <div className="log-col1">
                 <span className="col-name">{log.user.name}</span>
                 <span className="col-time">{time}</span>

@@ -12,7 +12,7 @@ export const clearLogs = () => ({
 
 export const startLoadingLogs = (areaId) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/inventories/logs/${areaId}`);
+        const resp = await fetch(`api/inventory/logs/${areaId}`);
         if (resp.status === 200) {
             dispatch(loadLogs(resp.data.resp))
         } else {
