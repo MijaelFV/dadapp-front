@@ -1,10 +1,10 @@
 import { Avatar } from '@material-ui/core'
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { startLoadingAreas } from '../../actions/area';
-import { openModal } from '../../actions/ui';
-import { AreaRow } from '../../components/Area/AreaRow';
-import { ProfileModal } from '../../components/Base/ProfileModal';
+import { startLoadingAreas } from '../../redux/actions/area';
+import { openModal } from '../../redux/actions/ui';
+import { AreaRow } from './components/AreaRow';
+import { ProfileModal } from '../../components/ProfileModal';
 
 export const AreaScreen = () => {
     const baseUrl = process.env.REACT_APP_API_URL;

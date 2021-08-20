@@ -4,9 +4,9 @@ import {
   BrowserRouter as Router,
   Switch
 } from "react-router-dom";
-import { startChecking } from "../actions/auth";
-import { LoginScreen } from "../pages/Auth/LoginScreen";
-import { RegisterScreen } from "../pages/Auth/RegisterScreen";
+import { startChecking } from "../redux/actions/auth";
+import { LoginScreen } from "../pages/Login/LoginScreen";
+import { RegisterScreen } from "../pages/Register/RegisterScreen";
 import { NavRoutes } from "./NavRoutes";
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";

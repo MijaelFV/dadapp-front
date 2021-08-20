@@ -4,11 +4,10 @@ import { Avatar } from '@material-ui/core'
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { startLoadingLogs } from '../../actions/log'
-import { openModal } from '../../actions/ui'
-import { ProfileModal } from '../../components/Base/ProfileModal'
-import { MainLogs } from '../../components/Main/MainLogs'
-// import { MainModal } from '../../components/Main/MainModal'
+import { startLoadingLogs } from '../../redux/actions/log'
+import { openModal } from '../../redux/actions/ui'
+import { ProfileModal } from '../../components/ProfileModal'
+import { Logs } from './components/Logs'
 
 export const MainScreen = () => {
     const baseUrl = process.env.REACT_APP_API_URL;
@@ -123,11 +122,10 @@ export const MainScreen = () => {
             <div className="log-container">
                 {noLogsAdvise()}
                 {logs.map((log) => (
-                    <MainLogs key={log.uid} log={log} />
+                    <Logs key={log.uid} log={log} />
                 ))}
             </div>
             <ProfileModal />
-            {/* <MainModal /> */}
         </div>
     )
 }
