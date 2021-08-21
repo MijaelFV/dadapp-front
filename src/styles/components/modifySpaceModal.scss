@@ -1,31 +1,29 @@
-.formSpace-title {
-    margin-inline: 0;
-    margin-top: 0;
-    margin-bottom: 30px;
-    color: #FF8747;
-    padding-bottom: 20px;
-    border-bottom: #FF8747 2px solid;
-}
-
-.categoryAdd {
-    display: flex;
-    align-items: center;
-    color: grey;
-    cursor: pointer;
-    height: 56px;
-    padding-inline: 4px;
-    margin-right: -8px;
-    font-size: 18px;
-    -webkit-tap-highlight-color: transparent;
-
-    :hover {
-        color: #ff9d2c;
+.modifySpaceModal-container {
+    .categoryAdd {
+        display: flex;
+        align-items: center;
+        color: grey;
+        cursor: pointer;
+        height: 56px;
+        padding-inline: 4px;
+        margin-right: -8px;
+        font-size: 18px;
+        -webkit-tap-highlight-color: transparent;
+    
+        :hover {
+            color: #ff9d2c;
+        }
     }
-}
 
-.options-row {
-    display: flex;
-    margin-top: 20px;
+    .options-row {
+        display: flex;
+    }
+
+    .vertical-selects {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+    }
 
     .categories {
         display: flex;
@@ -79,24 +77,4 @@
             }
         }
     }
-
-    .formSpace-selects {
-        display: flex;
-        flex-direction: column;
-        margin-left: 10px;
-
-        .selects-rows {
-            width: 120px;
-        }
-
-        .selects-cols {
-            margin-top: 10px;
-            width: 120px;
-        }
-    }
-}
-
-.formSpace-button {
-    display: flex;
-    margin-top: 60px;
 }

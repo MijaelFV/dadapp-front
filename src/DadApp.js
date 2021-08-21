@@ -12,6 +12,9 @@ export const DadApp = () => {
                 primary: {
                     main: '#FF8747'
                 },
+                secondary: {
+                    main: '#808080'
+                }
             },
         }, 
         esES

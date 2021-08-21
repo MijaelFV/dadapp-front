@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faCogs } from '@fortawesome/free-solid-svg-icons';
-import { StyledIconButton } from '../../styles/components/materialUi/styledComponents';
 import { openModal } from '../../redux/actions/ui';
 import { startLoadingLogs } from '../../redux/actions/log'
 import { LogsTable } from './components/LogsTable';
 import { ModifyItemModal } from './components/ModifyItemModal';
+import { IconButton } from '@material-ui/core';
 
 export const SpaceItemInfo = () => {
     const dispatch = useDispatch();
@@ -33,27 +33,27 @@ export const SpaceItemInfo = () => {
         <div className="spaceItemInfo-container">
             <div className="spaceItemInfo-column">
                 <div className="topBar">
-                    <StyledIconButton
+                    <IconButton
                         style={{marginRight:"auto"}}
                     >
                         <FontAwesomeIcon 
                             icon={faArrowLeft} 
                         />
-                    </StyledIconButton>
-                    {/* <StyledIconButton
+                    </IconButton>
+                    {/* <IconButton
                         style={{marginRight:"8px"}}
                     >
                         <FontAwesomeIcon 
                             icon={faPlus} 
                         />
-                    </StyledIconButton> */}
-                    <StyledIconButton
+                    </IconButton> */}
+                    <IconButton
                         onClick={handleOpenModifyModal}
                     >
                         <FontAwesomeIcon 
                             icon={faCogs} 
                         />
-                    </StyledIconButton>
+                    </IconButton>
                 </div>
                 <div className="info-container">
                     <div className="itemImage">

@@ -1,36 +1,28 @@
-import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 import React, { useMemo } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
+import { NumToArray } from '../../../helpers/numToArray';
+import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { StyBtn, StySpaceBtnDel } from '../../../styles/components/materialUi/styledComponents';
 
-const customStyles = {
-    content: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        boxShadow: "rgb(230, 230, 230) 0px 0px 20px 0px",
-        border: "none",
-        borderRadius: "10px"
-    },
-};
+
 Modal.setAppElement('#root');
-
 export const ModifyItemModal = ({item}) => {
     const dispatch = useDispatch();
     const {categories} = useSelector(state => state.inv);
     
+    const {spaceId} = useParams();
+    const spaces = useSelector(state => state.space.spaces);
+    const space = spaces.find(space => space.uid === spaceId)
+    
+    // Convierte x numero en un array
+    const cols = NumToArray(space.columns)
+    const rows = NumToArray(space.rows)
+
     const {modalIsOpen} = useSelector(state => state.ui)
     const id = "ModifyItemModal"
     const ThisModalIsOpen = useMemo(() => {
@@ -73,47 +65,49 @@ export const ModifyItemModal = ({item}) => {
         <Modal
             isOpen={ThisModalIsOpen}
             onRequestClose={handleCloseModal}
-            style={customStyles}
             closeTimeoutMS={200}
-            overlayClassName="modal"
+            className="modal"
+            overlayClassName="modal-background"
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form className="createItemModal-container" onSubmit={handleSubmit(onSubmit)}>
                 <Controller 
                     name="name"
                     control={control}
                     render={({ field }) => 
-                    <TextField
-                        {...field}
+                    <TextField 
+                        {...field} 
                         fullWidth
-                        type="text"
+                        label="Nombre de objeto"
                         variant="outlined"
-                        label="Nombre del objeto"
+                        type="text"
+                        className="form-textField"
                     />}
                 />
                 <Controller 
-                        name="description"
-                        control={control}
-                        render={({ field }) => 
-                        <TextField 
-                            {...field} 
-                            fullWidth
-                            multiline
-                            rows={2}
-                            maxRows={4}
-                            variant="outlined"
-                            label="Descripcion"
-                        />}
-
-                    />
-                <div>
+                    name="description"
+                    control={control}
+                    render={({ field }) => 
+                    <TextField 
+                        {...field} 
+                        fullWidth
+                        multiline
+                        rows={2}
+                        maxRows={4}
+                        label="Descripcion"
+                        variant="outlined"
+                        className="form-textField"
+                    />}
+                />
+                <div className="form-selects">
                     <FormControl
-                        // className="selects-rows" 
+                        className="select"
                         variant="outlined"
                     >
                         <InputLabel htmlFor="category-select">Categoria</InputLabel>
                         <Controller 
                             name="category"
                             control={control}
+                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
@@ -133,84 +127,77 @@ export const ModifyItemModal = ({item}) => {
                         />
                     </FormControl>
                     <FormControl
-                        // className="selects-rows" 
+                        className="select" 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="row-select">Fila</InputLabel>
                         <Controller 
                             name="row"
                             control={control}
-                            render={({ field }) => 
-                            <Select
-                                {...field} 
-                                native
-                                label="row"
-                                inputProps={{
-                                    name: "row",
-                                    id: "row-select"
-                                }}
-                            >
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                                <option value={6}>6</option>
-                                <option value={7}>7</option>
-                                <option value={8}>8</option>
-                                <option value={9}>9</option>
-                                <option value={10}>10</option>
-                            </Select>}
+                            defaultValue=""
+                            render={({field}) => 
+                                <Select
+                                    {...field} 
+                                    native
+                                    label="row"
+                                    inputProps={{
+                                        name: "row",
+                                        id: "row-select"
+                                    }}
+                                >
+                                    <option aria-label="None" value="" />
+                                    {rows.map((row) => (
+                                        <option key={row} value={row}>{row}</option>
+                                    ))}
+                                </Select>
+                            }
                         />
                     </FormControl>
                     <FormControl
-                        // className="selects-cols" 
+                        className="select" 
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="columns-select">Columna</InputLabel>
+                        <InputLabel htmlFor="column-select">Columna</InputLabel>
                         <Controller 
                             name="column"
                             control={control}
-                            render={({ field }) => 
-                            <Select
-                                {...field} 
-                                native
-                                label="column"
-                                inputProps={{
-                                    name: "column",
-                                    id: "column-select"
-                                }}
-                            >
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                                <option value={6}>6</option>
-                                <option value={7}>7</option>
-                                <option value={8}>8</option>
-                                <option value={9}>9</option>
-                                <option value={10}>10</option>
-                            </Select>}
+                            defaultValue=""
+                            render={({field}) => 
+                                <Select
+                                    {...field} 
+                                    native
+                                    label="column"
+                                    inputProps={{
+                                        name: "column",
+                                        id: "column-select"
+                                    }}
+                                >
+                                    <option aria-label="None" value="" />
+                                    {cols.map((row) => (
+                                        <option key={row} value={row}>{row}</option>
+                                    ))}
+                                </Select>
+                            }
                         />
                     </FormControl>
                 </div>
-                <div className="formSpace-button">
-                    <StyBtn
+                <div className="form-button">
+                    <Button
                         fullWidth
                         style={{marginRight:"2px"}}
-                        color="primary"
                         variant="contained"
+                        color="primary"
                         type="submit"
                     >
-                        Modificar
-                    </StyBtn>
-                    <StySpaceBtnDel
+                        Crear
+                    </Button>
+                    <Button
                         variant="contained"
+                        color="secondary"
                         onClick={handleDeleteObject}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
-                    </StySpaceBtnDel>
+                    </Button>
                 </div>
             </form>
         </Modal>

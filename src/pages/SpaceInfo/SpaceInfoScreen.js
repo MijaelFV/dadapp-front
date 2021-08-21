@@ -5,10 +5,9 @@ import { getInventoryBySpace } from '../../redux/actions/inv';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faBox, faCogs, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NumToArray } from '../../helpers/numToArray';
-import { StyledIconButton } from '../../styles/components/materialUi/styledComponents';
 import { openModal } from '../../redux/actions/ui';
 import { CreateItemModal } from './components/CreateItemModal';
-import { Button } from '@material-ui/core';
+import { Button, IconButton } from '@material-ui/core';
 import { ModifySpaceModal } from './components/ModifySpaceModal';
 import { getCategoriesBySpace } from '../../redux/actions/category';
 import { ItemsTable } from './components/ItemsTable';
@@ -20,6 +19,10 @@ export const SpaceInfo = () => {
     const {spaceId} = useParams();
     const spaces = useSelector(state => state.space.spaces);
     const space = spaces.find(space => space.uid === spaceId)
+
+    // Convierte x numero en un array
+    const cols = NumToArray(space.columns)
+    const rows = NumToArray(space.rows)
     
     useMemo(() => {
         dispatch(getCategoriesBySpace(spaceId));
@@ -51,11 +54,6 @@ export const SpaceInfo = () => {
         col: null
     });
 
-    // Convierte x numero en un array
-    const cols = NumToArray(space.columns)
-    const rows = NumToArray(space.rows)
-
-
     const handleOpenItemModal = () => {
         dispatch(openModal("CreateItemModal"));
     }
@@ -72,15 +70,15 @@ export const SpaceInfo = () => {
         <div className="spaceInfo-container">
             <div className="spaceInfo-column">
                 <div className="topBar">
-                    <StyledIconButton
+                    <IconButton
                         onClick={handleReturnClick}
                         style={{marginRight:"auto"}}
                     >
                         <FontAwesomeIcon 
                             icon={faArrowLeft} 
                         />
-                    </StyledIconButton>
-                    <StyledIconButton
+                    </IconButton>
+                    <IconButton
                         onClick={() => {
                             handleOpenItemModal()
                             handleFilterByPositionClick(null, null, true)
@@ -90,8 +88,8 @@ export const SpaceInfo = () => {
                         <FontAwesomeIcon 
                             icon={faPlus} 
                         />
-                    </StyledIconButton>
-                    <StyledIconButton
+                    </IconButton>
+                    <IconButton
                         onClick={() => {
                             handleOpenModifyModal()
                             handleFilterByPositionClick(null, null, true)
@@ -100,7 +98,7 @@ export const SpaceInfo = () => {
                         <FontAwesomeIcon 
                             icon={faCogs} 
                         />
-                    </StyledIconButton>
+                    </IconButton>
                 </div>
                 <h1 className="spaceName">
                     {space.name}

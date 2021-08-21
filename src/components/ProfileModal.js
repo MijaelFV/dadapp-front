@@ -8,27 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ShowAvatar } from './ShowAvatar';
 
-const customStyles = {
-    content: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "240px",
-        // height: "300px",
-        top: '30%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        boxShadow: "rgb(230, 230, 230) 0px 0px 5px 0px",
-        border: "none",
-        borderRadius: "10px"
-    },
-};
 Modal.setAppElement('#root');
-
 export const ProfileModal = () => {
     const dispatch = useDispatch();
     
@@ -79,20 +59,20 @@ export const ProfileModal = () => {
         <Modal
             isOpen={ThisModalIsOpen}
             onRequestClose={handleCloseModal}
-            style={customStyles}
             closeTimeoutMS={200}
-            overlayClassName="modal"
+            className="modal"
+            overlayClassName="modal-background"
         >
-            <div className="modal-container">
+            <div className="profileModal-container">
                 <div className="nose">
-                <ShowAvatar avatarClass={"avatar"} username={user.name} userId={user.uid} />
+                    <ShowAvatar avatarClass={"avatar"} username={user.name} userId={user.uid} />
                     <FontAwesomeIcon 
                         icon={faSignOutAlt} 
                         className="logoutIcon"
                         onClick={handleLogOutClick}
                     />
                 </div>
-                <div className="userName">
+                <div className="username">
                     <span>{user.name}</span>
                 </div>
                 {

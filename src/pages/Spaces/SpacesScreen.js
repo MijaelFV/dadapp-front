@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { clearInventory } from '../../redux/actions/inv';
@@ -5,7 +6,6 @@ import { startLoadingSpaces } from '../../redux/actions/space';
 import { openModal } from '../../redux/actions/ui';
 import { SpaceCreateModal } from './components/SpaceCreateModal';
 import { SpaceRow } from './components/SpaceRow';
-import { StyBtn } from '../../styles/components/materialUi/styledComponents';
 
 export const SpaceScreen = () => {
     const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export const SpaceScreen = () => {
             <div className="space-column">
                 <div className="rowContainer">
                     <div className="rowContainer-options">
-                        <StyBtn
+                        <Button
                             fullWidth
                             onClick={handleOpenModal}
                             color="primary"
@@ -34,7 +34,7 @@ export const SpaceScreen = () => {
                             type="submit"
                         >
                             Crear Espacio
-                        </StyBtn>
+                        </Button>
                     </div>
                     {spaces.map((space) => (
                         <SpaceRow key={space.uid} {...space}/>

@@ -1,4 +1,4 @@
-import { FormControl, InputAdornment, InputLabel, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, InputAdornment, InputLabel, Select, TextField } from '@material-ui/core';
 import React, { useMemo } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,38 +7,19 @@ import { Controller, useForm } from "react-hook-form";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { createCategory, deleteCategory } from '../../../redux/actions/category';
-import { StyBtn, StySpaceBtnDel } from '../../../styles/components/materialUi/styledComponents';
 import { startDeleteSpace, startModifySpace } from '../../../redux/actions/space';
 import { useHistory } from 'react-router-dom';
+import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 
-const customStyles = {
-    content: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        boxShadow: "rgb(230, 230, 230) 0px 0px 20px 0px",
-        border: "none",
-        borderRadius: "10px"
-    },
-};
 Modal.setAppElement('#root');
-
 export const ModifySpaceModal = ({space}) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const {categories} = useSelector(state => state.inv);
     
     const {modalIsOpen} = useSelector(state => state.ui)
-    const id = "ModifySpaceModal"
     const ThisModalIsOpen = useMemo(() => {
-        if (modalIsOpen === id) {
+        if (modalIsOpen === "ModifySpaceModal") {
             return true;
         } else {
             return false;
@@ -52,6 +33,11 @@ export const ModifySpaceModal = ({space}) => {
             columns: space.columns
         }
     });
+
+    const handleCloseModal = () => {
+        dispatch(closeModal());
+        reset();
+    }  
 
     const onSubmit = (data) => {
         dispatch(startModifySpace(space.uid, data.name, data.rows, data.columns));
@@ -73,11 +59,6 @@ export const ModifySpaceModal = ({space}) => {
     const handleDeleteCategory = (categoryUid) => {
         dispatch(deleteCategory(space.uid, categoryUid))
     }
-    
-    const handleCloseModal = () => {
-        dispatch(closeModal());
-        reset();
-    }  
 
     const showCategories = () => {
         if (categories.length > 0) {
@@ -102,14 +83,11 @@ export const ModifySpaceModal = ({space}) => {
         <Modal
             isOpen={ThisModalIsOpen}
             onRequestClose={handleCloseModal}
-            style={customStyles}
             closeTimeoutMS={200}
-            overlayClassName="modal"
+            className="modal"
+            overlayClassName="modal-background"
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <h2 className="formSpace-title">
-                    Editar Espacio
-                </h2>
+            <form className="modifySpaceModal-container" onSubmit={handleSubmit(onSubmit)}>
                 <Controller 
                     name="name"
                     control={control}
@@ -120,6 +98,7 @@ export const ModifySpaceModal = ({space}) => {
                         type="text"
                         variant="outlined"
                         label="Nombre del espacio"
+                        className="form-textField"
                     />}
                 />
                 <div className="options-row">
@@ -151,9 +130,9 @@ export const ModifySpaceModal = ({space}) => {
                             {showCategories()}
                         </div>
                     </div>
-                    <div className="formSpace-selects">
+                    <div className="vertical-selects">
                         <FormControl
-                            className="selects-rows" 
+                            className="select" 
                             variant="outlined"
                         >
                             <InputLabel htmlFor="rows-select">Filas</InputLabel>
@@ -170,21 +149,12 @@ export const ModifySpaceModal = ({space}) => {
                                         id: "rows-select"
                                     }}
                                 >
-                                    <option value={1}>1</option>
-                                    <option value={2}>2</option>
-                                    <option value={3}>3</option>
-                                    <option value={4}>4</option>
-                                    <option value={5}>5</option>
-                                    <option value={6}>6</option>
-                                    <option value={7}>7</option>
-                                    <option value={8}>8</option>
-                                    <option value={9}>9</option>
-                                    <option value={10}>10</option>
+                                    {showOptionsColRow()}
                                 </Select>}
                             />
                         </FormControl>
                         <FormControl
-                            className="selects-cols" 
+                            className="select-mt10" 
                             variant="outlined"
                         >
                             <InputLabel htmlFor="columns-select">Columnas</InputLabel>
@@ -201,23 +171,14 @@ export const ModifySpaceModal = ({space}) => {
                                         id: "columns-select"
                                     }}
                                 >
-                                    <option value={1}>1</option>
-                                    <option value={2}>2</option>
-                                    <option value={3}>3</option>
-                                    <option value={4}>4</option>
-                                    <option value={5}>5</option>
-                                    <option value={6}>6</option>
-                                    <option value={7}>7</option>
-                                    <option value={8}>8</option>
-                                    <option value={9}>9</option>
-                                    <option value={10}>10</option>
+                                    {showOptionsColRow()}
                                 </Select>}
                             />
                         </FormControl>
                     </div>
                 </div>
-                <div className="formSpace-button">
-                    <StyBtn
+                <div className="form-button">
+                    <Button
                         fullWidth
                         style={{marginRight:"2px"}}
                         color="primary"
@@ -225,13 +186,14 @@ export const ModifySpaceModal = ({space}) => {
                         type="submit"
                     >
                         Modificar
-                    </StyBtn>
-                    <StySpaceBtnDel
+                    </Button>
+                    <Button
                         variant="contained"
+                        color="secondary"
                         onClick={handleDeleteSpace}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
-                    </StySpaceBtnDel>
+                    </Button>
                 </div>
             </form>
         </Modal>
