@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../redux/actions/ui';
@@ -7,6 +7,7 @@ import { startClearArea } from '../redux/actions/area';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ShowAvatar } from './ShowAvatar';
+import { useModalIsOpen } from '../hooks/useModalIsOpen';
 
 Modal.setAppElement('#root');
 export const ProfileModal = () => {
@@ -15,16 +16,7 @@ export const ProfileModal = () => {
     const user = useSelector(state => state.auth)
     const activeArea = useSelector(state => state.area.active);
     
-    const {modalIsOpen} = useSelector(state => state.ui)
-    const id = "ProfileModal"
-    const ThisModalIsOpen = useMemo(() => {
-        if (modalIsOpen === id) {
-            return true;
-        } else {
-            return false;
-        }
-    }, [modalIsOpen])
-
+    const thisModalIsOpen = useModalIsOpen("ProfileModal")
 
     const handleLogOutClick = () => {
         dispatch(startLogout());
@@ -57,7 +49,7 @@ export const ProfileModal = () => {
     
     return (
         <Modal
-            isOpen={ThisModalIsOpen}
+            isOpen={thisModalIsOpen}
             onRequestClose={handleCloseModal}
             closeTimeoutMS={200}
             className="modal"

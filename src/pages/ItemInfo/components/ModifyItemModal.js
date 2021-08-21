@@ -1,17 +1,19 @@
 import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
-import React, { useMemo } from 'react'
+import React from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
 import { NumToArray } from '../../../helpers/numToArray';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
 
 
 Modal.setAppElement('#root');
 export const ModifyItemModal = ({item}) => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const {categories} = useSelector(state => state.inv);
     
@@ -23,15 +25,7 @@ export const ModifyItemModal = ({item}) => {
     const cols = NumToArray(space.columns)
     const rows = NumToArray(space.rows)
 
-    const {modalIsOpen} = useSelector(state => state.ui)
-    const id = "ModifyItemModal"
-    const ThisModalIsOpen = useMemo(() => {
-        if (modalIsOpen === id) {
-            return true;
-        } else {
-            return false;
-        }
-    }, [modalIsOpen])
+    const thisModalIsOpen = useModalIsOpen("ModifyItemModal")
     
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
@@ -45,15 +39,15 @@ export const ModifyItemModal = ({item}) => {
 
     const onSubmit = (data) => {
         // dispatch(startModifySpace(space.uid, data.name, data.rows, data.columns));
-        // dispatch(closeModal());
-        // reset({name: data.name, rows: data.rows, columns: data.columns});
+        dispatch(closeModal());
+        reset({name: data.name, description: data.description, category: data.category, row: data.row, column: data.column});
     }
 
     const handleDeleteObject = () => {
-        // history.replace('/spaces');
-        // dispatch(startDeleteSpace(space.uid));
-        // dispatch(closeModal());
-        // reset();
+        history.replace(`/space/${spaceId}`);
+        // dispatch(startDeleteObject(space.uid));
+        dispatch(closeModal());
+        reset();
     }
     
     const handleCloseModal = () => {
@@ -63,7 +57,7 @@ export const ModifyItemModal = ({item}) => {
 
     return (
         <Modal
-            isOpen={ThisModalIsOpen}
+            isOpen={thisModalIsOpen}
             onRequestClose={handleCloseModal}
             closeTimeoutMS={200}
             className="modal"

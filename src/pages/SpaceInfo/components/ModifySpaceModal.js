@@ -1,5 +1,5 @@
 import { Button, FormControl, InputAdornment, InputLabel, Select, TextField } from '@material-ui/core';
-import React, { useMemo } from 'react'
+import React from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../redux/actions/ui';
@@ -10,6 +10,7 @@ import { createCategory, deleteCategory } from '../../../redux/actions/category'
 import { startDeleteSpace, startModifySpace } from '../../../redux/actions/space';
 import { useHistory } from 'react-router-dom';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
+import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
 
 Modal.setAppElement('#root');
 export const ModifySpaceModal = ({space}) => {
@@ -17,14 +18,7 @@ export const ModifySpaceModal = ({space}) => {
     const history = useHistory();
     const {categories} = useSelector(state => state.inv);
     
-    const {modalIsOpen} = useSelector(state => state.ui)
-    const ThisModalIsOpen = useMemo(() => {
-        if (modalIsOpen === "ModifySpaceModal") {
-            return true;
-        } else {
-            return false;
-        }
-    }, [modalIsOpen])
+    const thisModalIsOpen = useModalIsOpen("ModifySpaceModal")
     
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
@@ -81,7 +75,7 @@ export const ModifySpaceModal = ({space}) => {
 
     return (
         <Modal
-            isOpen={ThisModalIsOpen}
+            isOpen={thisModalIsOpen}
             onRequestClose={handleCloseModal}
             closeTimeoutMS={200}
             className="modal"

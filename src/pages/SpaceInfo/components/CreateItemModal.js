@@ -1,10 +1,11 @@
 import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
-import React, { useMemo } from 'react'
+import React from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { startCreateObject } from '../../../redux/actions/inv';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
+import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
 
 Modal.setAppElement('#root');
 export const CreateItemModal = ({spaceId, cols, rows}) => {
@@ -12,15 +13,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
     const {categories} = useSelector(state => state.inv);
     const area = useSelector(state => state.area.active)
     
-    const {modalIsOpen} = useSelector(state => state.ui)
-    const id = "CreateItemModal"
-    const ThisModalIsOpen = useMemo(() => {
-        if (modalIsOpen === id) {
-            return true;
-        } else {
-            return false;
-        }
-    }, [modalIsOpen])
+    const thisModalIsOpen = useModalIsOpen("CreateItemModal")
 
     const { control, reset, handleSubmit } = useForm();
 
@@ -38,7 +31,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
 
     return (
         <Modal
-            isOpen={ThisModalIsOpen}
+            isOpen={thisModalIsOpen}
             onRequestClose={handleCloseModal}
             closeTimeoutMS={200}
             className="modal"
