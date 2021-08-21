@@ -1,13 +1,11 @@
-import { Avatar } from '@material-ui/core'
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { startLoadingAreas } from '../../redux/actions/area';
-import { openModal } from '../../redux/actions/ui';
 import { AreaRow } from './components/AreaRow';
 import { ProfileModal } from '../../components/ProfileModal';
+import { ShowAvatar } from '../../components/ShowAvatar';
 
 export const AreaScreen = () => {
-    const baseUrl = process.env.REACT_APP_API_URL;
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth);
     const areas = useSelector(state => state.area.areas);
@@ -19,10 +17,6 @@ export const AreaScreen = () => {
             dispatch(startLoadingAreas(user.uid));
         }
     }, [dispatch, areas, user])
-
-    const handleProfileClick = () => {
-        dispatch(openModal("ProfileModal"));
-    }
 
     const handleButton1Click = () => {
         
@@ -37,7 +31,7 @@ export const AreaScreen = () => {
             <div className="area-column">
                 <div className="areaList-container">
                     <div className="avatarContainer">
-                    <Avatar onClick={handleProfileClick} className="p" alt={user.name} src={`${baseUrl}api/upload/users/${user.uid}`}/>
+                        <ShowAvatar username={user.name} userId={user.uid} />
                     </div>
                     <span className="hint">Selecciona un área para trabajar</span>
                     <div className="areaList">

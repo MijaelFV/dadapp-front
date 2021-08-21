@@ -1,4 +1,3 @@
-import { Avatar } from '@material-ui/core';
 import React, { useMemo } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +6,7 @@ import { startLogout } from '../redux/actions/auth';
 import { startClearArea } from '../redux/actions/area';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { ShowAvatar } from './ShowAvatar';
 
 const customStyles = {
     content: {
@@ -30,7 +30,6 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 export const ProfileModal = () => {
-    const baseUrl = process.env.REACT_APP_API_URL;
     const dispatch = useDispatch();
     
     const user = useSelector(state => state.auth)
@@ -86,7 +85,7 @@ export const ProfileModal = () => {
         >
             <div className="modal-container">
                 <div className="nose">
-                    <Avatar className="avatar" alt={user.name} src={`${baseUrl}api/upload/users/${user.uid}`} />                    
+                <ShowAvatar avatarClass={"avatar"} username={user.name} userId={user.uid} />
                     <FontAwesomeIcon 
                         icon={faSignOutAlt} 
                         className="logoutIcon"
