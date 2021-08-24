@@ -18,10 +18,8 @@ export const MainScreen = () => {
     const logs = useSelector(state => state.log.logs);
 
     useMemo(() => {
-        if (logs.length === 0) {
-            dispatch(startLoadingLogs(area.uid));
-        }
-    }, [dispatch, area.uid, logs])
+        dispatch(startLoadingLogs(area.uid));
+    }, [dispatch, area.uid])
 
     const handleSearchClick = () => {
         history.push("/search")

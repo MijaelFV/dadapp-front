@@ -18,6 +18,14 @@ export const invReducer = (state = initialState, action) => {
                 items: [...state.items, action.payload]
             }
 
+        case types.invRemove: 
+            return {
+                ...state,
+                items: state.items.filter(
+                    item => (item.uid !== action.payload)
+                ),
+            }
+
         case types.invDelete: 
             return {
                 ...state,

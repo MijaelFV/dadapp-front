@@ -18,6 +18,7 @@ export const types = {
  
     invLoad: '[INV] Loaded',
     invAdd: '[INV] Object Added',
+    invRemove: '[INV] Object Removed',
     invDelete: '[INV] Deleted',
     invLoadCategories: '[INV] Categories Loaded',
     invClear: '[INV] Inventory Cleared',

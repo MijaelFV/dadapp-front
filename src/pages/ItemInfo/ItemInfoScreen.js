@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { openModal } from '../../redux/actions/ui';
@@ -10,23 +10,28 @@ import { ModifyItemModal } from './components/ModifyItemModal';
 import { IconButton } from '@material-ui/core';
 
 export const SpaceItemInfo = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const {itemId} = useParams();
     const items = useSelector(state => state.inv.items);
     const item = items.find(item => item.item._id === itemId)
 
-    const area = useSelector(state => state.area.active);
+    const areaId = useSelector(state => state.area.active.uid);
     const logs = useSelector(state => state.log.logs);
 
     useMemo(() => {
         if (logs.length === 0) {
-            dispatch(startLoadingLogs(area));
+            // dispatch(startLoadingLogsByItem(areaId));
         }
-    }, [dispatch, area, logs])
+    }, [dispatch, areaId, logs])
 
     const handleOpenModifyModal = () => {
         dispatch(openModal("ModifyItemModal"));
+    }
+
+    const handleReturnClick = () => {
+        history.goBack();
     }
 
     return (
@@ -34,7 +39,9 @@ export const SpaceItemInfo = () => {
             <div className="spaceItemInfo-column">
                 <div className="topBar">
                     <IconButton
+                        color="primary"
                         style={{marginRight:"auto"}}
+                        onClick={handleReturnClick}
                     >
                         <FontAwesomeIcon 
                             icon={faArrowLeft} 
@@ -48,6 +55,7 @@ export const SpaceItemInfo = () => {
                         />
                     </IconButton> */}
                     <IconButton
+                        color="primary"
                         onClick={handleOpenModifyModal}
                     >
                         <FontAwesomeIcon 
@@ -73,7 +81,7 @@ export const SpaceItemInfo = () => {
                     <LogsTable list={logs} />
                 </div>
             </div>
-            <ModifyItemModal item={item} />
+            <ModifyItemModal item={item} areaId={areaId} />
         </div>
     )
 }

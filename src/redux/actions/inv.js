@@ -11,6 +11,11 @@ export const addToInventory = (inventory) => ({
     payload: inventory
 })
 
+export const removeFromInventory = (inventory) => ({
+    type: types.invRemove,
+    payload: inventory
+})
+
 export const deleteInventory = () => ({
     type: types.invDelete,
 })
@@ -18,6 +23,18 @@ export const deleteInventory = () => ({
 export const clearInventory = () => ({
     type: types.invClear,
 })
+
+export const startRemoveObject = (item, area) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/inventory/${item}`, {area}, 'DELETE');
+        console.log(resp);
+        if (resp.status === 200) {
+            dispatch(removeFromInventory(item));
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
 
 export const getInventoryBySpace = (spaceId) => {
     return async(dispatch) => {

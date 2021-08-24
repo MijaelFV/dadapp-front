@@ -71,6 +71,7 @@ export const SpaceInfo = () => {
             <div className="spaceInfo-column">
                 <div className="topBar">
                     <IconButton
+                        color="primary"
                         onClick={handleReturnClick}
                         style={{marginRight:"auto"}}
                     >
@@ -79,6 +80,7 @@ export const SpaceInfo = () => {
                         />
                     </IconButton>
                     <IconButton
+                        color="primary"
                         onClick={() => {
                             handleOpenItemModal()
                             handleFilterByPositionClick(null, null, true)
@@ -90,6 +92,7 @@ export const SpaceInfo = () => {
                         />
                     </IconButton>
                     <IconButton
+                        color="primary"
                         onClick={() => {
                             handleOpenModifyModal()
                             handleFilterByPositionClick(null, null, true)

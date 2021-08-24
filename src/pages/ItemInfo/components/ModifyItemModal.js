@@ -9,10 +9,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
+import { startRemoveObject } from '../../../redux/actions/inv';
 
 
 Modal.setAppElement('#root');
-export const ModifyItemModal = ({item}) => {
+export const ModifyItemModal = ({item, areaId}) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const {categories} = useSelector(state => state.inv);
@@ -43,9 +44,9 @@ export const ModifyItemModal = ({item}) => {
         reset({name: data.name, description: data.description, category: data.category, row: data.row, column: data.column});
     }
 
-    const handleDeleteObject = () => {
+    const handleRemoveObject = () => {
         history.replace(`/space/${spaceId}`);
-        // dispatch(startDeleteObject(space.uid));
+        dispatch(startRemoveObject(item.uid, areaId));
         dispatch(closeModal());
         reset();
     }
@@ -188,7 +189,7 @@ export const ModifyItemModal = ({item}) => {
                     <Button
                         variant="contained"
                         color="secondary"
-                        onClick={handleDeleteObject}
+                        onClick={handleRemoveObject}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </Button>

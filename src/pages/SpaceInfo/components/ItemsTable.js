@@ -2,16 +2,20 @@ import { faSearch, faSignInAlt, faTrashAlt } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar } from '@material-ui/core'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { startRemoveObject } from '../../../redux/actions/inv'
 import { StyTableRow } from '../../../styles/components/materialUi/styledComponents'
 
 export const ItemsTable = ({objectList, spaceId}) => {
+    const dispatch = useDispatch();
+    const areaId = useSelector(state => state.area.active.uid);
 
     const createData = () => {
         return (
             objectList.map((object) => (
                 {
-                    id: object.item._id,
+                    id: object.uid,
                     name: object.item.name,
                     category: object.item.category.name,
                     row: object.row,
@@ -28,6 +32,7 @@ export const ItemsTable = ({objectList, spaceId}) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('');
     const [selected, setSelected] = useState([]);
+    const itemId = selected[0];
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -107,9 +112,12 @@ export const ItemsTable = ({objectList, spaceId}) => {
     };
 
     const handleOpenItemInfo = () => {
-        const itemId = selected[0];
         history.push(`/space/${spaceId}/${itemId}`)
     };
+
+    const handleRemoveItem = () => {
+        dispatch(startRemoveObject(itemId, areaId));
+    }
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -136,16 +144,25 @@ export const ItemsTable = ({objectList, spaceId}) => {
                     </IconButton>]
                 )}
                 {selected.length > 1 ? (
-                    <IconButton className={(selected.length > 0) ? "toolBar-icon selected" : null}>
+                    <IconButton 
+                        className={(selected.length > 0) ? "toolBar-icon selected" : null}
+                        onClick={handleRemoveItem}
+                    >
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </IconButton>
                 ) : selected.length === 1 ? (
-                    <IconButton 
+                    [<IconButton 
                         className="toolBar-icon selected"
                         onClick={handleOpenItemInfo}
                     >
                         <FontAwesomeIcon icon={faSignInAlt}/>
-                    </IconButton>
+                    </IconButton>,
+                    <IconButton 
+                        className={(selected.length > 0) ? "toolBar-icon selected" : null}
+                        onClick={handleRemoveItem}
+                    >
+                        <FontAwesomeIcon icon={faTrashAlt}/>
+                    </IconButton>]
                 ) : null}
             </Toolbar>
             <TableContainer>
