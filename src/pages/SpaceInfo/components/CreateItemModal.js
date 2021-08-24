@@ -2,7 +2,7 @@ import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui
 import React from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { startCreateObject } from '../../../redux/actions/inv';
+import { startCreateItem } from '../../../redux/actions/inv';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
@@ -19,7 +19,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
 
     const onSubmit = (data) => {
         const space = spaceId
-        dispatch(startCreateObject(data.name, data.description, data.category, data.row, data.column, space, area.uid));
+        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, space, area.uid));
         reset();
         dispatch(closeModal());
     }

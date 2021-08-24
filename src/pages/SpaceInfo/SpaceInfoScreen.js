@@ -136,7 +136,7 @@ export const SpaceInfo = () => {
                     </Button>
                 </div>
                 <div className="dataGrid">
-                    <ItemsTable objectList={filteredList} spaceId={spaceId} />
+                    <ItemsTable itemList={filteredList} spaceId={spaceId} />
                 </div>
             </div>
             <CreateItemModal spaceId={spaceId} rows={rows} cols={cols} />

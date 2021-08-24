@@ -9,7 +9,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
-import { startRemoveObject } from '../../../redux/actions/inv';
+import { startModifyItem, startRemoveItem } from '../../../redux/actions/inv';
 
 
 Modal.setAppElement('#root');
@@ -30,23 +30,23 @@ export const ModifyItemModal = ({item, areaId}) => {
     
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
-            name: item.item.name,
-            description: item.item.description,
-            category: item.item.category._id,
+            name: item.name,
+            description: item.description,
+            category: item.category._id,
             row: item.row,
             column: item.column
         }
     });
 
     const onSubmit = (data) => {
-        // dispatch(startModifySpace(space.uid, data.name, data.rows, data.columns));
+        dispatch(startModifyItem(item.uid, data.name, data.description, data.category, data.row, data.column, space.uid, areaId));
         dispatch(closeModal());
         reset({name: data.name, description: data.description, category: data.category, row: data.row, column: data.column});
     }
 
-    const handleRemoveObject = () => {
+    const handleRemoveItem = () => {
         history.replace(`/space/${spaceId}`);
-        dispatch(startRemoveObject(item.uid, areaId));
+        dispatch(startRemoveItem(item.uid, areaId));
         dispatch(closeModal());
         reset();
     }
@@ -184,12 +184,12 @@ export const ModifyItemModal = ({item, areaId}) => {
                         color="primary"
                         type="submit"
                     >
-                        Crear
+                        Modificar
                     </Button>
                     <Button
                         variant="contained"
                         color="secondary"
-                        onClick={handleRemoveObject}
+                        onClick={handleRemoveItem}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </Button>

@@ -31,7 +31,7 @@ export const AreaScreen = () => {
             <div className="area-column">
                 <div className="areaList-container">
                     <div className="avatarContainer">
-                        <ShowAvatar username={user.name} userId={user.uid} />
+                        <ShowAvatar username={user.name} userId={user.uid} profile={true} />
                     </div>
                     <span className="hint">Selecciona un área para trabajar</span>
                     <div className="areaList">

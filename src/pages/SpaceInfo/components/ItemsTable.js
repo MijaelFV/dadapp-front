@@ -4,23 +4,23 @@ import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, Tabl
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { startRemoveObject } from '../../../redux/actions/inv'
+import { startRemoveItem } from '../../../redux/actions/inv'
 import { StyTableRow } from '../../../styles/components/materialUi/styledComponents'
 
-export const ItemsTable = ({objectList, spaceId}) => {
+export const ItemsTable = ({itemList, spaceId}) => {
     const dispatch = useDispatch();
     const areaId = useSelector(state => state.area.active.uid);
 
     const createData = () => {
         return (
-            objectList.map((object) => (
+            itemList.map((item) => (
                 {
-                    id: object.uid,
-                    name: object.item.name,
-                    category: object.item.category.name,
-                    row: object.row,
-                    column: object.column,
-                    description: object.item.description
+                    id: item.uid,
+                    name: item.name,
+                    category: item.category.name,
+                    row: item.row,
+                    column: item.column,
+                    description: item.description
                 }
             ))
         )
@@ -116,7 +116,7 @@ export const ItemsTable = ({objectList, spaceId}) => {
     };
 
     const handleRemoveItem = () => {
-        dispatch(startRemoveObject(itemId, areaId));
+        dispatch(startRemoveItem(itemId, areaId));
     }
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -138,7 +138,7 @@ export const ItemsTable = ({objectList, spaceId}) => {
                         {selected.length} Seleccionados
                     </h3>
                 ) : (
-                    [<h2 id="tableTitle" className="toolBar-title">Objetos</h2>,
+                    [<h2 id="tableTitle" className="toolBar-title">Articulos</h2>,
                     <IconButton className="toolBar-icon">
                         <FontAwesomeIcon icon={faSearch}/>
                     </IconButton>]
@@ -201,8 +201,8 @@ export const ItemsTable = ({objectList, spaceId}) => {
                         {
                             stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((object, index) => {
-                                const isItemSelected = isSelected(object.id);
+                            .map((item, index) => {
+                                const isItemSelected = isSelected(item.id);
                                 const labelId = `table-checkbox-${index}`;
 
                                 return (
@@ -210,8 +210,8 @@ export const ItemsTable = ({objectList, spaceId}) => {
                                         hover
                                         tabIndex={-1}
                                         role="checkbox"
-                                        onClick={(event) => handleClick(event, object.id)}
-                                        key={object.id}
+                                        onClick={(event) => handleClick(event, item.id)}
+                                        key={item.id}
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}
                                     >
@@ -223,12 +223,12 @@ export const ItemsTable = ({objectList, spaceId}) => {
                                             />
                                         </TableCell>
                                         <TableCell component="th" scope="row" padding="none">
-                                            {object.name}
+                                            {item.name}
                                         </TableCell>
-                                        <TableCell>{object.category}</TableCell>
-                                        <TableCell>{object.row}</TableCell>
-                                        <TableCell>{object.column}</TableCell>
-                                        <TableCell>{object.description}</TableCell>
+                                        <TableCell>{item.category}</TableCell>
+                                        <TableCell>{item.row}</TableCell>
+                                        <TableCell>{item.column}</TableCell>
+                                        <TableCell>{item.description}</TableCell>
                                     </StyTableRow>
                                 )
                             })

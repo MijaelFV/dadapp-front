@@ -10,9 +10,9 @@ export const clearLogs = () => ({
     type: types.logClear,
 })
 
-export const startLoadingLogs = (areaId) => {
+export const startLoadingLogs = (id, type) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/inventory/logs/${areaId}`);
+        const resp = await fetch(`api/item/logs/${type}/${id}`);
         if (resp.status === 200) {
             dispatch(loadLogs(resp.data.resp))
         } else {

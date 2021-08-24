@@ -40,8 +40,7 @@ export const Logs = ({log}) => {
                 <span className="col-time">{time}</span>
             </div>
             <div className="log-col2">
-                <span className="col-item">{log.item.name}</span>
-                {/* <span className="col-space">{((log.type === "ADD") ? "Devolvió" : "Retiró")}</span> */}
+                <span className="col-item">{log.item?.name || log.itemName}</span>
                 <span className="col-space">{log.space.name}</span>
             </div>
             {ColRowInfo()}

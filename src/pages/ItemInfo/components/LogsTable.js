@@ -6,18 +6,18 @@ import 'moment/locale/es'
 import React, { useState } from 'react'
 import { StyTableRow } from '../../../styles/components/materialUi/styledComponents'
 
-export const LogsTable = ({list}) => {
+export const LogsTable = ({logs}) => {
 
     const createData = () => {
         return (
-            list.map((object) => (
+            logs.map((log, index) => (
                 {
-                    id: object.item._id,
-                    user: object.user.name,
-                    row: object.row,
-                    column: object.column,
-                    type: object.type,
-                    time: object.time
+                    id: log.item?._id || index,
+                    user: log.user.name,
+                    row: log.row,
+                    column: log.column,
+                    type: log.type,
+                    date: log.time
                 }
             ))
         )
@@ -65,35 +65,6 @@ export const LogsTable = ({list}) => {
     const createSortHandler = (property) => (event) => {
         handleRequestSort(event, property);
       };
-    
-    // const handleSelectAllClick = (event) => {
-    //     if (event.target.checked) {
-    //         const newSelecteds = rows.map((n) => n.id);
-    //         setSelected(newSelecteds);
-    //         return;
-    //     }
-    //     setSelected([]);
-    // };
-
-    // const handleClick = (event, name) => {
-    //     const selectedIndex = selected.indexOf(name);
-    //     let newSelected = [];
-
-    //     if (selectedIndex === -1) {
-    //         newSelected = newSelected.concat(selected, name);
-    //     } else if (selectedIndex === 0) {
-    //         newSelected = newSelected.concat(selected.slice(1));
-    //     } else if (selectedIndex === selected.length - 1) {
-    //         newSelected = newSelected.concat(selected.slice(0, -1));
-    //     } else if (selectedIndex > 0) {
-    //         newSelected = newSelected.concat(
-    //         selected.slice(0, selectedIndex),
-    //         selected.slice(selectedIndex + 1),
-    //         );
-    //     }
-
-    //     setSelected(newSelected);
-    // };
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
         
@@ -113,7 +84,7 @@ export const LogsTable = ({list}) => {
         { id: 'row', label: 'F' },
         { id: 'column', label: 'C' },
         { id: 'type', label: 'Tipo' },
-        { id: 'time', label: 'Tiempo' },
+        { id: 'date', label: 'Fecha' },
     ];
 
     return (
@@ -148,18 +119,18 @@ export const LogsTable = ({list}) => {
                         {
                             stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((object) => {
+                            .map((log) => {
                                 return (
                                     <StyTableRow
                                         hover
                                         tabIndex={-1}
-                                        // onClick={(event) => handleClick(event, object.id)}
+                                        // onClick={(event) => handleClick(event, log.id)}
                                     >
-                                        <TableCell>{object.user}</TableCell>
-                                        <TableCell>{object.row}</TableCell>
-                                        <TableCell>{object.column}</TableCell>
-                                        <TableCell>{object.type}</TableCell>
-                                        <TableCell>{moment(object.time).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
+                                        <TableCell>{log.user}</TableCell>
+                                        <TableCell>{log.row}</TableCell>
+                                        <TableCell>{log.column}</TableCell>
+                                        <TableCell>{log.type}</TableCell>
+                                        <TableCell>{moment(log.time).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
                                     </StyTableRow>
                                 )
                             })

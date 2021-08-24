@@ -18,7 +18,7 @@ export const MainScreen = () => {
     const logs = useSelector(state => state.log.logs);
 
     useMemo(() => {
-        dispatch(startLoadingLogs(area.uid));
+        dispatch(startLoadingLogs(area.uid, 1));
     }, [dispatch, area.uid])
 
     const handleSearchClick = () => {
@@ -62,7 +62,7 @@ export const MainScreen = () => {
                         className="topBar-icon"
                     />
                 </div>
-                <ShowAvatar username={user.name} userId={user.uid} />
+                <ShowAvatar username={user.name} userId={user.uid} profile={true} />
             </div>
             <div className="area">
                 <h3 className="area-label">
