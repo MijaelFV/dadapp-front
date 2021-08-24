@@ -10,7 +10,7 @@ export const Logs = ({log}) => {
     const time = moment(log.time).locale("es").format('DD/MM/YY HH:mm')
 
     const ColRowInfo = () => {
-        if (log.type === "ADD") {
+        if (log.type !== "DELETE") {
             return <div className="log-col3">
                 <div className="col3">
                     <span className="col3-value">
@@ -32,6 +32,21 @@ export const Logs = ({log}) => {
         }
     }
 
+    let classType;
+    switch (log.type) {
+        case "ADD":
+                classType = "log-add"
+            break;
+
+        case "MODIFY":
+                classType = "log-modify"
+            break;
+
+        case "DELETE":
+                classType = "log-delete"
+            break;
+    }
+
     return (
         <div className="log">
             <ShowAvatar username={log.user.name} userId={log.user._id} />
@@ -44,7 +59,7 @@ export const Logs = ({log}) => {
                 <span className="col-space">{log.space.name}</span>
             </div>
             {ColRowInfo()}
-            <span className={((log.type === "ADD") ? "log-add" : "log-remove")}></span>
+            <span className={classType}></span>
         </div>
     )
 }

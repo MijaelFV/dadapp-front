@@ -98,19 +98,27 @@
             }
         }
     }
+
+    .log-add {
+        background-color: #41ff7d;
+        width: 6px;
+        height: 48px;
+        border-radius: 10px;
+    }
+    
+    .log-modify {
+        background-color: #ffae00;
+        width: 6px;
+        height: 48px;
+        border-radius: 10px;
+    }
+    
+    .log-delete {
+        background-color: #ff156f;
+        width: 6px;
+        height: 48px;
+        border-radius: 10px;
+    }
     
 }
 
-.log-add {
-    background-color: #41ff7d;
-    width: 6px;
-    height: 48px;
-    border-radius: 10px;
-}
-
-.log-remove {
-    background-color: #ff156f;
-    width: 6px;
-    height: 48px;
-    border-radius: 10px;
-}
