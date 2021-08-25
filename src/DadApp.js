@@ -3,7 +3,7 @@ import { createTheme, MuiThemeProvider } from '@material-ui/core';
 import { esES } from '@material-ui/core/locale';
 import { Provider } from 'react-redux';
 import { AppRouter } from './router/AppRouter';
-import { store } from './store/store';
+import { store } from './redux/store';
 
 export const DadApp = () => {
     const theme = createTheme(
@@ -12,6 +12,9 @@ export const DadApp = () => {
                 primary: {
                     main: '#FF8747'
                 },
+                secondary: {
+                    main: '#808080'
+                }
             },
         }, 
         esES

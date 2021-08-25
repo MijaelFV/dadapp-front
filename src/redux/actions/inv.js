@@ -1,0 +1,85 @@
+import { types } from "../types";
+import { fetch } from "../../helpers/axios";
+
+export const loadInventory = (inventory) => ({
+    type: types.invLoad,
+    payload: inventory
+})
+
+// export const addToInventory = (item) => ({
+//     type: types.invAdd,
+//     payload: item
+// })
+
+export const removeFromInventory = (item) => ({
+    type: types.invRemove,
+    payload: item
+})
+
+export const deleteInventory = () => ({
+    type: types.invDelete,
+})
+
+export const clearInventory = () => ({
+    type: types.invClear,
+})
+
+export const getInventoryBySpace = (spaceId) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/item/inventory/${spaceId}`);
+        if (resp.status === 200) {
+            dispatch(loadInventory(resp.data.resp))
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+ 
+export const uploadItemImage = (item, image) => {
+    return async(dispatch) => {
+        const formData = new FormData();
+        formData.append('file', image);
+        const resp = await fetch(`api/upload/items/${item}`, formData, 'PUT');
+        if (resp.status === 200) {
+            // dispatch(getInventoryBySpace(space));
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const startModifyItem = (item, name, description, category, row, column, space, area) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/item/${item}`, {name, description, category, row, column, space, area}, 'PUT');
+        if (resp.status === 200) {
+            dispatch(getInventoryBySpace(space));
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const startRemoveItem = (item, area) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/item/${item}`, {area, type: 1}, 'DELETE');
+        if (resp.status === 200) {
+            dispatch(removeFromInventory(item));
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const startCreateItem = (name, description, category, row, column, space, area) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/item`, {name, description, category, row, column, space, area}, 'POST');
+        if (resp.status === 201) {
+            dispatch(getInventoryBySpace(space));
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+
+

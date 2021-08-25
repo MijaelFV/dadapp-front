@@ -1,0 +1,16 @@
+.modifyItemModal-container {
+    .fileUpload {
+        display: flex;
+        margin-bottom: 20px;
+        align-items: center;
+
+        p {
+            width: 200px;
+            overflow: hidden;
+            font-size: small;
+            margin: 0 0 0 5px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}

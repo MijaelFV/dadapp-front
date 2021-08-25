@@ -1,17 +1,15 @@
 import { faMinus, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar } from '@material-ui/core'
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { startLoadingLogs } from '../../actions/log'
-import { openModal } from '../../actions/ui'
-import { ProfileModal } from '../../components/Base/ProfileModal'
-import { MainLogs } from '../../components/Main/MainLogs'
-// import { MainModal } from '../../components/Main/MainModal'
+import { startLoadingLogs } from '../../redux/actions/log'
+import { openModal } from '../../redux/actions/ui'
+import { ProfileModal } from '../../components/ProfileModal'
+import { Logs } from './components/Logs'
+import { ShowAvatar } from '../../components/ShowAvatar'
 
 export const MainScreen = () => {
-    const baseUrl = process.env.REACT_APP_API_URL;
     const history = useHistory() 
     const dispatch = useDispatch();
 
@@ -20,19 +18,13 @@ export const MainScreen = () => {
     const logs = useSelector(state => state.log.logs);
 
     useMemo(() => {
-        if (logs.length === 0) {
-            dispatch(startLoadingLogs(area.uid));
-        }
-    }, [dispatch, area.uid, logs])
+        dispatch(startLoadingLogs(area.uid, 1));
+    }, [dispatch, area.uid])
 
     const handleSearchClick = () => {
         history.push("/search")
     }
     
-    const handleProfileClick = () => {
-        dispatch(openModal("ProfileModal"));
-    }
-
     const handleAddClick = () => {
         dispatch(openModal());
     }
@@ -70,7 +62,7 @@ export const MainScreen = () => {
                         className="topBar-icon"
                     />
                 </div>
-                <Avatar onClick={handleProfileClick} className="p" alt={user.name} src={`${baseUrl}api/upload/users/${user.uid}`}/>
+                <ShowAvatar username={user.name} userId={user.uid} profile={true} />
             </div>
             <div className="area">
                 <h3 className="area-label">
@@ -123,11 +115,10 @@ export const MainScreen = () => {
             <div className="log-container">
                 {noLogsAdvise()}
                 {logs.map((log) => (
-                    <MainLogs key={log.uid} log={log} />
+                    <Logs key={log.uid} log={log} />
                 ))}
             </div>
             <ProfileModal />
-            {/* <MainModal /> */}
         </div>
     )
 }

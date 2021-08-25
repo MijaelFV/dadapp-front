@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { DadApp } from './DadApp';
-import './styles/styles.scss'
+import './styles/index.scss'
 
 ReactDOM.render(
   <DadApp />,

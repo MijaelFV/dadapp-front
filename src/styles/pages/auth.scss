@@ -12,75 +12,76 @@
         background: rgb(255,240,93);
         background: linear-gradient(30deg, rgba(255,240,93,1) 0%, rgba(255,185,98,1) 50%, rgba(255,128,0,1) 100%);
     }
-}
 
-//Formulary
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    border-radius: 6px;
-    padding: 2em;
-    min-width: 310px;
-    width: 75vw;
-    max-width: 390px;
-    box-shadow: rgb(216, 128, 55) 0px 15px  10px -5px;
-}
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        border-radius: 6px;
+        padding: 2em;
+        min-width: 310px;
+        width: 75vw;
+        max-width: 390px;
+        box-shadow: rgb(216, 128, 55) 0px 15px  10px -5px;
 
-.form-welcome {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.form-title {
-    margin: 0px 0px 0px 10px;
-    font-family: sans-serif;
-    color: rgb(80, 80, 80);
-}
-
-.form {
-    display: grid;
-    width: 350px;
-}
-
-.text-field {
-    border-radius: 4px;
-    display: grid;
-    box-shadow: rgb(241, 241, 241) 0px 5px 5px -1px;
-}
-
-.form-button {
-    margin-top: 20px;   
-}
-
-.form-optional {
-    color: grey;
-    font-size: 15px;
-    display: flex;
-}
-
-.form-sign-up {
-    display: flex;
-    font-size: 15px;
-    margin-top: 35px;
-    margin-bottom: -25px;
-    align-items: center;
-    
-    .p {
-        transition: color .2s ease;
-        text-decoration: none;
-
-        &:visited {
-            color: inherit;
+        .form-welcome {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        &:hover {
-            color: #ffad4e;
+        
+        .form-title {
+            margin: 0px 0px 0px 10px;
+            font-family: sans-serif;
+            color: rgb(80, 80, 80);
         }
-
+        
+        .form {
+            display: grid;
+            width: 350px;
+        }
+        
+        .text-field {
+            border-radius: 4px;
+            display: grid;
+            box-shadow: rgb(241, 241, 241) 0px 5px 5px -1px;
+        }
+        
+        .form-button {
+            margin-top: 20px;   
+        }
+        
+        .form-optional {
+            color: grey;
+            font-size: 15px;
+            display: flex;
+        }
+        
+        .form-sign-up {
+            display: flex;
+            font-size: 15px;
+            margin-top: 35px;
+            margin-bottom: -25px;
+            align-items: center;
+            
+            .p {
+                transition: color .2s ease;
+                text-decoration: none;
+        
+                &:visited {
+                    color: inherit;
+                }
+        
+                &:hover {
+                    color: #ffad4e;
+                }
+        
+            }
+        }
     }
 }
+
+
