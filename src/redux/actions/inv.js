@@ -34,6 +34,19 @@ export const getInventoryBySpace = (spaceId) => {
         }
     }
 }
+ 
+export const uploadItemImage = (item, image) => {
+    return async(dispatch) => {
+        const formData = new FormData();
+        formData.append('file', image);
+        const resp = await fetch(`api/upload/items/${item}`, formData, 'PUT');
+        if (resp.status === 200) {
+            // dispatch(getInventoryBySpace(space));
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
 
 export const startModifyItem = (item, name, description, category, row, column, space, area) => {
     return async(dispatch) => {

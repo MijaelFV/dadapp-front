@@ -4,7 +4,6 @@ import { startLoadingAreas } from '../../redux/actions/area';
 import { AreaRow } from './components/AreaRow';
 import { ProfileModal } from '../../components/ProfileModal';
 import { ShowAvatar } from '../../components/ShowAvatar';
-import { WebcamCapture } from '../../components/WebcamCapture';
 
 export const AreaScreen = () => {
     const dispatch = useDispatch();
@@ -58,7 +57,6 @@ export const AreaScreen = () => {
                 </div>
             </div>
             <ProfileModal />
-            <WebcamCapture />
         </div>
     )
 }

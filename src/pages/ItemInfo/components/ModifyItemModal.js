@@ -1,5 +1,5 @@
 import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../redux/actions/ui';
@@ -9,7 +9,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
-import { startModifyItem, startRemoveItem } from '../../../redux/actions/inv';
+import { startModifyItem, startRemoveItem, uploadItemImage } from '../../../redux/actions/inv';
+import axios from 'axios';
 
 
 Modal.setAppElement('#root');
@@ -28,6 +29,8 @@ export const ModifyItemModal = ({item, areaId}) => {
 
     const thisModalIsOpen = useModalIsOpen("ModifyItemModal")
     
+    const [selectedFile, setSelectedFile] = useState();
+
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
             name: item.name,
@@ -40,6 +43,7 @@ export const ModifyItemModal = ({item, areaId}) => {
 
     const onSubmit = (data) => {
         dispatch(startModifyItem(item.uid, data.name, data.description, data.category, data.row, data.column, space.uid, areaId));
+        dispatch(uploadItemImage(item.uid, selectedFile));
         dispatch(closeModal());
         reset({name: data.name, description: data.description, category: data.category, row: data.row, column: data.column});
     }
@@ -56,6 +60,10 @@ export const ModifyItemModal = ({item, areaId}) => {
         reset();
     }  
 
+    const handleUploadFile = (e) => {
+        setSelectedFile(e.target.files[0]);
+    }
+
     return (
         <Modal
             isOpen={thisModalIsOpen}
@@ -64,7 +72,23 @@ export const ModifyItemModal = ({item, areaId}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form className="createItemModal-container" onSubmit={handleSubmit(onSubmit)}>
+            <form className="modifyItemModal-container" onSubmit={handleSubmit(onSubmit)}>
+                <div className="fileUpload">
+                    <Button
+                        size="small"
+                        component="label"
+                        variant="contained"
+                        color="primary"
+                    >
+                        Subir Imagen
+                        <input
+                            type="file"
+                            onChange={handleUploadFile}
+                            hidden
+                        />
+                    </Button>
+                    {selectedFile !== undefined && <p>Archivo: {selectedFile.name}</p>}
+                </div>
                 <Controller 
                     name="name"
                     control={control}

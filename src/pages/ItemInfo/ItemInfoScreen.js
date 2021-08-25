@@ -8,6 +8,7 @@ import { clearLogs, startLoadingLogs } from '../../redux/actions/log'
 import { LogsTable } from './components/LogsTable';
 import { ModifyItemModal } from './components/ModifyItemModal';
 import { IconButton } from '@material-ui/core';
+import { ShowImage } from '../../components/ShowImage';
 
 export const SpaceItemInfo = () => {
     const history = useHistory();
@@ -57,7 +58,7 @@ export const SpaceItemInfo = () => {
                 </div>
                 <div className="info-container">
                     <div className="itemImage">
-                        No Image
+                        <ShowImage itemId={item.uid} />
                     </div>
                     <span className="itemName">
                         {item.name}

@@ -1,12 +1,13 @@
 import React, { useCallback, useRef, useState } from "react";
 import Webcam from "react-webcam";
+import Cacaca from "react-webcam";
 
 const WebcamComponent = () => <Webcam />;
 
 const videoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: { exact: "environment" }
+    facingMode: "user"
 };
 
 export const WebcamCapture = () => {
