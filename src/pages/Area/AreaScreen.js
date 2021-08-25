@@ -4,6 +4,7 @@ import { startLoadingAreas } from '../../redux/actions/area';
 import { AreaRow } from './components/AreaRow';
 import { ProfileModal } from '../../components/ProfileModal';
 import { ShowAvatar } from '../../components/ShowAvatar';
+import { WebcamCapture } from '../../components/WebcamCapture';
 
 export const AreaScreen = () => {
     const dispatch = useDispatch();
@@ -13,7 +14,6 @@ export const AreaScreen = () => {
 
     useMemo(() => {
         if (areas.length === 0) {
-            console.log('log')
             dispatch(startLoadingAreas(user.uid));
         }
     }, [dispatch, areas, user])
@@ -58,6 +58,7 @@ export const AreaScreen = () => {
                 </div>
             </div>
             <ProfileModal />
+            <WebcamCapture />
         </div>
     )
 }
