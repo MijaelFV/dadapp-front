@@ -15,8 +15,8 @@ export const SearchScreen = () => {
             caretColor: "#ffad4e",
         },
         notchedOutline: {
-        borderWidth: '1px',
-        borderColor: 'transparent !important'
+            borderWidth: '1px',
+            borderColor: 'transparent !important'
         }
     })
     const classes = useStyles();

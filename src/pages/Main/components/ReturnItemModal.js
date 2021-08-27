@@ -10,8 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
 import { startModifyItem, startRemoveItem, uploadItemImage } from '../../../redux/actions/inv';
-import axios from 'axios';
-import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 
 
 Modal.setAppElement('#root');
@@ -23,6 +21,10 @@ export const ModifyItemModal = ({item, areaId}) => {
     const {spaceId} = useParams();
     const spaces = useSelector(state => state.space.spaces);
     const space = spaces.find(space => space.uid === spaceId)
+    
+    // Convierte x numero en un array
+    const cols = NumToArray(space.columns)
+    const rows = NumToArray(space.rows)
 
     const thisModalIsOpen = useModalIsOpen("ModifyItemModal")
     
@@ -150,6 +152,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                         <Controller 
                             name="row"
                             control={control}
+                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
@@ -160,7 +163,10 @@ export const ModifyItemModal = ({item, areaId}) => {
                                         id: "row-select"
                                     }}
                                 >
-                                    {showOptionsColRow(space.rows)}
+                                    <option aria-label="None" value="" />
+                                    {rows.map((row) => (
+                                        <option key={row} value={row}>{row}</option>
+                                    ))}
                                 </Select>
                             }
                         />
@@ -173,6 +179,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                         <Controller 
                             name="column"
                             control={control}
+                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
@@ -183,7 +190,10 @@ export const ModifyItemModal = ({item, areaId}) => {
                                         id: "column-select"
                                     }}
                                 >
-                                    {showOptionsColRow(space.columns)}
+                                    <option aria-label="None" value="" />
+                                    {cols.map((row) => (
+                                        <option key={row} value={row}>{row}</option>
+                                    ))}
                                 </Select>
                             }
                         />

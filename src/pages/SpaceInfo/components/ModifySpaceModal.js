@@ -143,7 +143,7 @@ export const ModifySpaceModal = ({space}) => {
                                         id: "rows-select"
                                     }}
                                 >
-                                    {showOptionsColRow()}
+                                    {showOptionsColRow(10)}
                                 </Select>}
                             />
                         </FormControl>
@@ -165,7 +165,7 @@ export const ModifySpaceModal = ({space}) => {
                                         id: "columns-select"
                                     }}
                                 >
-                                    {showOptionsColRow()}
+                                    {showOptionsColRow(10)}
                                 </Select>}
                             />
                         </FormControl>

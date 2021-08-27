@@ -8,6 +8,7 @@ import { openModal } from '../../redux/actions/ui'
 import { ProfileModal } from '../../components/ProfileModal'
 import { Logs } from './components/Logs'
 import { ShowAvatar } from '../../components/ShowAvatar'
+import { TakeItemModal } from './components/TakeItemModal'
 
 export const MainScreen = () => {
     const history = useHistory() 
@@ -25,12 +26,12 @@ export const MainScreen = () => {
         history.push("/search")
     }
     
-    const handleAddClick = () => {
+    const handleReturnClick = () => {
         dispatch(openModal());
     }
     
-    const handleRemoveClick = () => {
-        dispatch(openModal());
+    const handleTakeClick = () => {
+        dispatch(openModal("TakeItemModal"));
     }
 
     // const handleLogScroll = (e) => {
@@ -76,7 +77,7 @@ export const MainScreen = () => {
                 <div className="board-column">
                     <div 
                         className="board-button-add"
-                        onClick={handleAddClick}
+                        onClick={handleReturnClick}
                     >
                         <FontAwesomeIcon 
                             icon={faPlus} 
@@ -100,7 +101,7 @@ export const MainScreen = () => {
                 <div className="board-column">
                     <div 
                         className="board-button-remove"
-                        onClick={handleRemoveClick}
+                        onClick={handleTakeClick}
                     >
                         <FontAwesomeIcon 
                             icon={faMinus} 
@@ -119,6 +120,7 @@ export const MainScreen = () => {
                 ))}
             </div>
             <ProfileModal />
+            <TakeItemModal areaId={area.uid} />
         </div>
     )
 }

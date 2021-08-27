@@ -24,6 +24,17 @@ export const clearInventory = () => ({
     type: types.invClear,
 })
 
+export const getInventoryByQuery = (areaId, query) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/item/search/${areaId}?query=${query}`);
+        if (resp.status === 200) {
+            dispatch(loadInventory(resp.data.resp))
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
 export const getInventoryBySpace = (spaceId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/inventory/${spaceId}`);
@@ -59,9 +70,9 @@ export const startModifyItem = (item, name, description, category, row, column, 
     }
 }
 
-export const startRemoveItem = (item, area) => {
+export const startRemoveItem = (item, area, type = 1) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/item/${item}`, {area, type: 1}, 'DELETE');
+        const resp = await fetch(`api/item/${item}`, {area, type}, 'DELETE');
         if (resp.status === 200) {
             dispatch(removeFromInventory(item));
         } else {

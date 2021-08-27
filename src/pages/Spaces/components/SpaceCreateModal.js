@@ -70,7 +70,7 @@ export const SpaceCreateModal = () => {
                                         id: "rows-select"
                                     }}
                                 >
-                                    {showOptionsColRow()}
+                                    {showOptionsColRow(10)}
                                 </Select>}
                             />
                         </FormControl>
@@ -92,7 +92,7 @@ export const SpaceCreateModal = () => {
                                         id: "columns-select"
                                     }}
                                 >
-                                    {showOptionsColRow()}
+                                    {showOptionsColRow(10)}
                                 </Select>}
                             />
                         </FormControl>
