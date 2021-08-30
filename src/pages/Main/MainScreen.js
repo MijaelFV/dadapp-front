@@ -11,6 +11,7 @@ import { ShowAvatar } from '../../components/ShowAvatar'
 import { TakeItemModal } from './components/TakeItemModal'
 import { ReturnItemModal } from './components/ReturnItemModal'
 import { startLoadingSpaces } from '../../redux/actions/space'
+import { getInventoryByTaked } from '../../redux/actions/inv'
 
 export const MainScreen = () => {
     const history = useHistory() 
@@ -20,8 +21,10 @@ export const MainScreen = () => {
     const spaces = useSelector(state => state.space.spaces);
     const user = useSelector(state => state.auth)
     const logs = useSelector(state => state.log.logs);
+    const itemsToReturn = useSelector(state => state.inv.toReturn);
 
     useMemo(() => {
+        dispatch(getInventoryByTaked(area.uid))
         dispatch(startLoadingLogs(area.uid));
         dispatch(startLoadingSpaces(area.uid));
     }, [dispatch, area.uid])
@@ -95,7 +98,7 @@ export const MainScreen = () => {
                 <div className="board-column">
                     <div className="board-button-pending">
                         <h1>
-                            0
+                            {itemsToReturn.length}
                         </h1>
                     </div>
                     <p className="board-label">
@@ -124,7 +127,7 @@ export const MainScreen = () => {
                 ))}
             </div>
             <ProfileModal />
-            <ReturnItemModal areaId={area.uid} spaces={spaces} />
+            <ReturnItemModal areaId={area.uid} spaces={spaces} items={itemsToReturn} />
             <TakeItemModal areaId={area.uid} spaces={spaces} />
         </div>
     )

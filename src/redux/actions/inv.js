@@ -6,10 +6,24 @@ export const loadInventory = (inventory) => ({
     payload: inventory
 })
 
+export const unloadInventory = () => ({
+    type: types.invUnload,
+})
+
 // export const addToInventory = (item) => ({
 //     type: types.invAdd,
 //     payload: item
 // })
+
+export const loadToReturn = (inventory) => ({
+    type: types.invLoadToReturn,
+    payload: inventory
+})
+
+export const removeToReturn = (item) => ({
+    type: types.invRemoveToReturn,
+    payload: item
+})
 
 export const removeFromInventory = (item) => ({
     type: types.invRemove,
@@ -38,8 +52,9 @@ export const getInventoryByQuery = (areaId, query) => {
 export const getInventoryByTaked = (areaId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/taked/${areaId}`);
+        console.log(resp.data);
         if (resp.status === 200) {
-            dispatch(loadInventory(resp.data))
+            dispatch(loadToReturn(resp.data))
         } else {
             console.log(resp.data)
         }
@@ -69,9 +84,11 @@ export const uploadItemImage = (item, image) => {
 }
 
 export const returnItem = (item, column, row, space, area) => {
-    return async() => {
+    return async(dispatch) => {
         const resp = await fetch(`api/item/taked/return/${item}`, {row, column, space, area}, 'PUT');
-        if (resp.status !== 200) {
+        if (resp.status === 200) {
+            dispatch(removeToReturn(item))
+        } else {
             console.log(resp.data)
         }
     }

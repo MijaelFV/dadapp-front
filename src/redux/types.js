@@ -17,8 +17,11 @@ export const types = {
     spaceClear: '[SPACE] Space Cleared',
  
     invLoad: '[INV] Loaded',
-    invAdd: '[INV] Object Added',
-    invRemove: '[INV] Object Removed',
+    invUnload: '[INV] Unloaded',
+    invLoadToReturn: '[INV] ToReturn Loaded',
+    invRemoveToReturn: '[INV] ToReturn Removed',
+    invAdd: '[INV] Item Added',
+    invRemove: '[INV] Item Removed',
     invDelete: '[INV] Deleted',
     invLoadCategories: '[INV] Categories Loaded',
     invClear: '[INV] Inventory Cleared',

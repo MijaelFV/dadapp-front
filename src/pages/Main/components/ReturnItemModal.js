@@ -20,7 +20,7 @@ import { startLoadingLogs } from '../../../redux/actions/log';
 
 
 Modal.setAppElement('#root');
-export const ReturnItemModal = ({areaId, spaces}) => {
+export const ReturnItemModal = ({areaId, spaces, items}) => {
     const dispatch = useDispatch();
 
     const thisModalIsOpen = useModalIsOpen("ReturnItemModal")
@@ -37,21 +37,15 @@ export const ReturnItemModal = ({areaId, spaces}) => {
     const rowChanged = useWatch({control, name: 'row'})
     const colChanged = useWatch({control, name: 'column'})
 
-    const items = useSelector(state => state.inv.items);
     const space = spaces?.find(space => space.uid === getValues("space"))
-
-    useEffect(() => {
-        if (thisModalIsOpen) {
-            dispatch(getInventoryByTaked(areaId))
-        }
-    }, [dispatch,  thisModalIsOpen])
+    
 
     const onSubmit = (data) => {
         checked.forEach((id) => (
             dispatch(returnItem(id, data.column, data.row, data.space, areaId))
         ))
-        dispatch(clearInventory());
         dispatch(closeModal());
+        setChecked([]);
         setTimeout(() => {
             dispatch(startLoadingLogs(areaId));
         }, 1000)
@@ -72,8 +66,8 @@ export const ReturnItemModal = ({areaId, spaces}) => {
     };
     
     const handleCloseModal = () => {
+        setChecked([]);
         reset();
-        dispatch(clearInventory());
         dispatch(closeModal());
     }  
 

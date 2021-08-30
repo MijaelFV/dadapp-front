@@ -9,7 +9,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
-import { clearInventory, getInventoryByQuery, getInventoryBySpace, loadInventory, startModifyItem, startRemoveItem, uploadItemImage } from '../../../redux/actions/inv';
+import { clearInventory, getInventoryByQuery, getInventoryBySpace, getInventoryByTaked, loadInventory, startModifyItem, startRemoveItem, unloadInventory, uploadItemImage } from '../../../redux/actions/inv';
 import { clearSpace, startLoadingSpaces } from '../../../redux/actions/space';
 import { ShowImage } from '../../../components/ShowImage';
 import { startClearArea } from '../../../redux/actions/area';
@@ -49,20 +49,23 @@ export const TakeItemModal = ({areaId, spaces}) => {
             setItems([])
             setSelectedRow('')
             setSelectedCol('')
+            setSelectedSpace('')
         }
     }, [dispatch, searchType])
 
     const onSubmit = (e) => {
         e.preventDefault()
+        setChecked([]);
         setSearchType(1);
-        dispatch(clearInventory());
+        dispatch(unloadInventory());
         dispatch(closeModal());
         checked.forEach((id) => (
             dispatch(startRemoveItem(id, areaId, 2))
         ))
         setTimeout(() => {
+            dispatch(getInventoryByTaked(areaId))
             dispatch(startLoadingLogs(areaId));
-        }, 1000)
+        }, 800)
     }
     
     const handleSpaceChange = (e) => {
@@ -119,7 +122,8 @@ export const TakeItemModal = ({areaId, spaces}) => {
     
     const handleCloseModal = () => {
         setSearchType(1);
-        dispatch(clearInventory());
+        setChecked([]);
+        dispatch(unloadInventory());
         dispatch(closeModal());
     }  
 
