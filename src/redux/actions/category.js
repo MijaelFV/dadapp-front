@@ -10,7 +10,7 @@ export const getCategoriesBySpace = (spaceId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/category/${spaceId}`);
         if (resp.status === 200) {
-            dispatch(loadCategories(resp.data.resp))
+            dispatch(loadCategories(resp.data))
         } else {
             console.log(resp.data)
         }

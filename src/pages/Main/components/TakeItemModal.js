@@ -14,25 +14,23 @@ import { clearSpace, startLoadingSpaces } from '../../../redux/actions/space';
 import { ShowImage } from '../../../components/ShowImage';
 import { startClearArea } from '../../../redux/actions/area';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
+import { startLoadingLogs } from '../../../redux/actions/log';
 
 
 Modal.setAppElement('#root');
-export const TakeItemModal = ({areaId}) => {
+export const TakeItemModal = ({areaId, spaces}) => {
     const dispatch = useDispatch();
 
     const thisModalIsOpen = useModalIsOpen("TakeItemModal")
     const [searchType, setSearchType] = useState(1);
     const [checked, setChecked] = useState([]);
-    const [selectedSpace, setSelectedSpace] = useState();
+    const [selectedSpace, setSelectedSpace] = useState('');
     const [selectedRow, setSelectedRow] = useState('');
     const [selectedCol, setSelectedCol] = useState('');
     const [items, setItems] = useState([]);
     
-    const spaces = useSelector(state => state.space.spaces);
-    const space = spaces.find(space => space.uid === selectedSpace)
+    const space = spaces?.find(space => space.uid === selectedSpace)
     const res = useSelector(state => state.inv.items);
-
-    console.log(selectedSpace);
 
     useEffect(() => {
         if (Number(selectedRow) >= 1 && selectedCol === '') {
@@ -47,9 +45,7 @@ export const TakeItemModal = ({areaId}) => {
     }, [selectedRow, selectedCol, res])
 
     useEffect(() => {
-        if (searchType === 2) {
-            dispatch(startLoadingSpaces(areaId));
-        } else {
+        if (searchType === 1) {
             setItems([])
             setSelectedRow('')
             setSelectedCol('')
@@ -59,18 +55,20 @@ export const TakeItemModal = ({areaId}) => {
     const onSubmit = (e) => {
         e.preventDefault()
         setSearchType(1);
-        dispatch(clearSpace());
         dispatch(clearInventory());
         dispatch(closeModal());
         checked.forEach((id) => (
             dispatch(startRemoveItem(id, areaId, 2))
         ))
+        setTimeout(() => {
+            dispatch(startLoadingLogs(areaId));
+        }, 1000)
     }
     
     const handleSpaceChange = (e) => {
+        setSelectedSpace(e.target.value)
         if (e.target.value) {
             dispatch(getInventoryBySpace(e.target.value))
-            setSelectedSpace(e.target.value)
         }
     }
 
@@ -121,7 +119,6 @@ export const TakeItemModal = ({areaId}) => {
     
     const handleCloseModal = () => {
         setSearchType(1);
-        dispatch(clearSpace());
         dispatch(clearInventory());
         dispatch(closeModal());
     }  
@@ -216,6 +213,7 @@ export const TakeItemModal = ({areaId}) => {
                             >
                                 <InputLabel htmlFor="row-select">Fila</InputLabel>
                                 <Select
+                                    disabled={selectedSpace === ''}
                                     onChange={(e) => handlePositionChange(e, "row")}
                                     native
                                     label="row"
@@ -234,7 +232,7 @@ export const TakeItemModal = ({areaId}) => {
                             >
                                 <InputLabel htmlFor="column-select">Columna</InputLabel>
                                 <Select
-                                    disabled={!space}
+                                    disabled={selectedSpace === ''}
                                     onChange={(e) => handlePositionChange(e, "col")}
                                     native
                                     label="column"

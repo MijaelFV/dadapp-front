@@ -33,7 +33,7 @@ export const startLoadingAreas = (userId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/area/${userId}`);
         if (resp.status === 200) {
-            dispatch(loadAreas(resp.data.resp))
+            dispatch(loadAreas(resp.data))
         } else {
             console.log(resp.data)
         }

@@ -28,7 +28,18 @@ export const getInventoryByQuery = (areaId, query) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/search/${areaId}?query=${query}`);
         if (resp.status === 200) {
-            dispatch(loadInventory(resp.data.resp))
+            dispatch(loadInventory(resp.data))
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const getInventoryByTaked = (areaId) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/item/taked/${areaId}`);
+        if (resp.status === 200) {
+            dispatch(loadInventory(resp.data))
         } else {
             console.log(resp.data)
         }
@@ -39,7 +50,7 @@ export const getInventoryBySpace = (spaceId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/inventory/${spaceId}`);
         if (resp.status === 200) {
-            dispatch(loadInventory(resp.data.resp))
+            dispatch(loadInventory(resp.data))
         } else {
             console.log(resp.data)
         }
@@ -51,9 +62,16 @@ export const uploadItemImage = (item, image) => {
         const formData = new FormData();
         formData.append('file', image);
         const resp = await fetch(`api/upload/items/${item}`, formData, 'PUT');
-        if (resp.status === 200) {
-            // dispatch(getInventoryBySpace(space));
-        } else {
+        if (resp.status !== 200) {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const returnItem = (item, column, row, space, area) => {
+    return async() => {
+        const resp = await fetch(`api/item/taked/return/${item}`, {row, column, space, area}, 'PUT');
+        if (resp.status !== 200) {
             console.log(resp.data)
         }
     }

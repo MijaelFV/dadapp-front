@@ -9,17 +9,21 @@ import { ProfileModal } from '../../components/ProfileModal'
 import { Logs } from './components/Logs'
 import { ShowAvatar } from '../../components/ShowAvatar'
 import { TakeItemModal } from './components/TakeItemModal'
+import { ReturnItemModal } from './components/ReturnItemModal'
+import { startLoadingSpaces } from '../../redux/actions/space'
 
 export const MainScreen = () => {
     const history = useHistory() 
     const dispatch = useDispatch();
 
     const area = useSelector(state => state.area.active);
+    const spaces = useSelector(state => state.space.spaces);
     const user = useSelector(state => state.auth)
     const logs = useSelector(state => state.log.logs);
 
     useMemo(() => {
-        dispatch(startLoadingLogs(area.uid, 1));
+        dispatch(startLoadingLogs(area.uid));
+        dispatch(startLoadingSpaces(area.uid));
     }, [dispatch, area.uid])
 
     const handleSearchClick = () => {
@@ -27,7 +31,7 @@ export const MainScreen = () => {
     }
     
     const handleReturnClick = () => {
-        dispatch(openModal());
+        dispatch(openModal("ReturnItemModal"));
     }
     
     const handleTakeClick = () => {
@@ -120,7 +124,8 @@ export const MainScreen = () => {
                 ))}
             </div>
             <ProfileModal />
-            <TakeItemModal areaId={area.uid} />
+            <ReturnItemModal areaId={area.uid} spaces={spaces} />
+            <TakeItemModal areaId={area.uid} spaces={spaces} />
         </div>
     )
 }

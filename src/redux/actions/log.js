@@ -14,7 +14,7 @@ export const startLoadingLogs = (id, type) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/logs/${type}/${id}`);
         if (resp.status === 200) {
-            dispatch(loadLogs(resp.data.resp))
+            dispatch(loadLogs(resp.data))
         } else {
             console.log(resp.data)
         }
