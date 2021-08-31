@@ -4,9 +4,10 @@ import 'moment/locale/es'
 import { faArrowsAltH, faArrowsAltV } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ShowAvatar } from '../../../components/ShowAvatar'
+import { getItemById } from '../../../redux/actions/inv'
 
 
-export const Logs = ({log}) => {
+export const Logs = ({log, history, dispatch}) => {
     const time = moment(log.time).locale("es").format('DD/MM/YY HH:mm')
 
     const ColRowInfo = () => {
@@ -47,6 +48,13 @@ export const Logs = ({log}) => {
             break;
     }
 
+    const handleClickItem = async(itemId, spaceId) => {
+        if (itemId && spaceId) {
+            await dispatch(getItemById(itemId))
+            history.push(`/space/${spaceId}/${itemId}`)
+        }
+    }
+
     return (
         <div className="log">
             <ShowAvatar username={log.user.name} userId={log.user._id} />
@@ -55,7 +63,7 @@ export const Logs = ({log}) => {
                 <span className="col-time">{time}</span>
             </div>
             <div className="log-col2">
-                <span className="col-item">{log.item?.name || log.itemName}</span>
+                <span className="col-item" onClick={() => handleClickItem(log.item?._id, log.space?._id)}>{log.item?.name || log.itemName}</span>
                 <span className="col-space">{log.space.name}</span>
             </div>
             {ColRowInfo()}

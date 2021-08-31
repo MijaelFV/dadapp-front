@@ -123,7 +123,7 @@ export const MainScreen = () => {
             <div className="log-container">
                 {noLogsAdvise()}
                 {logs.map((log) => (
-                    <Logs key={log.uid} log={log} />
+                    <Logs key={log.uid} log={log} history={history} dispatch={dispatch}/>
                 ))}
             </div>
             <ProfileModal />

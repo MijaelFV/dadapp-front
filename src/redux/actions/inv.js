@@ -38,6 +38,17 @@ export const clearInventory = () => ({
     type: types.invClear,
 })
 
+export const getItemById = (id) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/item/${id}`);
+        if (resp.status === 200) {
+            dispatch(loadInventory([resp.data]))
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
 export const getInventoryByQuery = (areaId, query) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/search/${areaId}?query=${query}`);
@@ -52,7 +63,6 @@ export const getInventoryByQuery = (areaId, query) => {
 export const getInventoryByTaked = (areaId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/taked/${areaId}`);
-        console.log(resp.data);
         if (resp.status === 200) {
             dispatch(loadToReturn(resp.data))
         } else {
