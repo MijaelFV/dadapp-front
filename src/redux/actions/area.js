@@ -19,6 +19,18 @@ export const clearArea = () => ({
     type: types.areaClear,
 })
 
+export const createArea = (name) => {
+    return async(dispatch) => {
+        console.log(name);
+        const resp = await fetch(`api/area`, {name}, "POST");
+        if (resp.status === 201) {
+            dispatch(startLoadingAreas())
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
 export const startClearArea = () => {
     return async(dispatch) => {
         dispatch(clearInventory());
@@ -29,9 +41,9 @@ export const startClearArea = () => {
     }
 }
 
-export const startLoadingAreas = (userId) => {
+export const startLoadingAreas = () => {
     return async(dispatch) => {
-        const resp = await fetch(`api/area/${userId}`);
+        const resp = await fetch(`api/area/user`);
         if (resp.status === 200) {
             dispatch(loadAreas(resp.data))
         } else {

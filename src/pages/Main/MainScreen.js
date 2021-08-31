@@ -25,7 +25,7 @@ export const MainScreen = () => {
 
     useMemo(() => {
         dispatch(getInventoryByTaked(area.uid))
-        dispatch(startLoadingLogs(area.uid));
+        dispatch(startLoadingLogs(area.uid, 1));
         dispatch(startLoadingSpaces(area.uid));
     }, [dispatch, area.uid])
 

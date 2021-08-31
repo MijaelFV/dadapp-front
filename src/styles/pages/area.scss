@@ -4,109 +4,78 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    
     .area-column {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 95vw;
         max-width: 500px;
-        border-radius: 24px;
-        box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px, rgba(145, 158, 171, 0.24) 0px 16px 32px -4px;
-        // height: 100%;
+        height: 100%;
+        width: 100%;
 
+        
         .areaList-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            // box-shadow: rgba(145, 158, 171, 0.24) 0px 0px 2px 0px, rgba(145, 158, 171, 0.24) 0px 16px 32px -4px;
-            box-shadow:inset 0px 0px 0px 2px #f0f0f0;
-            border-start-start-radius: 24px;
-            border-start-end-radius: 24px;
-            border-end-start-radius: 11px;
-            border-end-end-radius: 11px;
-            box-sizing: border-box;
-            background-color: #F6F6F6;
-            z-index: 1;
+            // padding-inline: 14px;
+            height: 100%;
             width: 100%;
 
+            
             .avatarContainer {
+                margin-top: 10px;
                 display: flex;
-                align-items: center;
-                justify-content: center;
-                border-start-start-radius: 24px;
-                border-start-end-radius: 24px;
-                margin-top: -45px;
-                width: 60px;
-                height: 55px;
-                background-color: #F6F6F6;
+                width: 100%;
+                justify-content: space-between;
+                align-items: flex-end;
             }
-
+            
             .hint {
-                margin-bottom: 10px;
+                margin-right: auto;
                 font-weight: 600;
-                font-size: 18px;
-                color: #6b6b6b;
+                color: #ffffff;
             }
 
-            .areaList {
-                box-shadow: 0px 0px 0px 2px #f0f0f0;
-                width: 90%;
-                overflow-x: hidden;
+            .profileBorder {
+                border: 2px;
+                border-style: solid;
+                border-color: rgb(255, 255, 255);
+            }
+            
+            .areas-show {
+                display: flex;
+                flex-direction: column;
+                height: 60%;
+                min-width: 100%;
+                box-sizing: border-box;
+                border-radius: 5px;
+                color: rgb(70, 70, 70);
                 overflow-y: auto;
-                border-radius: 9px;
-                background-color: white;
-                margin-bottom: 20px;
-                height: 300px;
+        
+                .noAreas {
+                    display: flex;
+                    justify-content: center;
+                    margin-top: auto;
+                    margin-bottom: auto;
+                    color: #797979;
+                    height: 100%;
+                    margin: 0;
+                    background-color: #f5f5f5;
+                    align-items: center;
+                    padding: 6px;
+                }
             }
-
         }
 
-        .buttons-container {
+        .joinArea {
             display: flex;
-            // box-shadow:inset 0px 0px 0px 5px #cfcfcf;   
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             width: 100%;
-            font-weight: 600;
-            font-size: 18px;            
-            white-space: nowrap;
-            margin-top: -10px;
-            border-end-start-radius: 24px;
-            border-end-end-radius: 24px;
-            text-transform: uppercase;
-            background-color: white;
-
-            .button1 {
-                cursor: pointer;
-                border-radius: 10px;
-                display: flex;
-                justify-content: center;
-                width: 85%;
-                padding: 15px;
-                margin-top: 30px;
-                background-color: #FF8747;
-                color: white;
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            .button2 {
-                width: 85%;
-                box-shadow:inset 0px 0px 0px 2px #FF8747;
-                box-sizing: content-box;
-                cursor: pointer;
-                border-radius: 10px;
-                display: flex;
-                justify-content: center;
-                padding: 15px;
-                margin-top: 10px;
-                margin-bottom: 30px;
-                color: #FF8747;
-                -webkit-tap-highlight-color: transparent;
-            }
+            height: 100px;
+            min-width: 400px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            margin-top: auto;
         }
-
     }
 }
