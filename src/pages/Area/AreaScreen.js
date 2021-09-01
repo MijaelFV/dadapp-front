@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { activeArea, createArea, startLoadingAreas } from '../../redux/actions/area';
+import { activeArea, createArea, joinArea, startLoadingAreas } from '../../redux/actions/area';
 import { AreaRow } from './components/AreaRow';
 import { ProfileModal } from '../../components/ProfileModal';
 import { ShowAvatar } from '../../components/ShowAvatar';
@@ -37,7 +37,6 @@ export const AreaScreen = () => {
     }
 
     const handleShowForm = () => {
-        console.log(isFormOpen);
         if (isFormOpen) {
             setIsFormOpen(false)
         } else {
@@ -51,8 +50,9 @@ export const AreaScreen = () => {
         reset()
     }
 
-    const handleJoinArea = () => {
-        
+    const handleJoinArea = (data) => {
+        dispatch(joinArea(data.code))
+        reset()
     }
 
     const showAreas = () => {
@@ -85,6 +85,8 @@ export const AreaScreen = () => {
                                                         render={({ field }) => 
                                                         <TextField 
                                                             {...field}
+                                                            onBlur={() => setIsFormOpen(false)}
+                                                            autoFocus="true"
                                                             size="small"
                                                             label="Nombre de area"
                                                             variant="outlined"

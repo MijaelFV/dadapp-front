@@ -19,9 +19,28 @@ export const clearArea = () => ({
     type: types.areaClear,
 })
 
+export const joinArea = (code) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/area/code/join`, {code}, "PUT");
+        if (resp.status === 200) {
+            dispatch(startLoadingAreas())
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const renewAreaInviteCode = (area) => {
+    return async() => {
+        const resp = await fetch(`api/area/code/renew`, {area}, "PUT");
+        if (resp.status !== 200) {
+            console.log(resp.data)
+        }
+    }
+}
+
 export const createArea = (name) => {
     return async(dispatch) => {
-        console.log(name);
         const resp = await fetch(`api/area`, {name}, "POST");
         if (resp.status === 201) {
             dispatch(startLoadingAreas())
