@@ -4,6 +4,7 @@ import { clearInventory } from "./inv";
 import { clearLogs } from "./log";
 import { clearSpace } from "./space";
 import { clearUi } from "./ui";
+import { clearSearch } from "./search";
 
 export const loadAreas = (areas) => ({
     type: types.areaLoad,
@@ -52,6 +53,7 @@ export const createArea = (name) => {
 
 export const startClearArea = () => {
     return async(dispatch) => {
+        dispatch(clearSearch());
         dispatch(clearInventory());
         dispatch(clearLogs());
         dispatch(clearSpace());

@@ -2,7 +2,7 @@ import React from 'react'
 import { faHome, faPallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BottomNavigation, BottomNavigationAction, withStyles } from "@material-ui/core";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNavValue } from '../redux/actions/ui';
 
@@ -14,15 +14,14 @@ export const BottomNav = ({isActiveArea}) => {
     })(BottomNavigation);
 
     const dispatch = useDispatch();
+    const {pathname} = useLocation();
     const {navValue} = useSelector(state => state.ui)
 
     const handleChange = (e, newValue) => {
         dispatch(setNavValue(newValue))
     };
-    
-    const lastPath = localStorage.getItem("lastPath")
-    
-    if (lastPath === "/search" || isActiveArea === null) {
+        
+    if (pathname === "/search" || isActiveArea === null) {
         return null;
     } else {
         return (

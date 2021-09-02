@@ -9,12 +9,13 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
-import { clearInventory, getInventoryByQuery, getInventoryBySpace, getInventoryByTaked, loadInventory, startModifyItem, startRemoveItem, unloadInventory, uploadItemImage } from '../../../redux/actions/inv';
+import { getInventoryBySpace, getInventoryByTaked, loadInventory, startModifyItem, startRemoveItem, unloadInventory, uploadItemImage } from '../../../redux/actions/inv';
 import { clearSpace, startLoadingSpaces } from '../../../redux/actions/space';
 import { ShowImage } from '../../../components/ShowImage';
 import { startClearArea } from '../../../redux/actions/area';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import { startLoadingLogs } from '../../../redux/actions/log';
+import { clearSearch, getSearch } from '../../../redux/actions/search';
 
 
 Modal.setAppElement('#root');
@@ -30,7 +31,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const [items, setItems] = useState([]);
     
     const space = spaces?.find(space => space.uid === selectedSpace)
-    const res = useSelector(state => state.inv.items);
+    const res = useSelector(state => state.search.items);
 
     useEffect(() => {
         if (Number(selectedRow) >= 1 && selectedCol === '') {
@@ -57,7 +58,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
         e.preventDefault()
         setChecked([]);
         setSearchType(1);
-        dispatch(unloadInventory());
+        dispatch(clearSearch());
         dispatch(closeModal());
         checked.forEach((id) => (
             dispatch(startRemoveItem(id, areaId, 2))
@@ -85,12 +86,12 @@ export const TakeItemModal = ({areaId, spaces}) => {
 
     const handleQueryChange = (e) => {
         if (e.target.value.length > 2) {
-            dispatch(getInventoryByQuery(areaId, e.target.value))
+            dispatch(getSearch("items", areaId, e.target.value))
         }
     }
 
     const handleTypeChange = () => {
-        dispatch(clearInventory());        
+        dispatch(clearSearch());        
         if (searchType === 1) {
             setSearchType(2);
         } else {
@@ -123,7 +124,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const handleCloseModal = () => {
         setSearchType(1);
         setChecked([]);
-        dispatch(unloadInventory());
+        dispatch(clearSearch());
         dispatch(closeModal());
     }  
 

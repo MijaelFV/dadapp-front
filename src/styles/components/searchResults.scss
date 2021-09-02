@@ -1,0 +1,24 @@
+.searchResults-container {
+    margin-top: 10px;
+    padding-inline: 8px;
+
+    .searchLabel {
+        font-weight: 600;
+        color: rgb(94, 94, 94);
+        margin-left: 10px;
+    }
+
+    .list {
+        margin-bottom: 20px;
+    }
+
+    .itemImage {
+        display: flex;
+        justify-content: center;
+        box-shadow: #f1f1fa 0px 0px 1px 2px;
+        height: 100%;
+        width: 100%;
+        box-sizing: content-box;
+    }
+
+}

@@ -49,17 +49,6 @@ export const getItemById = (id) => {
     }
 }
 
-export const getInventoryByQuery = (areaId, query) => {
-    return async(dispatch) => {
-        const resp = await fetch(`api/item/search/${areaId}?query=${query}`);
-        if (resp.status === 200) {
-            dispatch(loadInventory(resp.data))
-        } else {
-            console.log(resp.data)
-        }
-    }
-}
-
 export const getInventoryByTaked = (areaId) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/taked/${areaId}`);

@@ -3,6 +3,7 @@ import { areaReducer } from "./areaReducer";
 import { authReducer } from "./authReducer";
 import { invReducer } from "./invReducer";
 import { logReducer } from "./logReducer";
+import { searchReducer } from "./searchReducer";
 import { spaceReducer } from "./spaceReducer";
 import { uiReducer } from "./uiReducer";
 
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
     ui: uiReducer,
     inv: invReducer,
     log: logReducer,
-    area: areaReducer
+    area: areaReducer,
+    search: searchReducer
 })

@@ -9,9 +9,6 @@ export const DadApp = () => {
     const theme = createTheme(
         {
             palette: {
-                primary: {
-                    main: '#FF8747'
-                },
                 secondary: {
                     main: '#808080'
                 }

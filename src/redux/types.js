@@ -31,5 +31,8 @@ export const types = {
 
     areaLoad: '[AREA] Loaded',
     areaActive: '[AREA] Set Active Area',
-    areaClear: '[AREA] Area Cleared'
+    areaClear: '[AREA] Area Cleared',
+
+    searchLoad: '[SEARCH] Loaded',
+    searchClear: '[SEARCH] Cleared'
 }

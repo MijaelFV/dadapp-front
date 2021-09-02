@@ -24,7 +24,6 @@ export const AreaScreen = () => {
     });
 
     useMemo(() => {
-        console.log("xd");
         dispatch(startLoadingAreas());
     }, [dispatch])
 
@@ -73,7 +72,7 @@ export const AreaScreen = () => {
                             <List>
                                 <ListItem>
                                     <ListItemAvatar>
-                                        <Avatar variant="rounded" style={{backgroundColor: "#FF8747"}}>
+                                        <Avatar variant="rounded" style={{backgroundColor: "#3F51B5"}}>
                                             <FontAwesomeIcon icon={faFolderPlus} />
                                         </Avatar>
                                     </ListItemAvatar>
@@ -85,7 +84,6 @@ export const AreaScreen = () => {
                                                         render={({ field }) => 
                                                         <TextField 
                                                             {...field}
-                                                            onBlur={() => setIsFormOpen(false)}
                                                             autoFocus="true"
                                                             size="small"
                                                             label="Nombre de area"
@@ -113,7 +111,7 @@ export const AreaScreen = () => {
                                     onClick={(e) => handleOpenArea(area.name, area.uid)}
                                 >
                                     <ListItemAvatar>
-                                        <Avatar variant="rounded" style={isFormOpen ? null : {backgroundColor: "#FF8747"}}>
+                                        <Avatar variant="rounded" style={isFormOpen ? null : {backgroundColor: "#3F51B5"}}>
                                             {/* <div className="itemImage">
                                                 <ShowImage itemId={area.uid} />
                                             </div> */}
@@ -138,7 +136,7 @@ export const AreaScreen = () => {
     return (
         <div className="area-container">
             <div className="area-column">
-                <div className="areaList-container">
+                {/* <div className="areaList-container"> */}
                     <AppBar position="static" color="primary">
                         <Toolbar>
                             <span className="hint">Selección de área</span>
@@ -164,7 +162,7 @@ export const AreaScreen = () => {
                             />
                         </form>
                     </div>
-                </div>
+                {/* </div> */}
             </div>
             <ProfileModal />
         </div>
