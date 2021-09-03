@@ -21,9 +21,9 @@ export const clearSearch = () => ({
     type: types.searchClear,
 })
 
-export const getSearch = (type, areaId, query) => {
+export const getSearch = (type, areaId, query, spaceid = '') => {
     return async(dispatch) => {
-        const resp = await fetch(`api/search/${type}/${areaId}?query=${query}`);
+        const resp = await fetch(`api/search/${type}/${areaId}?query=${query}&spaceid=${spaceid}`);
         if (resp.status === 200) {
             dispatch(loadSearch(resp.data))
         } else {

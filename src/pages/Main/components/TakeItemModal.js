@@ -72,7 +72,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const handleSpaceChange = (e) => {
         setSelectedSpace(e.target.value)
         if (e.target.value) {
-            dispatch(getInventoryBySpace(e.target.value))
+            dispatch(getSearch("items", areaId, '', e.target.value))
         }
     }
 
@@ -112,10 +112,9 @@ export const TakeItemModal = ({areaId, spaces}) => {
         setChecked(newChecked);
     };
 
-    const showItemSpaceName = (id) => {
-        if (searchType === 1 && items.length > 0) {
-            const space = spaces.filter(space => space.uid === id)
-            return `${space[0]?.name} |`
+    const showItemSpaceName = (space) => {
+        if (searchType === 1) {
+            return `${space.name} |`
         } else {
             return ``;
         }
