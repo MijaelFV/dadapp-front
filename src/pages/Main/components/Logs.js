@@ -5,6 +5,7 @@ import { faArrowsAltH, faArrowsAltV } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ShowAvatar } from '../../../components/ShowAvatar'
 import { getItemById } from '../../../redux/actions/inv'
+import { getUserById } from '../../../redux/actions/user'
 
 
 export const Logs = ({log, history, dispatch}) => {
@@ -48,22 +49,31 @@ export const Logs = ({log, history, dispatch}) => {
             break;
     }
 
-    const handleClickItem = async(itemId, spaceId) => {
+    const handleItemClick = async(itemId, spaceId) => {
         if (itemId && spaceId) {
             await dispatch(getItemById(itemId))
             history.push(`/space/${spaceId}/${itemId}`)
         }
     }
 
+    const handleUserClick = async(userId) => {
+        if (userId) {
+            await dispatch(getUserById(userId))
+            history.push(`/user/${userId}`)
+        }
+    }
+
     return (
         <div className="log">
-            <ShowAvatar username={log.user.name} userId={log.user._id} />
+            <div className="w-10 h-10">
+                <ShowAvatar username={log.user.name} userId={log.user._id} />
+            </div>
             <div className="log-col1">
-                <span className="col-name">{log.user.name}</span>
+                <span className="col-name pointer" onClick={() => handleUserClick(log.user._id)}>{log.user.name}</span>
                 <span className="col-time">{time}</span>
             </div>
             <div className="log-col2">
-                <span className="col-item" onClick={() => handleClickItem(log.item?._id, log.space?._id)}>{log.item?.name || log.itemName}</span>
+                <span className="col-item" onClick={() => handleItemClick(log.item?._id, log.space?._id)}>{log.item?.name || log.itemName}</span>
                 <span className="col-space">{log.space.name}</span>
             </div>
             {ColRowInfo()}

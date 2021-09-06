@@ -34,5 +34,8 @@ export const types = {
     areaClear: '[AREA] Area Cleared',
 
     searchLoad: '[SEARCH] Loaded',
-    searchClear: '[SEARCH] Cleared'
+    searchClear: '[SEARCH] Cleared',
+
+    userLoad: '[USER] Loaded',
+    userClear: '[USER] Cleared'
 }

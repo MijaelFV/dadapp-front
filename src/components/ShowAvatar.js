@@ -16,6 +16,6 @@ export const ShowAvatar = ({avatarClass, username, userId, profile}) => {
     }
 
     return (
-        <Avatar className={avatarClass} onClick={handleProfileClick} src={url} alt={username} />
+        <Avatar className={avatarClass} style={{width:"100%", height:"100%"}} onClick={handleProfileClick} src={url} alt={username} />
     )
 }

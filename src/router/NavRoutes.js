@@ -12,6 +12,7 @@ import { SearchScreen } from "../pages/Search/SearchScreen";
 import { SpaceInfo } from "../pages/SpaceInfo/SpaceInfoScreen";
 import { SpaceItemInfo } from "../pages/ItemInfo/ItemInfoScreen";
 import { SpaceScreen } from "../pages/Spaces/SpacesScreen";
+import { UserScreen } from "../pages/User/UserScreen";
 
 export const NavRoutes = () => {
 
@@ -19,14 +20,16 @@ export const NavRoutes = () => {
     const isActiveArea = () => {
         if (activeArea) {
             return [
+                <Route exact path="/space/:spaceId/:itemId" component={SpaceItemInfo}/>,
+                <Route exact path="/space/:spaceId" component={SpaceInfo} />,
+                <Route exact path="/user/:userId" component={UserScreen}/>,
                 <Route exact path="/spaces" component={SpaceScreen}/>,
                 <Route exact path="/search" component={SearchScreen}/>,
-                <Route exact path="/space/:spaceId" component={SpaceInfo} />,
-                <Route exact path="/space/:spaceId/:itemId" component={SpaceItemInfo}/>,
                 <Route exact path="/" component={MainScreen}/>
             ]
         } else {
             return <Route exact path="/" component={AreaScreen}/>
+            // return <Route exact path="/" component={UserScreen}/>
         }
     }
 

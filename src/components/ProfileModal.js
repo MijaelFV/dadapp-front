@@ -57,7 +57,9 @@ export const ProfileModal = () => {
         >
             <div className="profileModal-container">
                 <div className="nose">
-                    <ShowAvatar avatarClass={"avatar"} username={user.name} userId={user.uid} />
+                    <div className="w-20 h-20 absolute"> 
+                        <ShowAvatar username={user.name} userId={user.uid} />
+                    </div>
                     <FontAwesomeIcon 
                         icon={faSignOutAlt} 
                         className="logoutIcon"

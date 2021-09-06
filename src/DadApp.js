@@ -9,6 +9,7 @@ export const DadApp = () => {
     const theme = createTheme(
         {
             palette: {
+                type: "dark",
                 secondary: {
                     main: '#808080'
                 }
@@ -17,16 +18,16 @@ export const DadApp = () => {
         esES
     )
     theme.overrides = {
-        MuiTableCell: {
-            root: {
-                padding: '12px'
-            }
-        },
-        MuiButton: {
-            label: {
-                color: 'white'
-            }
-        }
+        // MuiTableCell: {
+        //     root: {
+        //         padding: '12px'
+        //     }
+        // },
+        // MuiButton: {
+        //     label: {
+        //         color: 'white'
+        //     }
+        // }
     }
 
     return (

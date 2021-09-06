@@ -70,7 +70,9 @@ export const MainScreen = () => {
                         className="topBar-icon"
                     />
                 </div>
-                <ShowAvatar username={user.name} userId={user.uid} profile={true} />
+                <div className="w-10 h-10">
+                    <ShowAvatar username={user.name} userId={user.uid} profile={true} />
+                </div>
             </div>
             <div className="area">
                 <h3 className="area-label">

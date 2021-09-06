@@ -89,12 +89,6 @@ export const LogsTable = ({logs}) => {
 
     return (
         <div className="spaceItemsTable">
-            <Toolbar className="toolBar">
-                 <h2 className="toolBar-title">Movimientos</h2>
-                <IconButton className="toolBar-icon">
-                    <FontAwesomeIcon icon={faSearch}/>
-                </IconButton>
-            </Toolbar>
             <TableContainer>
                 <Table>
                     <TableHead>

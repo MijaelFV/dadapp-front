@@ -33,12 +33,6 @@ export const invReducer = (state = initialState, action) => {
                 ),
             }
 
-        case types.invLoadToReturn: 
-            return {
-                ...state,
-                toReturn: [...action.payload]
-            }
-
         // case types.invAdd: 
         //     return {
         //         ...state,

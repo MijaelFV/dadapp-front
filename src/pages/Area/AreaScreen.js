@@ -140,7 +140,9 @@ export const AreaScreen = () => {
                     <AppBar position="static" color="primary">
                         <Toolbar>
                             <span className="hint">Selección de área</span>
-                            <ShowAvatar avatarClass="profileBorder" username={user.name} userId={user.uid} profile={true} />
+                            <div className="w-10 h-10">
+                                <ShowAvatar avatarClass="profileBorder" username={user.name} userId={user.uid} profile={true} />
+                            </div>
                         </Toolbar>
                     </AppBar>
                     <div className="avatarContainer">

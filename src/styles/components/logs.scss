@@ -19,9 +19,14 @@
             font-size: 17px;
             font-weight: 500;
             overflow: hidden;
+            width: fit-content;
             max-width: 120px;
             white-space: nowrap;
             text-overflow: ellipsis;
+
+            &.pointer { 
+                cursor: pointer;
+            }
         }
         
         .col-time {
