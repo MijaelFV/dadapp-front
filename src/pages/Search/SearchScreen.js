@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { faArrowLeft, faCross, faSlidersH, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { AppBar, makeStyles, TextField, Toolbar, InputBase, IconButton, Chip } from '@material-ui/core'
+ import React, { useEffect } from 'react'
+import { faArrowLeft, faSlidersH } from '@fortawesome/free-solid-svg-icons'
+import { InputBase, IconButton, Chip } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,65 +27,64 @@ export const SearchScreen = () => {
 
     useEffect(() => {
         if (query.length >= 1) {
-            console.log('buscando');
             dispatch(getSearch("all", areaId, query))
         } else {
             dispatch(clearSearch())
         }
-    }, [query])
+    }, [query, areaId, dispatch])
 
     const handleDeleteQuery = () => {
         reset()
     }
 
     return (
-        <div className="search-container">
-            <div className="search-column">
-                <div className="topBar">
-                    <IconButton
-                        onClick={handleReturnClick}
-                        color="primary"
-                    >
-                        <FontAwesomeIcon 
-                            icon={faArrowLeft} 
-                        />
-                    </IconButton>
-                    <Controller 
-                        name="query"
-                        control={control}
-                        render={({ field }) => 
-                        <InputBase 
-                            {...field} 
-                            placeholder="Buscar..."
-                            size="small"
-                            variant="outlined"
-                            autoFocus={true}
-                            className="topBar-searchField"
-                        />}
+        <div className="text-white bg-gray-900 flex flex-col w-full h-auto min-h-full pb-20" style={{maxWidth:"500px", marginInline:"auto"}}>
+            <div className="mt-3 px-1 flex border-b-2 border-solid border-white">
+                <IconButton
+                    onClick={handleReturnClick}
+                    color="primary"
+                >
+                    <FontAwesomeIcon 
+                        icon={faArrowLeft} 
                     />
-                    <IconButton
-                        color="primary"
-                        // onClick={handleShowFiltersClick}
-                    >
-                        <FontAwesomeIcon 
-                            icon={faSlidersH} 
-                        />
-                    </IconButton>
-                </div>
-                {
-                    query.length >= 1 
-                    ?   <div>
-                            <Chip
-                                className="chip"
-                                label={query}
-                                clickable
-                                onDelete={handleDeleteQuery}
-                            />
-                        </div>
-                    :   null
-                }
-                <SearchResults type={"all"} />
+                </IconButton>
+                <div className="w-4"/>
+                <Controller 
+                    name="query"
+                    control={control}
+                    render={({ field }) => 
+                    <InputBase 
+                        {...field} 
+                        placeholder="Buscar..."
+                        size="small"
+                        variant="outlined"
+                        autoFocus={true}
+                    />}
+                />
+                <div className="mr-auto"/>
+                <IconButton
+                    color="primary"
+                    // onClick={handleShowFiltersClick}
+                >
+                    <FontAwesomeIcon 
+                        icon={faSlidersH} 
+                    />
+                </IconButton>
             </div>
+            {
+                query.length >= 1 
+                ?   <div>
+                        <Chip
+                            className="my-1.5 ml-2 font-bold bg-white bg-opacity-10"
+                            style={{marginBlock:"6px", marginLeft:"8px", backgroundColor:"rgb(42 50 66)"}}
+                            label={query}
+                            clickable
+                            onDelete={handleDeleteQuery}
+                        />
+                    </div>
+                :   null
+            }
+            <SearchResults type={"all"} />
         </div>
     )
 }

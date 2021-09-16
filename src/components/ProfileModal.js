@@ -5,9 +5,10 @@ import { closeModal } from '../redux/actions/ui';
 import { startLogout } from '../redux/actions/auth';
 import { startClearArea } from '../redux/actions/area';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCogs, faDoorOpen, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ShowAvatar } from './ShowAvatar';
 import { useModalIsOpen } from '../hooks/useModalIsOpen';
+import { IconButton, List, ListItem } from '@material-ui/core';
 
 Modal.setAppElement('#root');
 export const ProfileModal = () => {
@@ -30,23 +31,17 @@ export const ProfileModal = () => {
         dispatch(closeModal());
     }  
 
-    const ifActiveArea = () => {
+    const ShowUserRole = () => {
         if (activeArea !== null) {
-            return [
-            <div className="userRole">
-                <span>Administrador</span>
-            </div>,
-            <div 
-                className="changeArea"
-                onClick={handleChangeAreaClick} 
-            >
-                <span>Cambiar de Área</span>
-            </div>]
-        } else {
-            return
+            return <p className="font-medium text-base text-gray-400">Administrador</p>
         }
     }
     
+    const listStartIconStyle = {backgroundColor:"#84848429", color:"#ffffff", width:"38px", height:"38px", fontSize:"18px"};
+    const listItemStyle = {borderRadius:"12px", width:"260px", paddingInline:"15px"};
+    const listArrowStyle = {color:"#ffffff", fontSize:"18px"};
+    const listText = {fontWeight:"500", marginLeft:"12px", marginRight:"auto"}
+
     return (
         <Modal
             isOpen={thisModalIsOpen}
@@ -55,26 +50,89 @@ export const ProfileModal = () => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <div className="profileModal-container">
-                <div className="nose">
-                    <div className="w-20 h-20 absolute"> 
-                        <ShowAvatar username={user.name} userId={user.uid} />
+            <div className="flex flex-col items-center">
+                <div className="flex w-full">
+                    <div className="flex w-16 h-16">
+                        <ShowAvatar avatarClass="border-2 border-white border-solid" username={user.name} userId={user.uid} />
                     </div>
-                    <FontAwesomeIcon 
-                        icon={faSignOutAlt} 
-                        className="logoutIcon"
+                    <div className="ml-4 mt-1 text-lg font-bold justify-center flex flex-col">
+                        <p>{user.name}</p>
+                        {
+                            ShowUserRole()
+                        }
+                    </div>
+                </div>
+                <div className="w-full h-0.5 mt-4 rounded-full bg-gray-800"></div>
+                <List>
+                    <ListItem
+                        button 
+                        style={listItemStyle}
+                        onClick={handleChangeAreaClick}
+                    >
+                        <IconButton 
+                            disabled
+                            disableRipple
+                            style={listStartIconStyle}
+                            edge="start" 
+                        >
+                            <FontAwesomeIcon icon={faSignOutAlt} />
+                        </IconButton>
+                        <p style={listText}>Cambiar de Area</p>
+                        <IconButton 
+                            disableTouchRipple
+                            disabled
+                            style={listArrowStyle}
+                            edge="end" 
+                        >
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </IconButton>
+                    </ListItem>
+                    <ListItem
+                        button 
+                        style={listItemStyle}
+                    >
+                        <IconButton 
+                            disabled
+                            disableRipple
+                            style={listStartIconStyle}
+                            edge="start" 
+                        >
+                            <FontAwesomeIcon icon={faCogs} />
+                        </IconButton>
+                        <p style={listText}>Configuracion</p>
+                        <IconButton 
+                            disableTouchRipple
+                            disabled
+                            style={listArrowStyle}
+                            edge="end" 
+                        >
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </IconButton>
+                    </ListItem>
+                    <ListItem
+                        button 
+                        style={listItemStyle}
                         onClick={handleLogOutClick}
-                    />
-                </div>
-                <div className="username">
-                    <span>{user.name}</span>
-                </div>
-                {
-                    ifActiveArea()
-                }
-                <div className="userSettings">
-                    <span>Configuración de Cuenta</span>
-                </div>
+                    >
+                        <IconButton 
+                            disabled
+                            disableRipple
+                            style={listStartIconStyle}
+                            edge="start" 
+                        >
+                            <FontAwesomeIcon icon={faDoorOpen} />
+                        </IconButton>
+                        <p style={listText}>Cerrar sesion</p>
+                        <IconButton 
+                            disableTouchRipple
+                            disabled
+                            style={listArrowStyle}
+                            edge="end" 
+                        >
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </IconButton>
+                    </ListItem>
+                </List>
             </div>
         </Modal>
     )

@@ -8,8 +8,12 @@ import { setNavValue } from '../redux/actions/ui';
 
 export const BottomNav = ({isActiveArea}) => {
     const StyledNavBar = withStyles({
-        root: {
-            boxShadow: "rgb(240, 240, 240) 0px 0px 10px 0px",
+        root: {    
+            backdropFilter: "blur(2px)",
+            backgroundColor:"#080e1bf0",
+            maxWidth:"500px",
+            marginLeft:"auto",
+            marginRight:"auto"
         },
     })(BottomNavigation);
 

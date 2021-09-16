@@ -1,24 +1,3 @@
 // Base
 @import './base.scss';
-
-// Components
-@import './components/modal.scss';
-@import './components/profileModal.scss';
-@import './components/modifySpaceModal.scss';
-@import './components/modifyItemModal.scss';
-@import './components/searchResults.scss';
-@import './components/returnItemModal.scss';
-@import './components/takeItemModal.scss';
-@import './components/itemsTable.scss';
-@import './components/spaceRow.scss';
-@import './components/areaRow.scss';
-@import './components/logs.scss';
-
-// Pages
-@import './pages/auth.scss';
-@import './pages/main.scss';
-@import './pages/spaces.scss';
-@import './pages/spaceInfo.scss';
-@import './pages/ItemInfo.scss';
-@import './pages/search.scss';
-@import './pages/area.scss';
+@import './tailwind.css';

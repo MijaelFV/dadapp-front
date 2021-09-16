@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { startRemoveItem } from '../../../redux/actions/inv'
-import { StyTableRow } from '../../../styles/components/materialUi/styledComponents'
 
 export const ItemsTable = ({itemList, spaceId}) => {
     const dispatch = useDispatch();
@@ -112,7 +111,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
     };
 
     const handleOpenItemInfo = () => {
-        history.push(`/space/${spaceId}/${itemId}`)
+        history.push(`/item/${spaceId}/${itemId}`)
     };
 
     const handleRemoveItem = () => {
@@ -124,41 +123,37 @@ export const ItemsTable = ({itemList, spaceId}) => {
     const headCells = [
         { id: 'name', disablePadding: true, label: 'Nombre' },
         { id: 'category', disablePadding: false, label: 'Categoria' },
-        { id: 'row', disablePadding: false, label: 'F' },
-        { id: 'column', disablePadding: false, label: 'C' },
-        { id: 'description', disablePadding: false, label: 'Descripcion' },
+        { id: 'row', disablePadding: false, label: 'Fila' },
+        { id: 'column', disablePadding: false, label: 'Colu' },
     ];
 
 
     return (
-        <div className="spaceItemsTable">
-            <Toolbar className="toolBar">
+        <div>
+            <Toolbar className="flex">
                 {selected.length > 0 ? (
-                    <h3 className={(selected.length > 0) ? "toolBar-length-selected" : null}>
+                    <h3 className={(selected.length > 0) ? "mr-auto" : null}>
                         {selected.length} Seleccionados
                     </h3>
                 ) : (
-                    [<h2 id="tableTitle" className="toolBar-title">Articulos</h2>,
+                    [<h1 id="tableTitle" className="mr-auto text-xl">Articulos</h1>,
                     <IconButton className="toolBar-icon">
                         <FontAwesomeIcon icon={faSearch}/>
                     </IconButton>]
                 )}
                 {selected.length > 1 ? (
                     <IconButton 
-                        className={(selected.length > 0) ? "toolBar-icon selected" : null}
                         onClick={handleRemoveItem}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </IconButton>
                 ) : selected.length === 1 ? (
                     [<IconButton 
-                        className="toolBar-icon selected"
                         onClick={handleOpenItemInfo}
                     >
                         <FontAwesomeIcon icon={faSignInAlt}/>
                     </IconButton>,
                     <IconButton 
-                        className={(selected.length > 0) ? "toolBar-icon selected" : null}
                         onClick={handleRemoveItem}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
@@ -206,7 +201,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                 const labelId = `table-checkbox-${index}`;
 
                                 return (
-                                    <StyTableRow
+                                    <TableRow
                                         hover
                                         tabIndex={-1}
                                         role="checkbox"
@@ -228,8 +223,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                         <TableCell>{item.category}</TableCell>
                                         <TableCell>{item.row}</TableCell>
                                         <TableCell>{item.column}</TableCell>
-                                        <TableCell>{item.description}</TableCell>
-                                    </StyTableRow>
+                                    </TableRow>
                                 )
                             })
                         }

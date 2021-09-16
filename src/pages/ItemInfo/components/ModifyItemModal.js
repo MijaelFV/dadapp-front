@@ -4,13 +4,11 @@ import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
-import { NumToArray } from '../../../helpers/numToArray';
 import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
 import { startModifyItem, startRemoveItem, uploadItemImage } from '../../../redux/actions/inv';
-import axios from 'axios';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 
 
@@ -69,8 +67,8 @@ export const ModifyItemModal = ({item, areaId}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form className="modifyItemModal-container" onSubmit={handleSubmit(onSubmit)}>
-                <div className="fileUpload">
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex mb-5 items-center">
                     <Button
                         size="small"
                         component="label"
@@ -84,7 +82,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                             hidden
                         />
                     </Button>
-                    {selectedFile !== undefined && <p>Archivo: {selectedFile.name}</p>}
+                    {selectedFile !== undefined && <p className="w-52 overflow-hidden text-xs ml-2 whitespace-nowrap overflow-ellipsis">Archivo: {selectedFile.name}</p>}
                 </div>
                 <Controller 
                     name="name"
@@ -96,9 +94,9 @@ export const ModifyItemModal = ({item, areaId}) => {
                         label="Nombre de objeto"
                         variant="outlined"
                         type="text"
-                        className="form-textField"
                     />}
                 />
+                <div className="h-3"/>
                 <Controller 
                     name="description"
                     control={control}
@@ -114,9 +112,10 @@ export const ModifyItemModal = ({item, areaId}) => {
                         className="form-textField"
                     />}
                 />
-                <div className="form-selects">
+                <div className="h-3"/>
+                <div className="w-96 flex justify-between">
                     <FormControl
-                        className="select"
+                        style={{width:"115px"}}
                         variant="outlined"
                     >
                         <InputLabel htmlFor="category-select">Categoria</InputLabel>
@@ -143,7 +142,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                         />
                     </FormControl>
                     <FormControl
-                        className="select" 
+                        style={{width:"115px"}}
                         variant="outlined"
                     >
                         <InputLabel htmlFor="row-select">Fila</InputLabel>
@@ -166,7 +165,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                         />
                     </FormControl>
                     <FormControl
-                        className="select" 
+                        style={{width:"115px"}} 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="column-select">Columna</InputLabel>
@@ -189,10 +188,10 @@ export const ModifyItemModal = ({item, areaId}) => {
                         />
                     </FormControl>
                 </div>
-                <div className="form-button">
+                <div className="mt-4 flex">
                     <Button
                         fullWidth
-                        style={{marginRight:"2px"}}
+                        style={{marginRight:"4px"}}
                         variant="contained"
                         color="primary"
                         type="submit"

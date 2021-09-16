@@ -7,10 +7,10 @@ import { openModal } from '../../redux/actions/ui';
 import { clearLogs, startLoadingLogs } from '../../redux/actions/log'
 import { LogsTable } from './components/LogsTable';
 import { ModifyItemModal } from './components/ModifyItemModal';
-import { IconButton } from '@material-ui/core';
+import { Divider, IconButton } from '@material-ui/core';
 import { ShowImage } from '../../components/ShowImage';
 
-export const SpaceItemInfo = () => {
+export const ItemInfoScreen = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -35,44 +35,62 @@ export const SpaceItemInfo = () => {
     }
 
     return (
-        <div className="spaceItemInfo-container">
-            <div className="spaceItemInfo-column">
-                <div className="topBar">
-                    <IconButton
-                        color="primary"
-                        style={{marginRight:"auto"}}
-                        onClick={handleReturnClick}
-                    >
-                        <FontAwesomeIcon 
-                            icon={faArrowLeft} 
-                        />
-                    </IconButton>
-                    <IconButton
-                        color="primary"
-                        onClick={handleOpenModifyModal}
-                    >
-                        <FontAwesomeIcon 
-                            icon={faCogs} 
-                        />
-                    </IconButton>
-                </div>
-                <div className="info-container">
-                    <div className="itemImage">
-                        <ShowImage itemId={item.uid} />
+        <div className="text-white bg-gray-900 flex flex-col w-full h-auto min-h-full pb-20" style={{maxWidth:"500px", marginInline:"auto"}}>
+            <div className="flex justify-between p-3">
+                <IconButton
+                    color="primary"
+                    style={{marginRight:"auto"}}
+                    onClick={handleReturnClick}
+                >
+                    <FontAwesomeIcon 
+                        icon={faArrowLeft} 
+                    />
+                </IconButton>
+                <IconButton
+                    color="primary"
+                    onClick={handleOpenModifyModal}
+                >
+                    <FontAwesomeIcon 
+                        icon={faCogs} 
+                    />
+                </IconButton>
+            </div>
+            <h1 className="text-3xl font-bold -mt-5 mb-3 text-center">
+                {item.name}
+            </h1>
+            <div className="rounded mx-3 bg-black bg-opacity-50 h-60 overflow-hidden justify-center flex border-4 border-solid border-gray-500 border-opacity-20">
+                <ShowImage itemId={item.uid} />
+            </div>
+            <div className="flex flex-col rounded mt-3 mx-3 bg-gray-500 bg-opacity-20 p-2">
+                <div className="itemData">
+                    <h1 className="text-lg px-1 font-medium">
+                        Informacion del Articulo
+                    </h1>
+                    <div className="mb-4 px-1 text-gray-300">
+                        <p>{item.description}</p>
                     </div>
-                    <span className="itemName">
-                        {item.name}
-                    </span>
-                    <span className="itemData">
-                        Fila {item.row} - Columna {item.column} | Categoria: {item.category.name}
-                    </span>
-                    <span className="itemDescription">
-                        {item.description}
-                    </span>
+                    <Divider/>
+                    <div className="rounded mt-3 mb-1 overflow-hidden">
+                        <div className="flex px-1 bg-gray-700">
+                            <h1 className="font-medium mr-auto">Fila</h1>
+                            <p className="text-gray-300">{item.row}</p>
+                        </div>
+                        <div className="flex px-1">
+                            <h1 className="font-medium mr-auto">Columna</h1>
+                            <p className="text-gray-300">{item.column}</p>
+                        </div>
+                        <div className="flex px-1 bg-gray-700">
+                            <h1 className="font-medium mr-auto">Categoria</h1>
+                            <p className="text-gray-300">{item.category.name}</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="dataGrid">
-                    <LogsTable logs={logs} />
-                </div>
+            </div>
+            <div className="rounded mt-6 mx-3 bg-gray-500 bg-opacity-20 px-2">
+                <h1 className="text-lg px-1 font-medium mt-3 mb-2">
+                    Ultimos Movimientos
+                </h1>
+                <LogsTable logs={logs} />
             </div>
             <ModifyItemModal item={item} areaId={areaId} />
         </div>

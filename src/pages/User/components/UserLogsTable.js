@@ -1,13 +1,9 @@
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar } from '@material-ui/core'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@material-ui/core'
 import moment from 'moment'
 import 'moment/locale/es'
 import React, { useState } from 'react'
-import { StyTableRow } from '../../../styles/components/materialUi/styledComponents'
 
 export const UserLogsTable = ({logs}) => {
-
     const createData = () => {
         return (
             logs.map((log, index) => (
@@ -27,9 +23,9 @@ export const UserLogsTable = ({logs}) => {
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('');
-    const [selected, setSelected] = useState([]);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    // const [selected, setSelected] = useState([]);
+    // const [page, setPage] = useState(0);
+    // const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const descendingComparator = (a, b, orderBy) => {
         if (b[orderBy] < a[orderBy]) {
@@ -67,18 +63,18 @@ export const UserLogsTable = ({logs}) => {
         handleRequestSort(event, property);
       };
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
+    // const isSelected = (name) => selected.indexOf(name) !== -1;
         
-        const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    // const handleChangePage = (event, newPage) => {
+    //     setPage(newPage);
+    // };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+    // const handleChangeRowsPerPage = (event) => {
+    //     setRowsPerPage(parseInt(event.target.value, 10));
+    //     setPage(0);
+    // };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const headCells = [
         { id: 'item', label: 'Articulo' },
@@ -90,8 +86,8 @@ export const UserLogsTable = ({logs}) => {
     ];
 
     return (
-        <TableContainer className="border-2 border-opacity-30 rounded-md">
-            <Table>
+        <TableContainer>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
                         {headCells.map((headCell) => (
@@ -113,11 +109,43 @@ export const UserLogsTable = ({logs}) => {
                 <TableBody>
                     {
                         stableSort(rows, getComparator(order, orderBy))
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((log) => {
+                            let type;
+                            let bgColor;
+
+                            switch (log.type) {
+                                case "ADD":
+                                        type = "Añadido"
+                                        bgColor = "bg-green-900"
+                                    break;
+
+                                case "RETURNED":
+                                        type = "Devuelto"
+                                        bgColor = "bg-green-900"
+                                    break;
+
+                                case "TAKED":
+                                        type = "Retirado"
+                                        bgColor = "bg-green-900"
+                                    break;
+
+                                case "MODIFY":
+                                        type = "Modificado"
+                                        bgColor = "bg-blue-900"
+                                break;
+
+                                case "DELETE":
+                                        type = "Removido"
+                                        bgColor = "bg-red-900"
+                                    break;
+
+                                default: 
+                                    break;
+                            }
+
                             return (
-                                <StyTableRow
-                                    hover
+                                <TableRow
                                     tabIndex={-1}
                                     // onClick={(event) => handleClick(event, log.id)}
                                 >
@@ -125,17 +153,17 @@ export const UserLogsTable = ({logs}) => {
                                     <TableCell>{log.space}</TableCell>
                                     <TableCell>{log.row}</TableCell>
                                     <TableCell>{log.column}</TableCell>
-                                    <TableCell>{log.type}</TableCell>
-                                    <TableCell>{moment(log.time).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
-                                </StyTableRow>
+                                    <TableCell><div className={`w-min p-1 rounded bg-opacity-40 ${bgColor}`}>{type}</div></TableCell>
+                                    <TableCell>{moment(log.date).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
+                                </TableRow>
                             )
                         })
                     }
-                    {emptyRows > 0 && (
+                    {/* {emptyRows > 0 && (
                         <TableRow style={{ height: 53 * emptyRows }}>
                             <TableCell colSpan={6} />
                         </TableRow>
-                    )}
+                    )} */}
                 </TableBody>
             </Table>
         </TableContainer>

@@ -12,7 +12,6 @@ export const clearLogs = () => ({
 
 export const startLoadingLogs = (id, type) => {
     return async(dispatch) => {
-        console.log(id, type);
         const resp = await fetch(`api/item/logs/${type}/${id}`);
         if (resp.status === 200) {
             dispatch(loadLogs(resp.data))

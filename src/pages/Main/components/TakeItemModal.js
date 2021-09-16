@@ -1,18 +1,13 @@
-import { ListItemSecondaryAction, Checkbox, Button, FormControl, Collapse, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, ListSubheader, Divider } from '@material-ui/core';
-import React, { useEffect, useMemo, useState } from 'react'
+import { ListItemSecondaryAction, Checkbox, Button, FormControl, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, FormControlLabel, Switch, Avatar } from '@material-ui/core';
+import React, { useEffect,useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../redux/actions/ui';
-import { Controller, useForm } from "react-hook-form";
-import { NumToArray } from '../../../helpers/numToArray';
-import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faDolly } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
-import { getInventoryBySpace, getInventoryByTaked, loadInventory, startModifyItem, startRemoveItem, unloadInventory, uploadItemImage } from '../../../redux/actions/inv';
-import { clearSpace, startLoadingSpaces } from '../../../redux/actions/space';
+import { getInventoryByTaked, startRemoveItem } from '../../../redux/actions/inv';
 import { ShowImage } from '../../../components/ShowImage';
-import { startClearArea } from '../../../redux/actions/area';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import { startLoadingLogs } from '../../../redux/actions/log';
 import { clearSearch, getSearch } from '../../../redux/actions/search';
@@ -133,9 +128,11 @@ export const TakeItemModal = ({areaId, spaces}) => {
                         {items.map((item) => (
                             [
                                 <ListItem key={item.uid} button onClick={(e) => handleCheckItem(item.uid)}>
-                                    <div className="itemImage">
-                                        <ShowImage itemId={item.uid} />
-                                    </div>
+                                    <ListItemAvatar>
+                                        <Avatar variant="rounded">
+                                            <ShowImage itemId={item.uid} />
+                                        </Avatar>
+                                    </ListItemAvatar>
                                     <ListItemText primary={item.name} secondary={`${showItemSpaceName(item.space)} F: ${item.row} C: ${item.column}`}  />
                                     <ListItemSecondaryAction>
                                         <Checkbox
@@ -150,7 +147,11 @@ export const TakeItemModal = ({areaId, spaces}) => {
                         ))}
                     </List>
         } else {
-            return <span className="noItems">No hay articulos</span>
+            return <div className="mx-auto my-auto flex flex-col items-center text-gray-400">
+                <FontAwesomeIcon icon={faDolly} size="4x" />
+                <b className="mt-2">No hay articulos para mostrar</b>
+                <p className="text-center w-2/3">Si colocaste datos asegurate de que sean correctos</p>
+            </div>
         }
     }
 
@@ -162,19 +163,18 @@ export const TakeItemModal = ({areaId, spaces}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form className="takeItemModal-container" onSubmit={onSubmit}>
-                <div className="search-options">
-                    <Button
-                        size="small"
-                        fullWidth
-                        style={{marginRight:"2px"}}
-                        variant="contained"
-                        color="secondary"
-                        onClick={handleTypeChange}
-                    >
-                        {searchType === 1 ? "Buscar por Espacio" : "Buscar por Nombre"}
-                    </Button>
-                </div>
+            <form style={{width:"370px"}} className="flex flex-col" onSubmit={onSubmit}>
+                    <FormControlLabel
+                        style={{marginTop:"-5px", marginBottom:"5px"}}
+                        control={
+                        <Switch
+                            onChange={handleTypeChange}
+                            name="searchType"
+                            color="primary"
+                        />
+                        }
+                        label={searchType === 1 ? "Buscar por espacio" : "Buscar por nombre"}
+                    />
                     {
                         searchType ===  1 ? (
                         <TextField
@@ -183,14 +183,13 @@ export const TakeItemModal = ({areaId, spaces}) => {
                             placeholder="Ej: 'Destornillador'"
                             variant="outlined"
                             type="text"
-                            className="form-textField"
                             size="small"
                         />
                 
                         ) : (
-                        <div className="form-selects">
+                        <div className="flex justify-between">
                             <FormControl
-                                className="select" 
+                                style={{width:"115px"}}
                                 variant="outlined"
                                 size="small"
                             >
@@ -211,7 +210,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                 </Select>
                             </FormControl>
                             <FormControl
-                                className="select" 
+                                style={{width:"115px"}}
                                 variant="outlined"
                                 size="small"
                             >
@@ -230,7 +229,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                 </Select>
                             </FormControl>
                             <FormControl
-                                className="select" 
+                                style={{width:"115px"}}
                                 variant="outlined"
                                 size="small"
                             >
@@ -251,13 +250,14 @@ export const TakeItemModal = ({areaId, spaces}) => {
                         </div>
                     )
                 }
-                <div className="items-show">
+                <div className="flex flex-col h-80 mt-3 bg-gray-500 bg-opacity-20 rounded overflow-y-auto">
                     {showItems()}
                 </div>
-                <div className="form-button">
+                <div className="mt-4">
                     <Button
+                        disabled={checked.length === 0}
                         fullWidth
-                        style={{marginRight:"2px"}}
+                        style={{marginBottom:"4px"}}
                         variant="contained"
                         color="primary"
                         type="submit"
@@ -265,10 +265,10 @@ export const TakeItemModal = ({areaId, spaces}) => {
                         Retirar
                     </Button>
                     <Button
-                        onClick={handleCloseModal}
                         fullWidth
+                        onClick={handleCloseModal}
                         variant="contained"
-                        color="primary"
+                        color="secondary"
                     >
                         Cancelar
                     </Button>

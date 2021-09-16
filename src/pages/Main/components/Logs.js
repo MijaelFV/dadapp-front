@@ -13,20 +13,20 @@ export const Logs = ({log, history, dispatch}) => {
 
     const ColRowInfo = () => {
         if (log.type !== "DELETE") {
-            return <div className="log-col3">
-                <div className="col3">
-                    <span className="col3-value">
+            return <div className="ml-3 flex flex-col">
+                <div className="mb-1 flex w-max text-black rounded overflow-hidden">
+                    <p className="px-2 font-bold bg-white">
                         {log.row}
-                    </span>
-                    <div className="col3-icon">
+                    </p>
+                    <div className="flex items-center justify-center bg-gray-800 w-7 h-6 text-white">
                         <FontAwesomeIcon icon={faArrowsAltV}/>
                     </div>
                 </div>
-                <div className="col3">
-                    <span className="col3-value">
+                <div className="flex w-max text-black rounded overflow-hidden">
+                    <p className="px-2 font-bold bg-white">
                         {log.column}
-                    </span>
-                    <div className="col3-icon">
+                    </p>
+                    <div className="flex items-center justify-center bg-gray-800 w-7 h-6 text-white">
                         <FontAwesomeIcon icon={faArrowsAltH}/>
                     </div>
                 </div>
@@ -34,25 +34,36 @@ export const Logs = ({log, history, dispatch}) => {
         }
     }
 
-    let classType;
+    let logBgColor;
+    let labelType;
+    let labelBgColor;
     switch (log.type) {
         case "ADD":
-                classType = "log-add"
+                logBgColor = "bg-green-500"
+                labelType = "Articulo Añadido"
+                labelBgColor = "bg-green-900"
             break;
 
         case "MODIFY":
-                classType = "log-modify"
+                logBgColor = "bg-blue-500"
+                labelType = "Posición Modificada"
+                labelBgColor = "bg-blue-900"
             break;
 
         case "DELETE":
-                classType = "log-delete"
+                logBgColor = "bg-red-500"
+                labelType = "Articulo Removido"
+                labelBgColor = "bg-red-900"
+            break;
+
+        default: 
             break;
     }
 
-    const handleItemClick = async(itemId, spaceId) => {
-        if (itemId && spaceId) {
+    const handleItemClick = async(itemId, spaceId, takedBy) => {
+        if (itemId && spaceId && takedBy === null) {
             await dispatch(getItemById(itemId))
-            history.push(`/space/${spaceId}/${itemId}`)
+            history.push(`/item/${spaceId}/${itemId}`)
         }
     }
 
@@ -64,20 +75,41 @@ export const Logs = ({log, history, dispatch}) => {
     }
 
     return (
-        <div className="log">
-            <div className="w-10 h-10">
-                <ShowAvatar username={log.user.name} userId={log.user._id} />
+        <div>
+            <div className={`flex mx-2 py-2 px-2 items-center bg-opacity-30 rounded-tr-md rounded-tl-md ${labelBgColor}`}>
+                <div className="w-10 h-10">
+                    <ShowAvatar username={log.user.name} userId={log.user._id} />
+                </div>
+                <div className="flex flex-col ml-3 mr-auto justify-evenly">
+                    <p 
+                        className="text-lg cursor-pointer no-tap-highlight font-medium overflow-hidden w-max overflow-ellipsis whitespace-nowrap"
+                        style={{maxWidth:"120px"}} 
+                        onClick={() => handleUserClick(log.user._id)}
+                    >
+                        {log.user.name}
+                    </p>
+                    <p className="text-sm text-gray-300">{time}</p>
+                </div>
+                <div className="flex flex-col items-end justify-evenly">
+                    <p 
+                        className=" text-lg cursor-pointer no-tap-highlight font-medium overflow-hidden whitespace-nowrap overflow-ellipsis" 
+                        style={{maxWidth:"145px"}} 
+                        onClick={() => handleItemClick(log.item?._id, log.space?._id, log.item?.takedBy)}
+                    >
+                        {log.item?.name || log.itemName}
+                    </p>
+                    <p 
+                        className="text-sm text-gray-300 overflow-hidden whitespace-nowrap overflow-ellipsis"
+                        style={{maxWidth:"145px"}} 
+                    >
+                        {log.space.name}
+                    </p>
+                </div>
+                {ColRowInfo()}
             </div>
-            <div className="log-col1">
-                <span className="col-name pointer" onClick={() => handleUserClick(log.user._id)}>{log.user.name}</span>
-                <span className="col-time">{time}</span>
-            </div>
-            <div className="log-col2">
-                <span className="col-item" onClick={() => handleItemClick(log.item?._id, log.space?._id)}>{log.item?.name || log.itemName}</span>
-                <span className="col-space">{log.space.name}</span>
-            </div>
-            {ColRowInfo()}
-            <span className={classType}></span>
+            <p className={`${logBgColor} mx-2 mb-2 rounded-br-md rounded-bl-md text-center`}>
+                {labelType}
+            </p>
         </div>
     )
 }
