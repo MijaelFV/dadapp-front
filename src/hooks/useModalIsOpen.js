@@ -9,7 +9,7 @@ export const useModalIsOpen = (modalToOpen) => {
         } else {
             return false;
         }
-    }, [activeModal])
+    }, [activeModal, modalToOpen])
 
     return thisModalIsOpen
 }

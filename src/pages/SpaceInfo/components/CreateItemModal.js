@@ -37,7 +37,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form className="createItemModal-container" onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Controller 
                     name="name"
                     control={control}
@@ -48,9 +48,9 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         label="Nombre de objeto"
                         variant="outlined"
                         type="text"
-                        className="form-textField"
                     />}
                 />
+                <div className="h-3"/>
                 <Controller 
                     name="description"
                     control={control}
@@ -63,12 +63,12 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         maxRows={4}
                         label="Descripcion"
                         variant="outlined"
-                        className="form-textField"
                     />}
                 />
-                <div className="form-selects">
+                <div className="h-3"/>
+                <div className="w-96 flex justify-between">
                     <FormControl
-                        className="select"
+                        style={{width:"115px"}}
                         variant="outlined"
                     >
                         <InputLabel htmlFor="category-select">Categoria</InputLabel>
@@ -95,7 +95,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                     <FormControl
-                        className="select" 
+                        style={{width:"115px"}} 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="row-select">Fila</InputLabel>
@@ -122,7 +122,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                     <FormControl
-                        className="select" 
+                        style={{width:"115px"}} 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="column-select">Columna</InputLabel>
@@ -149,15 +149,25 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                 </div>
-                <div className="form-button">
+                <div className="mt-4 flex">
                     <Button
                         size="large"
+                        style={{marginRight:"4px"}}
                         variant="contained"
                         color="primary"
                         fullWidth={true}
                         type="submit"
                     >
                         Crear
+                    </Button>
+                    <Button
+                        fullWidth
+                        style={{width:"180px"}}
+                        onClick={handleCloseModal}
+                        variant="contained"
+                        color="secondary"
+                    >
+                        Cancelar
                     </Button>
                 </div>
             </form>

@@ -32,7 +32,6 @@ export const clearSpace = () => ({
 export const startLoadingSpaces = (area) => {
     return async(dispatch) => {
         const resp = await fetch(`api/space/${area}`);
-        console.log('cargando espacios')
         if (resp.status === 200) {
             dispatch(loadSpaces(resp.data))
         } else {

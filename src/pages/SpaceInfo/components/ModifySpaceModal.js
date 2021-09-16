@@ -57,11 +57,14 @@ export const ModifySpaceModal = ({space}) => {
     const showCategories = () => {
         if (categories.length > 0) {
             return categories.map((category) => (
-                <span key={category.uid}>
+                <span 
+                    className="flex justify-between items-center mx-2 my-0.5 rounded-sm px-1"
+                    key={category.uid}
+                >
                     {category.name}
                     <FontAwesomeIcon 
                         icon={faTimesCircle} 
-                        className="iconButton"
+                        className="cursor-pointer no-tap-highlight"
                         onClick={() => {
                             handleDeleteCategory(category.uid)
                         }}
@@ -69,7 +72,9 @@ export const ModifySpaceModal = ({space}) => {
                 </span>
             ))
         } else {
-            return <span className="noCategories">No hay categorias</span>
+            return <div className="mx-auto my-auto text-sm text-center w-4/5 text-gray-400">
+                <b>No hay categorias para mostrar</b>
+            </div>
         }
     }
 
@@ -81,7 +86,7 @@ export const ModifySpaceModal = ({space}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form className="modifySpaceModal-container" onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Controller 
                     name="name"
                     control={control}
@@ -92,11 +97,11 @@ export const ModifySpaceModal = ({space}) => {
                         type="text"
                         variant="outlined"
                         label="Nombre del espacio"
-                        className="form-textField"
                     />}
                 />
-                <div className="options-row">
-                    <div className="categories">
+                <div className="h-3"/>
+                <div className="flex">
+                    <div className="flex flex-col">
                         <Controller 
                             name="newCategory"
                             control={control}
@@ -112,7 +117,7 @@ export const ModifySpaceModal = ({space}) => {
                                     endAdornment: <InputAdornment position="end">
                                         <span 
                                             onClick={handleSubmit(handleAddCategory)}
-                                            className="categoryAdd"
+                                            className="flex items-center cursor-pointer no-tap-highlight h-14 px-1 -mr-2 text-lg"
                                         >
                                             <FontAwesomeIcon icon={faPlusCircle}/>
                                         </span>
@@ -120,13 +125,13 @@ export const ModifySpaceModal = ({space}) => {
                                 }}
                             />}
                         />
-                        <div className="categories-show">
+                        <div className="flex flex-col h-24 w-52 mt-3 box-border rounded font-medium overscroll-y-auto pb-0.5 bg-gray-500 bg-opacity-20">
                             {showCategories()}
                         </div>
                     </div>
-                    <div className="vertical-selects">
+                    <div className="flex flex-col ml-3">
                         <FormControl
-                            className="select" 
+                            style={{width:"115px"}} 
                             variant="outlined"
                         >
                             <InputLabel htmlFor="rows-select">Filas</InputLabel>
@@ -148,7 +153,7 @@ export const ModifySpaceModal = ({space}) => {
                             />
                         </FormControl>
                         <FormControl
-                            className="select-mt10" 
+                            style={{width:"115px", marginTop:"12px"}} 
                             variant="outlined"
                         >
                             <InputLabel htmlFor="columns-select">Columnas</InputLabel>
@@ -171,10 +176,10 @@ export const ModifySpaceModal = ({space}) => {
                         </FormControl>
                     </div>
                 </div>
-                <div className="form-button">
+                <div className="mt-4 flex">
                     <Button
                         fullWidth
-                        style={{marginRight:"2px"}}
+                        style={{marginRight:"4px"}}
                         color="primary"
                         variant="contained"
                         type="submit"

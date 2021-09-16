@@ -1,20 +1,16 @@
-import { ListItemSecondaryAction, Checkbox, Button, FormControl, Collapse, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, ListSubheader, Divider } from '@material-ui/core';
-import React, { useEffect, useMemo, useState } from 'react'
+import { ListItemSecondaryAction, Checkbox, Button, FormControl, InputLabel, List, ListItemAvatar, ListItem, Select, ListItemText, Avatar } from '@material-ui/core';
+import React, { useState } from 'react'
 import Modal from 'react-modal';
 import moment from 'moment'
 import 'moment/locale/es'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm, useWatch } from "react-hook-form";
-import { NumToArray } from '../../../helpers/numToArray';
-import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSmileBeam,  } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
-import { clearInventory, getInventoryByQuery, getInventoryBySpace, getInventoryByTaked, loadInventory, returnItem, startModifyItem, startRemoveItem, uploadItemImage } from '../../../redux/actions/inv';
-import { clearSpace, startLoadingSpaces } from '../../../redux/actions/space';
+import { returnItem } from '../../../redux/actions/inv';
 import { ShowImage } from '../../../components/ShowImage';
-import { startClearArea } from '../../../redux/actions/area';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import { startLoadingLogs } from '../../../redux/actions/log';
 
@@ -80,9 +76,11 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                             return (
                             [
                                 <ListItem key={item.uid} button onClick={(e) => handleCheckItem(item.uid)}>
-                                    <div className="itemImage">
-                                        <ShowImage itemId={item.uid} />
-                                    </div>
+                                    <ListItemAvatar>
+                                        <Avatar variant="rounded">
+                                            <ShowImage itemId={item.uid} />
+                                        </Avatar>
+                                    </ListItemAvatar>
                                     <ListItemText primary={item.name} secondary={`Retirado ${time}`}  />
                                     <ListItemSecondaryAction>
                                         <Checkbox
@@ -97,7 +95,11 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                         )})}
                     </List>
         } else {
-            return <span className="noItems">No hay articulos</span>
+            return <div className="mx-auto my-auto flex flex-col items-center text-gray-400">
+                <FontAwesomeIcon icon={faSmileBeam} size="4x" />
+                <b className="mt-2">¡Estas libre de deuda!</b>
+                <p className="text-center w-2/3">Aqui apareceran los articulos que hayas retirado</p>
+            </div>
         }
     }
 
@@ -109,10 +111,10 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form className="returnItemModal-container" onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-selects">
+            <form style={{width:"370px"}} className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex justify-between">
                     <FormControl
-                        className="select" 
+                        style={{width:"115px"}}
                         variant="outlined"
                         size="small"
                     >
@@ -140,7 +142,7 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                         />
                     </FormControl>
                     <FormControl
-                        className="select" 
+                        style={{width:"115px"}}
                         variant="outlined"
                         size="small"
                     >
@@ -165,7 +167,7 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                         />
                     </FormControl>
                     <FormControl
-                        className="select" 
+                        style={{width:"115px"}}
                         variant="outlined"
                         size="small"
                     >
@@ -190,14 +192,14 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                         />
                     </FormControl>
                 </div>
-                <div className="items-show">
+                <div className="flex flex-col h-80 mt-3 bg-gray-500 bg-opacity-20 rounded overflow-y-auto">
                     {showItems()}
                 </div>
-                <div className="form-button">
+                <div className="mt-4">
                     <Button
                         disabled={checked.length === 0 || rowChanged === '' || colChanged === ''}
                         fullWidth
-                        style={{marginRight:"2px"}}
+                        style={{marginBottom:"4px"}}
                         variant="contained"
                         color="primary"
                         type="submit"
@@ -208,7 +210,7 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                         onClick={handleCloseModal}
                         fullWidth
                         variant="contained"
-                        color="primary"
+                        color="secondary"
                     >
                         Cancelar
                     </Button>

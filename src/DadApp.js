@@ -10,9 +10,12 @@ export const DadApp = () => {
         {
             palette: {
                 type: "dark",
+                primary: {
+                    main: '#FFFFFF'
+                },
                 secondary: {
-                    main: '#808080'
-                }
+                    main: '#0b101f'
+                },
             },
         }, 
         esES
