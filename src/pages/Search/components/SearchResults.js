@@ -5,13 +5,28 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { ShowAvatar } from '../../../components/ShowAvatar'
 import { ShowImage } from '../../../components/ShowImage'
+import { getItemById } from '../../../redux/actions/inv'
+import { getUserById } from '../../../redux/actions/user'
 
-export const SearchResults = ({type}) => {
-
+export const SearchResults = ({type, history, dispatch}) => {
     const searchResults = useSelector(state => state.search)
 
+    const handleItemClick = async(itemId, spaceId) => {
+        if (itemId && spaceId) {
+            await dispatch(getItemById(itemId))
+            history.push(`/item/${spaceId}/${itemId}`)
+        }
+    }
+
+    const handleUserClick = async(userId) => {
+        if (userId) {
+            await dispatch(getUserById(userId))
+            history.push(`/user/${userId}`)
+        }
+    }
+
     const showItems = (result) => (
-        <ListItem key={result.uid} button>
+        <ListItem key={result.uid} button onClick={() => handleItemClick(result.uid, result.space._id)}>
             <ListItemAvatar>
                 <Avatar variant="rounded">
                     <div>
@@ -27,7 +42,7 @@ export const SearchResults = ({type}) => {
     )
 
     const showUsers = (result) => (
-            <ListItem key={result.uid} button>
+            <ListItem key={result.uid} button onClick={() => handleUserClick(result.uid)}>
                 <ListItemAvatar>
                     <div className="w-10 h-10">
                         <ShowAvatar userId={result.uid} username={result.name} />

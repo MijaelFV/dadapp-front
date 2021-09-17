@@ -84,7 +84,7 @@ export const SearchScreen = () => {
                     </div>
                 :   null
             }
-            <SearchResults type={"all"} />
+            <SearchResults type={"all"} history={history} dispatch={dispatch}/>
         </div>
     )
 }
