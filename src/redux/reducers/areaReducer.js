@@ -15,6 +15,7 @@ export const areaReducer = (state = initialState, action) => {
         case types.areaActive:
             return {
                 ...state,
+                areas: [],
                 active: action.payload
             }
 

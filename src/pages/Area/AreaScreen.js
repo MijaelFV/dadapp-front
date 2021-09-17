@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faFolderPlus, faPlus, faSadTear, faSignInAlt, faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { Controller, useForm } from 'react-hook-form';
 import { withStyles } from '@material-ui/styles';
+import { showUserRole } from '../../helpers/showUserRole';
 
 export const AreaScreen = () => {
     const StyledAppBar = withStyles({
@@ -34,11 +35,7 @@ export const AreaScreen = () => {
         dispatch(startLoadingAreas());
     }, [dispatch])
 
-    const handleOpenArea = (name, uid) => {
-        const area = {
-            name,
-            uid
-        }
+    const handleOpenArea = (area) => {
         dispatch(activeArea(area))
     }
 
@@ -68,14 +65,14 @@ export const AreaScreen = () => {
                     disabled={isFormOpen} 
                     key={area.uid} 
                     button 
-                    onClick={() => handleOpenArea(area.name, area.uid)}
+                    onClick={() => handleOpenArea(area)}
                 >
                     <ListItemAvatar>
                         <Avatar variant="rounded" style={isFormOpen ? null : {backgroundColor: "white"}}>
                             <FontAwesomeIcon icon={faWarehouse}/>
                         </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={area.name}/>
+                    <ListItemText primary={area.name} secondary={showUserRole(area, user.uid)}/>
                     <IconButton 
                         edge="end" 
                         disabled={isFormOpen}
@@ -159,7 +156,7 @@ export const AreaScreen = () => {
                                 />}
                             />
                         </form>
-                        <div className="w-10 h-10 ml-auto">
+                        <div className="w-10 h-10 ml-auto cursor-pointer no-tap-highlight">
                             <ShowAvatar avatarClass="border-2" username={user.name} userId={user.uid} profile={true} />
                         </div>
                     </Toolbar>

@@ -124,7 +124,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
         { id: 'name', disablePadding: true, label: 'Nombre' },
         { id: 'category', disablePadding: false, label: 'Categoria' },
         { id: 'row', disablePadding: false, label: 'Fila' },
-        { id: 'column', disablePadding: false, label: 'Colu' },
+        { id: 'column', disablePadding: false, label: 'Columna' },
     ];
 
 

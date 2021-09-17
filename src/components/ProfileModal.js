@@ -9,6 +9,7 @@ import { faChevronRight, faCogs, faDoorOpen, faSignOutAlt } from '@fortawesome/f
 import { ShowAvatar } from './ShowAvatar';
 import { useModalIsOpen } from '../hooks/useModalIsOpen';
 import { IconButton, List, ListItem } from '@material-ui/core';
+import { showUserRole } from '../helpers/showUserRole';
 
 Modal.setAppElement('#root');
 export const ProfileModal = () => {
@@ -30,12 +31,6 @@ export const ProfileModal = () => {
     const handleCloseModal = () => {
         dispatch(closeModal());
     }  
-
-    const ShowUserRole = () => {
-        if (activeArea !== null) {
-            return <p className="font-medium text-base text-gray-400">Administrador</p>
-        }
-    }
     
     const listStartIconStyle = {backgroundColor:"#84848429", color:"#ffffff", width:"38px", height:"38px", fontSize:"18px"};
     const listItemStyle = {borderRadius:"12px", width:"260px", paddingInline:"15px"};
@@ -58,7 +53,9 @@ export const ProfileModal = () => {
                     <div className="ml-4 mt-1 text-lg font-bold justify-center flex flex-col">
                         <p>{user.name}</p>
                         {
-                            ShowUserRole()
+                            activeArea
+                            ? showUserRole(activeArea, user.uid)
+                            : null
                         }
                     </div>
                 </div>
