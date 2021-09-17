@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination
 import moment from 'moment'
 import 'moment/locale/es'
 import React, { useState } from 'react'
+import { logType } from '../../../helpers/logType'
 
 export const LogsTable = ({logs}) => {
 
@@ -108,38 +109,7 @@ export const LogsTable = ({logs}) => {
                             stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((log, index) => {
-                                let type;
-                                let bgColor;
-
-                                switch (log.type) {
-                                    case "ADD":
-                                            type = "Añadido"
-                                            bgColor = "bg-green-900"
-                                        break;
-
-                                    case "RETURNED":
-                                            type = "Devuelto"
-                                            bgColor = "bg-green-900"
-                                        break;
-
-                                    case "TAKED":
-                                            type = "Retirado"
-                                            bgColor = "bg-green-900"
-                                        break;
-
-                                    case "MODIFY":
-                                            type = "Modificado"
-                                            bgColor = "bg-blue-900"
-                                    break;
-
-                                    case "DELETE":
-                                            type = "Removido"
-                                            bgColor = "bg-red-900"
-                                        break;
-
-                                    default:
-                                        break;
-                                }
+                                const {logBgColor, labelType} = logType(log.type)
 
                                 return (
                                     <TableRow
@@ -150,7 +120,7 @@ export const LogsTable = ({logs}) => {
                                         <TableCell>{log.user}</TableCell>
                                         <TableCell>{log.row}</TableCell>
                                         <TableCell>{log.column}</TableCell>
-                                        <TableCell><div className={`w-min p-1 rounded bg-opacity-40 ${bgColor}`}>{type}</div></TableCell>
+                                        <TableCell><div className={`w-min p-1 rounded bg-opacity-40 ${logBgColor}`}>{labelType}</div></TableCell>
                                         <TableCell>{moment(log.date).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
                                     </TableRow>
                                 )

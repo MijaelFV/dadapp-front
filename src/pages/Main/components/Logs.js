@@ -6,13 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ShowAvatar } from '../../../components/ShowAvatar'
 import { getItemById } from '../../../redux/actions/inv'
 import { getUserById } from '../../../redux/actions/user'
+import { logType } from '../../../helpers/logType'
 
 
 export const Logs = ({log, history, dispatch}) => {
     const time = moment(log.time).locale("es").format('DD/MM/YY HH:mm')
 
     const ColRowInfo = () => {
-        if (log.type !== "DELETE") {
+        if (log.type !== "DELETE" & log.type !== "TAKED") {
             return <div className="ml-3 flex flex-col">
                 <div className="mb-1 flex w-max text-black rounded overflow-hidden">
                     <p className="px-2 font-bold bg-white">
@@ -34,31 +35,7 @@ export const Logs = ({log, history, dispatch}) => {
         }
     }
 
-    let logBgColor;
-    let labelType;
-    let labelBgColor;
-    switch (log.type) {
-        case "ADD":
-                logBgColor = "bg-green-500"
-                labelType = "Articulo Añadido"
-                labelBgColor = "bg-green-900"
-            break;
-
-        case "MODIFY":
-                logBgColor = "bg-blue-500"
-                labelType = "Posición Modificada"
-                labelBgColor = "bg-blue-900"
-            break;
-
-        case "DELETE":
-                logBgColor = "bg-red-500"
-                labelType = "Articulo Removido"
-                labelBgColor = "bg-red-900"
-            break;
-
-        default: 
-            break;
-    }
+    const {logBgColor, labelTypeLong, labelBgColor} = logType(log.type)
 
     const handleItemClick = async(itemId, spaceId, takedBy) => {
         if (itemId && spaceId && takedBy === null) {
@@ -76,7 +53,7 @@ export const Logs = ({log, history, dispatch}) => {
 
     return (
         <div>
-            <div className={`flex mx-2 py-2 px-2 items-center bg-opacity-30 rounded-tr-md rounded-tl-md ${labelBgColor}`}>
+            <div className={`flex mx-2 py-2 px-2 items-center bg-opacity-30 rounded-tr-md rounded-tl-md ${logBgColor}`}>
                 <div className="w-10 h-10">
                     <ShowAvatar username={log.user.name} userId={log.user._id} />
                 </div>
@@ -107,8 +84,8 @@ export const Logs = ({log, history, dispatch}) => {
                 </div>
                 {ColRowInfo()}
             </div>
-            <p className={`${logBgColor} mx-2 mb-2 rounded-br-md rounded-bl-md text-center`}>
-                {labelType}
+            <p className={`${labelBgColor} mx-2 mb-2 rounded-br-md rounded-bl-md text-center`}>
+                {labelTypeLong}
             </p>
         </div>
     )
