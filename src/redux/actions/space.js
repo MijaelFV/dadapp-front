@@ -54,7 +54,6 @@ export const startCreateSpace = (name, rows, columns, area) => {
 export const startModifySpace = (spaceId, name, rows, columns) => {
     return async(dispatch) => {
         const resp = await fetch(`api/space/${spaceId}`, {name, rows, columns}, 'PUT');
-        console.log(resp);
         if (resp.status === 200) {
             dispatch(startLoadingSpaces(resp.data.area))
         } else {
@@ -66,7 +65,6 @@ export const startModifySpace = (spaceId, name, rows, columns) => {
 export const startDeleteSpace = (uid) => {
     return async(dispatch) => {
         const resp = await fetch(`api/space/${uid}`, null, 'DELETE');
-        console.log('borrando espacio')
         if (resp.status === 200) {
             dispatch(deleteSpace(uid))
         } else {

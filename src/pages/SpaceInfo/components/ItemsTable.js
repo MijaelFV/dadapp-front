@@ -16,7 +16,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                 {
                     id: item.uid,
                     name: item.name,
-                    category: item.category.name,
+                    category: item.category?.name,
                     row: item.row,
                     column: item.column,
                     description: item.description

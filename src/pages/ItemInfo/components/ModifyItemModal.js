@@ -30,7 +30,7 @@ export const ModifyItemModal = ({item, areaId}) => {
         defaultValues: {
             name: item.name,
             description: item.description,
-            category: item.category._id,
+            category: item.category?._id,
             row: item.row,
             column: item.column
         }

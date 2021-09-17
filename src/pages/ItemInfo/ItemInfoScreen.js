@@ -81,7 +81,7 @@ export const ItemInfoScreen = () => {
                         </div>
                         <div className="flex px-1 bg-gray-700">
                             <h1 className="font-medium mr-auto">Categoria</h1>
-                            <p className="text-gray-300">{item.category.name}</p>
+                            <p className="text-gray-300">{item.category?.name}</p>
                         </div>
                     </div>
                 </div>
