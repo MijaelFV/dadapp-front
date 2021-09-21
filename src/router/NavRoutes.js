@@ -13,6 +13,7 @@ import { SpaceInfoScreen } from "../pages/SpaceInfo/SpaceInfoScreen";
 import { ItemInfoScreen } from "../pages/ItemInfo/ItemInfoScreen";
 import { SpaceScreen } from "../pages/Spaces/SpacesScreen";
 import { UserScreen } from "../pages/User/UserScreen";
+import { AreaAdminScreen } from "../pages/AreaAdmin/AreaAdminScreen";
 
 export const NavRoutes = () => {
 
@@ -25,11 +26,12 @@ export const NavRoutes = () => {
                 <Route key={3} exact path="/user/:userId" component={UserScreen}/>,
                 <Route key={4} exact path="/spaces" component={SpaceScreen}/>,
                 <Route key={5} exact path="/search" component={SearchScreen}/>,
+                <Route key={5} exact path="/admin" component={AreaAdminScreen}/>,
                 <Route key={6} exact path="/" component={MainScreen}/>
+
             ]
         } else {
             return <Route exact path="/" component={AreaScreen}/>
-            // return <Route exact path="/" component={UserScreen}/>
         }
     }
 

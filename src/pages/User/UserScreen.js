@@ -26,9 +26,9 @@ export const UserScreen = () => {
     return (
         <div className="text-white bg-gray-900 flex flex-col w-full h-auto min-h-full pb-20" style={{maxWidth:"500px", marginInline:"auto"}}>
             <div className="flex justify-between p-3">
-                    <div className="w-full flex items-center">
+                    <div className="w-full flex items-center p-3">
                         <IconButton
-                            style={{color:"white"}}
+                            color="primary"
                             onClick={handleReturnClick}
                         >
                             <FontAwesomeIcon 

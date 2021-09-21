@@ -1,7 +1,7 @@
 export const showUserRole = (area, useruid) => {
-    if (area?.admins?.includes(useruid)) {
-        return <p className="font-medium text-base text-gray-400">Administrador</p>
+    if (area?.admins?.includes(useruid) || !!area?.admins?.filter(user => user._id === useruid)) {
+        return "Administrador"
     } else {
-        return <p className="font-medium text-base text-gray-400">Miembro</p>
+        return "Miembro"
     }
 }

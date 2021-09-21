@@ -20,6 +20,11 @@ export const clearArea = () => ({
     type: types.areaClear,
 })
 
+export const updateInviteCode = (newCode) => ({
+    type: types.areaChangeCode,
+    payload: newCode
+})
+
 export const joinArea = (code) => {
     return async(dispatch) => {
         const resp = await fetch(`api/area/code/join`, {code}, "PUT");
@@ -31,10 +36,34 @@ export const joinArea = (code) => {
     }
 }
 
-export const renewAreaInviteCode = (area) => {
-    return async() => {
-        const resp = await fetch(`api/area/code/renew`, {area}, "PUT");
-        if (resp.status !== 200) {
+export const renewAreaInviteCode = (areaid) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/area/code/renew`, {areaid}, "PUT");
+        if (resp.status === 200) {
+            dispatch(updateInviteCode(resp.data))
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const deleteArea = (areaid) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/area/${areaid}`, null, "DELETE");
+        if (resp.status === 200) {
+            dispatch(startClearArea())
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const modifyArea = (areaid,name) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/area/${areaid}`, {name}, "PUT");
+        if (resp.status === 200) {
+            dispatch(activeArea(resp.data))
+        } else {
             console.log(resp.data)
         }
     }
@@ -59,6 +88,17 @@ export const startClearArea = () => {
         dispatch(clearSpace());
         dispatch(clearUi());
         dispatch(clearArea());
+    }
+}
+
+export const startLoadingAreaById = (areaid) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/area/${areaid}`);
+        if (resp.status === 200) {
+            dispatch(activeArea(resp.data))
+        } else {
+            console.log(resp.data)
+        }
     }
 }
 

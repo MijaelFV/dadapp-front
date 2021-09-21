@@ -3,17 +3,19 @@ import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../redux/actions/ui';
 import { startLogout } from '../redux/actions/auth';
-import { startClearArea } from '../redux/actions/area';
+import { startClearArea, startLoadingAreaById } from '../redux/actions/area';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faCogs, faDoorOpen, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ShowAvatar } from './ShowAvatar';
 import { useModalIsOpen } from '../hooks/useModalIsOpen';
 import { IconButton, List, ListItem } from '@material-ui/core';
 import { showUserRole } from '../helpers/showUserRole';
+import { useHistory } from 'react-router';
 
 Modal.setAppElement('#root');
 export const ProfileModal = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     
     const user = useSelector(state => state.auth)
     const activeArea = useSelector(state => state.area.active);
@@ -27,10 +29,50 @@ export const ProfileModal = () => {
     const handleChangeAreaClick = () => {
         dispatch(startClearArea());
     }
+
+    const handleAdminAreaClick = async() => {
+        if (!activeArea.inviteCode) {
+            await dispatch(startLoadingAreaById(activeArea.uid))
+        }
+        history.push("/admin");
+        dispatch(closeModal());
+    }
     
     const handleCloseModal = () => {
         dispatch(closeModal());
     }  
+
+    const showManageArea = () => {
+        const userRole = showUserRole(activeArea, user.uid);
+
+        if (userRole === "Administrador") {
+            return <ListItem
+                button 
+                style={listItemStyle}
+                onClick={handleAdminAreaClick}  
+            >
+                <IconButton 
+                    disabled
+                    disableRipple
+                    style={listStartIconStyle}
+                    edge="start" 
+                >
+                    <FontAwesomeIcon icon={faSignOutAlt} />
+                </IconButton>
+                <p style={listText}>Administrar área</p>
+                <IconButton 
+                    disableTouchRipple
+                    disabled
+                    style={listArrowStyle}
+                    edge="end" 
+                >
+                    <FontAwesomeIcon icon={faChevronRight} />
+                </IconButton>
+            </ListItem>
+        } else {
+            return null
+        }
+    }
     
     const listStartIconStyle = {backgroundColor:"#84848429", color:"#ffffff", width:"38px", height:"38px", fontSize:"18px"};
     const listItemStyle = {borderRadius:"12px", width:"260px", paddingInline:"15px"};
@@ -54,36 +96,44 @@ export const ProfileModal = () => {
                         <p>{user.name}</p>
                         {
                             activeArea
-                            ? showUserRole(activeArea, user.uid)
+                            ? <p className="font-medium text-base text-gray-400">{showUserRole(activeArea, user.uid)}</p>
                             : null
                         }
                     </div>
                 </div>
-                <div className="w-full h-0.5 mt-4 rounded-full bg-gray-800"></div>
+                <div className="w-full h-0.5 mt-4 rounded-full bg-gray-800"/>
                 <List>
-                    <ListItem
-                        button 
-                        style={listItemStyle}
-                        onClick={handleChangeAreaClick}
-                    >
-                        <IconButton 
-                            disabled
-                            disableRipple
-                            style={listStartIconStyle}
-                            edge="start" 
-                        >
-                            <FontAwesomeIcon icon={faSignOutAlt} />
-                        </IconButton>
-                        <p style={listText}>Cambiar de Area</p>
-                        <IconButton 
-                            disableTouchRipple
-                            disabled
-                            style={listArrowStyle}
-                            edge="end" 
-                        >
-                            <FontAwesomeIcon icon={faChevronRight} />
-                        </IconButton>
-                    </ListItem>
+                    {
+                        activeArea
+                        ? ([
+                            <ListItem
+                                button 
+                                style={listItemStyle}
+                                onClick={handleChangeAreaClick}
+                            >
+                                <IconButton 
+                                    disabled
+                                    disableRipple
+                                    style={listStartIconStyle}
+                                    edge="start" 
+                                >
+                                    <FontAwesomeIcon icon={faSignOutAlt} />
+                                </IconButton>
+                                <p style={listText}>Cambiar de área</p>
+                                <IconButton 
+                                    disableTouchRipple
+                                    disabled
+                                    style={listArrowStyle}
+                                    edge="end" 
+                                >
+                                    <FontAwesomeIcon icon={faChevronRight} />
+                                </IconButton>
+                            </ListItem>,
+                            showManageArea()
+                        ])
+                        : null
+                    }
+                    
                     <ListItem
                         button 
                         style={listItemStyle}
