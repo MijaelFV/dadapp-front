@@ -43,7 +43,7 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
         dispatch(closeModal());
         setChecked([]);
         setTimeout(() => {
-            dispatch(startLoadingLogs(areaId));
+            dispatch(startLoadingLogs(areaId, 1));
         }, 1000)
         reset();
     }

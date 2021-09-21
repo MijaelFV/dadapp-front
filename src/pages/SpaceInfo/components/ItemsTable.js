@@ -1,6 +1,8 @@
 import { faSearch, faSignInAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar } from '@material-ui/core'
+import moment from 'moment'
+import 'moment/locale/es'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -19,7 +21,8 @@ export const ItemsTable = ({itemList, spaceId}) => {
                     category: item.category?.name,
                     row: item.row,
                     column: item.column,
-                    description: item.description
+                    takedBy: item.takedBy !== null ? item.takedBy.name : "Sin portador",
+                    takedDate: item.takedDate !== null ? moment(item.takedDate).locale("es").format('DD/MM HH:mm') : "Disponible"
                 }
             ))
         )
@@ -123,8 +126,10 @@ export const ItemsTable = ({itemList, spaceId}) => {
     const headCells = [
         { id: 'name', disablePadding: true, label: 'Nombre' },
         { id: 'category', disablePadding: false, label: 'Categoria' },
-        { id: 'row', disablePadding: false, label: 'Fila' },
-        { id: 'column', disablePadding: false, label: 'Columna' },
+        { id: 'row', disablePadding: false, label: 'F' },
+        { id: 'column', disablePadding: false, label: 'C' },
+        { id: 'takedBy', disablePadding: false, label: 'Portador' },
+        { id: 'takedDate', disablePadding: false, label: 'Retirado' },
     ];
 
 
@@ -209,6 +214,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                         key={item.id}
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}
+                                        style={item.takedDate !== "Disponible" ? {backgroundColor:"#321A24"} : null}
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
@@ -223,6 +229,8 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                         <TableCell>{item.category}</TableCell>
                                         <TableCell>{item.row}</TableCell>
                                         <TableCell>{item.column}</TableCell>
+                                        <TableCell>{item.takedBy}</TableCell>
+                                        <TableCell>{item.takedDate}</TableCell>
                                     </TableRow>
                                 )
                             })

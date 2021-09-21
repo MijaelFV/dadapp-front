@@ -60,7 +60,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
         ))
         setTimeout(() => {
             dispatch(getInventoryByTaked(areaId))
-            dispatch(startLoadingLogs(areaId));
+            dispatch(startLoadingLogs(areaId, 1));
         }, 800)
     }
     
