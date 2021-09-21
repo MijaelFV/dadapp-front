@@ -110,7 +110,7 @@ export const AreaAdminScreen = () => {
                 </IconButton>
             </div>
             <div className="flex flex-col px-3 mb-6">
-                <h1 className="m-0 text-gray-300">
+                <h1 className="text-gray-300">
                     Nombre de área 
                 </h1>
                 <div className="flex">
@@ -138,7 +138,7 @@ export const AreaAdminScreen = () => {
                                     Cancelar
                                 </Button>
                             </form>)
-                        :   ([<h1 className="m-0 text-lg font-bold mx-2">
+                        :   ([<h1 className="text-lg mx-2">
                                 {area.name}
                             </h1>,
                             <p 
@@ -148,12 +148,12 @@ export const AreaAdminScreen = () => {
                     }
                 </div>
                 <div className="my-1.5" />
-                <h1 className="m-0 text-gray-300">
+                <h1 className=" text-gray-300">
                     Codigo de invitación
                 </h1>
                 <div className="flex">
                     <h1 
-                        className="m-0 text-lg font-bold bg-gray-500 rounded bg-opacity-20 w-min mx-2 px-2 cursor-pointer no-tap-highlight whitespace-nowrap"
+                        className="text-lg bg-gray-500 rounded bg-opacity-20 w-min mx-2 px-2 cursor-pointer no-tap-highlight whitespace-nowrap"
                         onClick={handleCopyToClipboard}
                     >
                         {
