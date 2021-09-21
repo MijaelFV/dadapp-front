@@ -169,12 +169,16 @@ export const AreaAdminScreen = () => {
                     >Cambiar</p>
                 </div>
             </div>
-            {/* <Divider className="mx-3" /> */}
             <div className="h-0.5 mx-3 rounded-full bg-gray-800"></div>
-            <div className="rounded mt-6 mx-3 bg-gray-500 bg-opacity-20 px-2">
-                <h1 className="text-lg px-1 font-medium mt-3">
-                    Administradores: {area.admins?.length}
-                </h1>
+            <div className="rounded mt-4 mx-3 bg-gray-500 bg-opacity-20 px-2">
+                <div className="flex px-1 mt-1 items-end justify-between">
+                    <h1 className="text-lg font-medium">
+                        Administradores
+                    </h1>
+                    <h1 className="text-gray-300">
+                        {area.admins?.length !== 0 ? area.admins?.length : (<b className="text-gray-400">No hay </b>)}
+                    </h1>
+                </div>
                 <List className="mb-5">
                     {area.admins?.map((admins) => (
                         showUsers(admins)
@@ -182,12 +186,17 @@ export const AreaAdminScreen = () => {
                 </List>
             </div>
             <div className="rounded mt-4 mx-3 bg-gray-500 bg-opacity-20 px-2">
-                <h1 className="text-lg px-1 font-medium mt-3">
-                    Miembros: {area.users?.length}
-                </h1>
+                <div className="flex px-1 mt-1 items-end justify-between">
+                    <h1 className="text-lg font-medium">
+                        Usuarios
+                    </h1>
+                    <h1 className="text-gray-300">
+                        {area.users?.length !== 0 ? area.users?.length : (<b className="text-gray-400">No hay usuarios</b>)}
+                    </h1>
+                </div>
                 <List className="mb-5">
-                    {area.users?.map((members) => (
-                        showUsers(members)
+                    {area.users?.map((users) => (
+                        showUsers(users)
                     ))}
                 </List>
             </div>

@@ -25,30 +25,21 @@ export const UserScreen = () => {
 
     return (
         <div className="text-white bg-gray-900 flex flex-col w-full h-auto min-h-full pb-20" style={{maxWidth:"500px", marginInline:"auto"}}>
-            <div className="flex justify-between p-3">
-                    <div className="w-full flex items-center p-3">
-                        <IconButton
-                            color="primary"
-                            onClick={handleReturnClick}
-                        >
-                            <FontAwesomeIcon 
-                                icon={faArrowLeft} 
-                            />
-                        </IconButton>
-                        <p className="text-xl">
-                            Usuario
-                        </p>
-                    </div>
-                    {/* <IconButton
-                        style={{color:"white"}}
-                    >
-                        <FontAwesomeIcon 
-                            icon={faCogs} 
-                        />
-                    </IconButton> */}
+            <div className="w-full flex items-center p-3">
+                <IconButton
+                    color="primary"
+                    onClick={handleReturnClick}
+                >
+                    <FontAwesomeIcon 
+                        icon={faArrowLeft} 
+                    />
+                </IconButton>
+                <p className="text-xl">
+                    Usuario
+                </p>
             </div>
             <div className="flex mt-4 mx-4">
-                <div className="w-24 h-24">
+                <div className="w-20 h-20">
                     <ShowAvatar userId={user.uid} username={user.name} />
                 </div>
                 <div className="ml-4">
