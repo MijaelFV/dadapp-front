@@ -22,8 +22,8 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
             category: '',
             row: '',
             column: '',
-            expiryDate: null,
-            quantity: null
+            expiryDate: '',
+            quantity: ''
         }
     });
 

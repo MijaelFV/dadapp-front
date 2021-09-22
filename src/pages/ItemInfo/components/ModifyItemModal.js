@@ -1,5 +1,5 @@
 import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../redux/actions/ui';
@@ -11,15 +11,23 @@ import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
 import { startModifyItem, startRemoveItem, uploadItemImage } from '../../../redux/actions/inv';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import moment from 'moment';
+import { getCategoriesBySpace } from '../../../redux/actions/category';
 
 
 Modal.setAppElement('#root');
 export const ModifyItemModal = ({item, areaId}) => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const {categories} = useSelector(state => state.inv);
+    const categories = useSelector(state => state.inv.categories);
     
     const {spaceId} = useParams();
+    
+    useEffect(() => {
+        if (categories.length === 0) {
+            dispatch(getCategoriesBySpace(spaceId));
+        }
+    }, [categories, spaceId, dispatch])
+
     const spaces = useSelector(state => state.space.spaces);
     const space = spaces.find(space => space.uid === spaceId)
 
@@ -34,7 +42,7 @@ export const ModifyItemModal = ({item, areaId}) => {
             category: item.category?._id,
             row: item.row,
             column: item.column,
-            expiryDate: moment(item.expiryDate).format("YYYY-MM-DD"),
+            expiryDate: item.expiryData ? moment(item.expiryDate).format("YYYY-MM-DD") : '',
             quantity: item.quantity
         }
     });
