@@ -19,7 +19,7 @@ export const UserScreen = () => {
     useEffect(() => {
         dispatch(clearLogs());
         dispatch(startLoadingLogs(user.uid, 3, areaid));
-    }, [dispatch, user])
+    }, [dispatch, user, areaid])
 
     const handleReturnClick = () => {
         history.goBack();

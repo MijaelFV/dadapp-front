@@ -23,6 +23,20 @@ export const ItemInfoScreen = () => {
     const areaId = useSelector(state => state.area.active.uid);
     const logs = useSelector(state => state.log.logs);
 
+    const createData = (label, value) => {
+        return { label, value };
+    }
+    const features = [
+        item.takedDate && createData("Portador", item.takedBy?.name),
+        item.takedDate  && createData("Retirado", moment(item.takedDate).locale("es").format('DD/MM/YY')),
+        item.expiryDate && createData("Expiracion", moment(item.expiryDate).locale("es").format('DD/MM/YY')),
+        item.expiryDate && createData("Cantidad", item.quantity),
+        createData("Espacio", item.space?.name),
+        createData("Fila", item.row),
+        createData("Columna", item.column),
+        createData("Categoria", item.category?.name)
+    ]
+
     useMemo(() => {
         dispatch(clearLogs());
         dispatch(startLoadingLogs(item.uid, 2));
@@ -83,33 +97,21 @@ export const ItemInfoScreen = () => {
                     </h1>
                     <div className="rounded mb-1 overflow-hidden bg-gray-900">
                         {
-                            item.takedBy !== null 
-                            ?   ([<div className="flex px-1">
-                                    <h1 className="text-gray-300 font-medium mr-auto">Portador</h1>
-                                    <p>{item.takedBy?.name}</p>
-                                </div>,
-                                <div className="flex px-1 bg-gray-700">
-                                    <h1 className="text-gray-300 font-medium mr-auto">Retirado</h1>
-                                    <p>{moment(item.takedDate).locale("es").format('DD/MM/YY HH:mm')}</p>
-                                </div>])
-                            : null
+                            features.map((feature, index) => {
+                                const isEven = () => (index % 2 === 0)
+                                const bgColor = isEven() ? "bg-gray-700" : null
+
+                                if (feature !== null) {
+                                    return (
+                                        <div key={feature.label} className={`flex px-1 ${bgColor}`}>
+                                            <h1 className="text-gray-300 font-medium mr-auto">{feature.label}</h1>
+                                            <p>{feature.value}</p>
+                                        </div>
+                                    )
+                                }
+                                return null;
+                            })
                         }
-                        <div className="flex px-1">
-                            <h1 className="text-gray-300 mr-auto">Espacio</h1>
-                            <p>{item.space?.name}</p>
-                        </div>
-                        <div className="flex px-1 bg-gray-700">
-                            <h1 className="text-gray-300 mr-auto">Fila</h1>
-                            <p>{item.row}</p>
-                        </div>
-                        <div className="flex px-1">
-                            <h1 className="text-gray-300 mr-auto">Columna</h1>
-                            <p>{item.column}</p>
-                        </div>
-                        <div className="flex px-1 bg-gray-700">
-                            <h1 className="text-gray-300 mr-auto">Categoria</h1>
-                            <p>{item.category?.name}</p>
-                        </div>
                     </div>
                 </div>
             </div>
