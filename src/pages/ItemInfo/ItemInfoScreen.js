@@ -9,7 +9,7 @@ import { openModal } from '../../redux/actions/ui';
 import { clearLogs, startLoadingLogs } from '../../redux/actions/log'
 import { LogsTable } from './components/LogsTable';
 import { ModifyItemModal } from './components/ModifyItemModal';
-import { Divider, IconButton } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { ShowImage } from '../../components/ShowImage';
 
 export const ItemInfoScreen = () => {
@@ -62,9 +62,6 @@ export const ItemInfoScreen = () => {
             <div className="rounded mx-3 bg-black bg-opacity-50 h-60 overflow-hidden justify-center flex border-4 border-solid border-gray-500 border-opacity-20">
                 <ShowImage itemId={item.uid} />
             </div>
-            {/* <h1 className="text-3xl font-medium mt-2 text-center">
-                {item.name}
-            </h1> */}
             <div className="flex flex-col rounded mt-3 mx-3 bg-gray-500 bg-opacity-20 p-2">
                 <div className="itemData">
                     <h1 className="px-1 text-gray-300">

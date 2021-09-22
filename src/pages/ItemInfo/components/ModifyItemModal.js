@@ -10,6 +10,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
 import { startModifyItem, startRemoveItem, uploadItemImage } from '../../../redux/actions/inv';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
+import moment from 'moment';
 
 
 Modal.setAppElement('#root');
@@ -32,15 +33,19 @@ export const ModifyItemModal = ({item, areaId}) => {
             description: item.description,
             category: item.category?._id,
             row: item.row,
-            column: item.column
+            column: item.column,
+            expiryDate: moment(item.expiryDate).format("YYYY-MM-DD"),
+            quantity: item.quantity
         }
     });
 
     const onSubmit = (data) => {
-        dispatch(startModifyItem(item.uid, data.name, data.description, data.category, data.row, data.column, space.uid, areaId));
-        dispatch(uploadItemImage(item.uid, selectedFile));
+        dispatch(startModifyItem(item.uid, data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, space.uid, areaId));
+        if (selectedFile) {
+            dispatch(uploadItemImage(item.uid, selectedFile));
+        }
         dispatch(closeModal());
-        reset({name: data.name, description: data.description, category: data.category, row: data.row, column: data.column});
+        reset({name: data.name, description: data.description, category: data.category, row: data.row, column: data.column, expiryDate: data.expiryDate, quantity: data.quantity});
     }
 
     const handleRemoveItem = () => {
@@ -67,7 +72,7 @@ export const ModifyItemModal = ({item, areaId}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <div className="flex mb-5 items-center">
                     <Button
                         size="small"
@@ -115,7 +120,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                 <div className="h-3"/>
                 <div className="w-96 flex justify-between">
                     <FormControl
-                        style={{width:"115px"}}
+                        style={{width:"120px"}}
                         variant="outlined"
                     >
                         <InputLabel htmlFor="category-select">Categoria</InputLabel>
@@ -142,7 +147,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"115px"}}
+                        style={{width:"120px"}}
                         variant="outlined"
                     >
                         <InputLabel htmlFor="row-select">Fila</InputLabel>
@@ -165,7 +170,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"115px"}} 
+                        style={{width:"120px"}} 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="column-select">Columna</InputLabel>
@@ -187,6 +192,36 @@ export const ModifyItemModal = ({item, areaId}) => {
                             }
                         />
                     </FormControl>
+                </div>
+                <div className="h-3"/>
+                <div className="flex justify-between">
+                    <Controller 
+                        name="expiryDate"
+                        control={control}
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            style={{width:"186px"}} 
+                            label="Expiracion"
+                            variant="outlined"
+                            type="date"
+                            InputLabelProps={{ shrink: true }}
+                        />}
+                    />
+                    <Controller 
+                        name="quantity"
+                        control={control}
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            style={{width:"186px"}} 
+                            label="Cantidad"
+                            placeholder="Ilimitado"
+                            InputLabelProps={{ shrink: true }}
+                            variant="outlined"
+                            type="number"
+                        />}
+                    />
                 </div>
                 <div className="mt-4 flex">
                     <Button

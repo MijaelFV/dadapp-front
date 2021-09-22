@@ -93,9 +93,9 @@ export const returnItem = (item, column, row, space, area) => {
     }
 }
 
-export const startModifyItem = (item, name, description, category, row, column, space, area) => {
+export const startModifyItem = (item, name, description, category, row, column, expiryDate, quantity, space, area) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/item/${item}`, {name, description, category, row, column, space, area}, 'PUT');
+        const resp = await fetch(`api/item/${item}`, {name, description, category, row, column, expiryDate, quantity, space, area}, 'PUT');
         if (resp.status === 200) {
             dispatch(getInventoryBySpace(space));
         } else {
@@ -115,9 +115,9 @@ export const startRemoveItem = (item, area, type = 1) => {
     }
 }
 
-export const startCreateItem = (name, description, category, row, column, space, area) => {
+export const startCreateItem = (name, description, category, row, column, expiryDate, quantity, space, area) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/item`, {name, description, category, row, column, space, area}, 'POST');
+        const resp = await fetch(`api/item`, {name, description, category, row, column, expiryDate, quantity, space, area}, 'POST');
         if (resp.status === 201) {
             dispatch(getInventoryBySpace(space));
         } else {

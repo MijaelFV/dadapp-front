@@ -15,11 +15,20 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
     
     const thisModalIsOpen = useModalIsOpen("CreateItemModal")
 
-    const { control, reset, handleSubmit } = useForm();
+    const { control, reset, handleSubmit } = useForm({
+        defaultValues: {
+            name: '',
+            description: '',
+            category: '',
+            row: '',
+            column: '',
+            expiryDate: null,
+            quantity: null
+        }
+    });
 
     const onSubmit = (data) => {
-        const space = spaceId
-        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, space, area.uid));
+        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, spaceId, area.uid));
         reset();
         dispatch(closeModal());
     }
@@ -37,7 +46,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Controller 
                     name="name"
                     control={control}
@@ -68,14 +77,13 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                 <div className="h-3"/>
                 <div className="w-96 flex justify-between">
                     <FormControl
-                        style={{width:"115px"}}
+                        style={{width:"120px"}}
                         variant="outlined"
                     >
                         <InputLabel htmlFor="category-select">Categoria</InputLabel>
                         <Controller 
                             name="category"
                             control={control}
-                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
@@ -95,14 +103,13 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"115px"}} 
+                        style={{width:"120px"}} 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="row-select">Fila</InputLabel>
                         <Controller 
                             name="row"
                             control={control}
-                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
@@ -122,14 +129,13 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"115px"}} 
+                        style={{width:"120px"}} 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="column-select">Columna</InputLabel>
                         <Controller 
                             name="column"
                             control={control}
-                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
@@ -148,6 +154,36 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                             }
                         />
                     </FormControl>
+                </div>
+                <div className="h-3"/>
+                <div className="flex justify-between">
+                    <Controller 
+                        name="expiryDate"
+                        control={control}
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            style={{width:"186px"}} 
+                            label="Expiracion"
+                            variant="outlined"
+                            type="date"
+                            InputLabelProps={{ shrink: true }}
+                        />}
+                    />
+                    <Controller 
+                        name="quantity"
+                        control={control}
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            style={{width:"186px"}} 
+                            label="Cantidad"
+                            placeholder="Ilimitado"
+                            InputLabelProps={{ shrink: true }}
+                            variant="outlined"
+                            type="number"
+                        />}
+                    />
                 </div>
                 <div className="mt-4 flex">
                     <Button
