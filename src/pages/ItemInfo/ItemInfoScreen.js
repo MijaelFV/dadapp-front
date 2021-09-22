@@ -28,7 +28,7 @@ export const ItemInfoScreen = () => {
     }
     const features = [
         item.takedDate && createData("Portador", item.takedBy?.name),
-        item.takedDate  && createData("Retirado", moment(item.takedDate).locale("es").format('DD/MM/YY')),
+        item.takedDate  && createData("Retirado", moment(item.takedDate).locale("es").format('DD/MM/YY HH:mm')),
         item.expiryDate && createData("Expiracion", moment(item.expiryDate).locale("es").format('DD/MM/YY')),
         item.expiryDate && createData("Cantidad", item.quantity),
         createData("Espacio", item.space?.name),
