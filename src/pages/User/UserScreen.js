@@ -12,11 +12,13 @@ export const UserScreen = () => {
     const history = useHistory();
     const dispatch = useDispatch();
         
+    const areaid = useSelector(state => state.area.active.uid);
     const logs = useSelector(state => state.log.logs);
     const user = useSelector(state => state.user);
+
     useEffect(() => {
         dispatch(clearLogs());
-        dispatch(startLoadingLogs(user.uid, 3));
+        dispatch(startLoadingLogs(user.uid, 3, areaid));
     }, [dispatch, user])
 
     const handleReturnClick = () => {

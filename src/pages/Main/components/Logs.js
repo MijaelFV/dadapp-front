@@ -52,7 +52,7 @@ export const Logs = ({log, history, dispatch}) => {
     }
 
     return (
-        <div>
+        <>
             <div className={`flex mx-2 py-2 px-2 items-center bg-opacity-30 rounded-tr-md rounded-tl-md ${logBgColor}`}>
                 <div className="w-10 h-10">
                     <ShowAvatar username={log.user.name} userId={log.user._id} />
@@ -87,6 +87,6 @@ export const Logs = ({log, history, dispatch}) => {
             <p className={`${labelBgColor} mx-2 mb-2 rounded-br-md rounded-bl-md text-center`}>
                 {labelTypeLong}
             </p>
-        </div>
+        </>
     )
 }
