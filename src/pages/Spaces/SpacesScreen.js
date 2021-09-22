@@ -44,7 +44,8 @@ export const SpaceScreen = () => {
 
     const handleNewSpace = (data) => {
         dispatch(startCreateSpace(data.name, data.rows, data.columns, area.uid));
-        reset();
+        setIsFormOpen(false);
+        reset()
     }
 
     const showSpaces = () => (

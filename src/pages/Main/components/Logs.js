@@ -37,8 +37,8 @@ export const Logs = ({log, history, dispatch}) => {
 
     const {logBgColor, labelTypeLong, labelBgColor} = logType(log.type)
 
-    const handleItemClick = async(itemId, spaceId, takedBy) => {
-        if (itemId && spaceId && takedBy === null) {
+    const handleItemClick = async(itemId, spaceId) => {
+        if (itemId && spaceId) {
             await dispatch(getItemById(itemId))
             history.push(`/item/${spaceId}/${itemId}`)
         }
@@ -71,7 +71,7 @@ export const Logs = ({log, history, dispatch}) => {
                     <p 
                         className=" text-lg cursor-pointer no-tap-highlight font-medium overflow-hidden whitespace-nowrap overflow-ellipsis" 
                         style={{maxWidth:"145px"}} 
-                        onClick={() => handleItemClick(log.item?._id, log.space?._id, log.item?.takedBy)}
+                        onClick={() => handleItemClick(log.item?._id, log.space?._id)}
                     >
                         {log.item?.name || log.itemName}
                     </p>

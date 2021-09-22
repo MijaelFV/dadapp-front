@@ -34,7 +34,7 @@ export const UserScreen = () => {
                         icon={faArrowLeft} 
                     />
                 </IconButton>
-                <p className="text-xl">
+                <p className="ml-1 text-xl">
                     Usuario
                 </p>
             </div>

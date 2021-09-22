@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Button, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, TextField } from '@material-ui/core'
-import { faArrowLeft, faEllipsisV, faPaperPlane, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { ShowAvatar } from '../../components/ShowAvatar'
 import { getUserById } from '../../redux/actions/user'
 import { deleteArea, modifyArea, renewAreaInviteCode } from '../../redux/actions/area'
@@ -97,7 +97,7 @@ export const AreaAdminScreen = () => {
                         icon={faArrowLeft} 
                     />
                 </IconButton>
-                <p className="text-xl mr-auto">
+                <p className="ml-1 text-xl mr-auto">
                     Administración de área
                 </p>
                 <IconButton
@@ -169,7 +169,7 @@ export const AreaAdminScreen = () => {
                     >Cambiar</p>
                 </div>
             </div>
-            <div className="h-0.5 mx-3 rounded-full bg-gray-800"></div>
+            <div className="h-0.5 mx-3 rounded-full bg-gray-800"/>
             <div className="rounded mt-4 mx-3 bg-gray-500 bg-opacity-20 px-2">
                 <div className="flex px-1 mt-1 items-end justify-between">
                     <h1 className="text-lg font-medium">
