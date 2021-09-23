@@ -12,8 +12,8 @@ export const LogsTable = ({logs}) => {
                 {
                     id: log.item?._id || index,
                     user: log.user.name,
-                    row: log.row,
-                    column: log.column,
+                    row: log.row || "-",
+                    column: log.column || "-",
                     type: log.type,
                     date: log.time
                 }
@@ -75,11 +75,11 @@ export const LogsTable = ({logs}) => {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const headCells = [
-        { id: 'user', label: 'Usuario' },
-        { id: 'row', label: 'F' },
-        { id: 'column', label: 'C' },
-        { id: 'type', label: 'Tipo' },
-        { id: 'date', label: 'Fecha' },
+        { id: 'user', disablePadding: false, label: 'Usuario' },
+        { id: 'row', disablePadding: true, label: 'F' },
+        { id: 'column', disablePadding: true, label: 'C' },
+        { id: 'type', disablePadding: false, label: 'Tipo' },
+        { id: 'date', disablePadding: false, label: 'Fecha' },
     ];
 
     return (
@@ -91,6 +91,7 @@ export const LogsTable = ({logs}) => {
                             {headCells.map((headCell) => (
                                 <TableCell
                                     key={headCell.id}
+                                    padding={headCell.disablePadding ? 'none' : 'normal'}
                                     sortDirection={orderBy === headCell.id ? order : false}
                                 >
                                     <TableSortLabel
@@ -118,8 +119,8 @@ export const LogsTable = ({logs}) => {
                                         // onClick={(event) => handleClick(event, log.id)}
                                     >
                                         <TableCell>{log.user}</TableCell>
-                                        <TableCell>{log.row}</TableCell>
-                                        <TableCell>{log.column}</TableCell>
+                                        <TableCell padding="none">{log.row}</TableCell>
+                                        <TableCell padding="none">{log.column}</TableCell>
                                         <TableCell><div className={`w-min p-1 rounded bg-opacity-40 ${logBgColor}`}>{labelType}</div></TableCell>
                                         <TableCell>{moment(log.date).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
                                     </TableRow>

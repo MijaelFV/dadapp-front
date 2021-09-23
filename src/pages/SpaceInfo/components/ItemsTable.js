@@ -21,8 +21,10 @@ export const ItemsTable = ({itemList, spaceId}) => {
                     category: item.category?.name,
                     row: item.row,
                     column: item.column,
-                    takedBy: item.takedBy !== null ? item.takedBy.name : "Sin portador",
-                    takedDate: item.takedDate !== null ? moment(item.takedDate).locale("es").format('DD/MM HH:mm') : "Disponible"
+                    takedBy: item.takedBy !== null ? item.takedBy.name : "-",
+                    takedDate: item.takedDate !== null ? moment(item.takedDate).locale("es").format('DD/MM HH:mm') : "-",
+                    expiryDate: item.expiryDate !== null ? moment(item.expiryDate).locale("es").format('DD/MM/YY') : "-",
+                    quantity: item.quantity !== null ? item.quantity : "-"
                 }
             ))
         )
@@ -126,8 +128,10 @@ export const ItemsTable = ({itemList, spaceId}) => {
     const headCells = [
         { id: 'name', disablePadding: true, label: 'Nombre' },
         { id: 'category', disablePadding: false, label: 'Categoria' },
-        { id: 'row', disablePadding: false, label: 'F' },
-        { id: 'column', disablePadding: false, label: 'C' },
+        { id: 'row', disablePadding: true, label: 'F' },
+        { id: 'column', disablePadding: true, label: 'C' },
+        { id: 'quantity', disablePadding: false, label: 'Cantidad' },
+        { id: 'expiryDate', disablePadding: false, label: 'Vencimiento' },
         { id: 'takedBy', disablePadding: false, label: 'Portador' },
         { id: 'takedDate', disablePadding: false, label: 'Retirado' },
     ];
@@ -214,7 +218,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                         key={item.id}
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}
-                                        style={item.takedDate !== "Disponible" ? {backgroundColor:"#321A24"} : null}
+                                        style={item.takedDate !== "-" ? {backgroundColor:"#321A24"} : null}
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
@@ -227,8 +231,10 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                             {item.name}
                                         </TableCell>
                                         <TableCell>{item.category}</TableCell>
-                                        <TableCell>{item.row}</TableCell>
-                                        <TableCell>{item.column}</TableCell>
+                                        <TableCell padding="none">{item.row}</TableCell>
+                                        <TableCell padding="none">{item.column}</TableCell>
+                                        <TableCell>{item.quantity}</TableCell>
+                                        <TableCell>{item.expiryDate}</TableCell>
                                         <TableCell>{item.takedBy}</TableCell>
                                         <TableCell>{item.takedDate}</TableCell>
                                     </TableRow>

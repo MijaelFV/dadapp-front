@@ -78,12 +78,12 @@ export const UserLogsTable = ({logs}) => {
     // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const headCells = [
-        { id: 'item', label: 'Articulo' },
-        { id: 'space', label: 'Espacio' },
-        { id: 'row', label: 'F' },
-        { id: 'column', label: 'C' },
-        { id: 'type', label: 'Tipo' },
-        { id: 'date', label: 'Fecha' },
+        { id: 'item', disablePadding: false, label: 'Articulo' },
+        { id: 'space', disablePadding: false, label: 'Espacio' },
+        { id: 'row', disablePadding: true, label: 'F' },
+        { id: 'column', disablePadding: true, label: 'C' },
+        { id: 'type', disablePadding: false, label: 'Tipo' },
+        { id: 'date', disablePadding: false, label: 'Fecha' },
     ];
 
     return (
@@ -94,6 +94,7 @@ export const UserLogsTable = ({logs}) => {
                         {headCells.map((headCell) => (
                             <TableCell
                                 key={headCell.id}
+                                padding={headCell.disablePadding ? 'none' : 'normal'}
                                 sortDirection={orderBy === headCell.id ? order : false}
                             >
                                 <TableSortLabel
@@ -121,8 +122,8 @@ export const UserLogsTable = ({logs}) => {
                                 >
                                     <TableCell>{log.item}</TableCell>
                                     <TableCell>{log.space}</TableCell>
-                                    <TableCell>{log.row}</TableCell>
-                                    <TableCell>{log.column}</TableCell>
+                                    <TableCell padding="none">{log.row}</TableCell>
+                                    <TableCell padding="none">{log.column}</TableCell>
                                     <TableCell><div className={`w-min p-1 rounded bg-opacity-40 ${logBgColor}`}>{labelType}</div></TableCell>
                                     <TableCell>{moment(log.date).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
                                 </TableRow>

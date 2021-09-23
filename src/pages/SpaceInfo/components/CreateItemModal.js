@@ -164,7 +164,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         <TextField 
                             {...field} 
                             style={{width:"186px"}} 
-                            label="Expiracion"
+                            label="Vencimiento"
                             variant="outlined"
                             type="date"
                             InputLabelProps={{ shrink: true }}
