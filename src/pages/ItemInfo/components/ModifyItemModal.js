@@ -42,7 +42,7 @@ export const ModifyItemModal = ({item, areaId}) => {
             category: item.category?._id,
             row: item.row,
             column: item.column,
-            expiryDate: item.expiryData ? moment(item.expiryDate).format("YYYY-MM-DD") : '',
+            expiryDate: item.expiryDate ? moment(item.expiryDate).format("YYYY-MM-DD") : '',
             quantity: item.quantity
         }
     });
