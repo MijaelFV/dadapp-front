@@ -125,15 +125,17 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const showItems = () => {
         if (items.length > 0) {
             return <List>
-                        {items.map((item) => (
-                            [
+                        {items.map((item) => {
+                            const qty = item.quantity ? `Cant: ${item.quantity}` : ''
+
+                            return [
                                 <ListItem key={item.uid} button onClick={(e) => handleCheckItem(item.uid)}>
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
                                             <ShowImage itemId={item.uid} />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={item.name} secondary={`${showItemSpaceName(item.space)} F: ${item.row} C: ${item.column}`}  />
+                                    <ListItemText primary={item.name} secondary={`${showItemSpaceName(item.space)} F: ${item.row} C: ${item.column} ${qty}`}  />
                                     <ListItemSecondaryAction>
                                         <Checkbox
                                             color="primary"
@@ -144,7 +146,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                     </ListItemSecondaryAction>
                                 </ListItem>
                             ]
-                        ))}
+                        })}
                     </List>
         } else {
             return <div className="mx-auto my-auto flex flex-col items-center text-gray-400">

@@ -41,6 +41,13 @@ export const logType = (type) => {
                 logBgColor = "bg-red-900"
             break;
 
+        case "CONSUMED":
+                labelBgColor = "bg-yellow-500"
+                labelType = "Consumido"
+                labelTypeLong = "Articulo Consumido"
+                logBgColor = "bg-yellow-900"
+            break;
+
         default: 
             break;
     }

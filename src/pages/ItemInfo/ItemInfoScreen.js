@@ -27,10 +27,10 @@ export const ItemInfoScreen = () => {
         return { label, value };
     }
     const features = [
-        item.takedDate && createData("Portador", item.takedBy?.name),
+        item.takedBy && createData("Portador", item.takedBy?.name),
         item.takedDate  && createData("Retirado", moment(item.takedDate).locale("es").format('DD/MM/YY HH:mm')),
         item.expiryDate && createData("Vencimiento", moment(item.expiryDate).locale("es").format('DD/MM/YY')),
-        item.expiryDate && createData("Cantidad", item.quantity),
+        item.quantity && createData("Cantidad", item.quantity),
         createData("Espacio", item.space?.name),
         createData("Fila", item.row),
         createData("Columna", item.column),
