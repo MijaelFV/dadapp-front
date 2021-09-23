@@ -67,6 +67,7 @@ export const ItemInfoScreen = () => {
                 <IconButton
                     color="primary"
                     onClick={handleOpenModifyModal}
+                    disabled={item.takedDate}
                 >
                     <FontAwesomeIcon 
                         icon={faCogs} 
@@ -81,14 +82,14 @@ export const ItemInfoScreen = () => {
                     <h1 className="px-1 text-gray-300">
                         Nombre
                     </h1>
-                    <div className="mb-2 px-1  text-lg">
+                    <div className="mb-2 px-1">
                         <p>{item.name}</p>
                     </div>
                     <div className="h-0.5 rounded-full bg-gray-700"/>
                     <h1 className="px-1 mt-1 text-gray-300">
                         Descripcion
                     </h1>
-                    <div className="mb-2 px-1  text-lg">
+                    <div className="mb-4 px-1">
                         <p>{item.description}</p>
                     </div>
                     <div className="h-0.5 rounded-full bg-gray-700"/>
@@ -104,7 +105,7 @@ export const ItemInfoScreen = () => {
                                 if (feature !== null) {
                                     return (
                                         <div key={feature.label} className={`flex px-1 ${bgColor}`}>
-                                            <h1 className="text-gray-300 font-medium mr-auto">{feature.label}</h1>
+                                            <h1 className="text-gray-300 mr-auto">{feature.label}</h1>
                                             <p>{feature.value}</p>
                                         </div>
                                     )
