@@ -53,10 +53,8 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         await selectedItems.forEach((item) => {
-            if (item.quantity) {
-                if (item.consume >= 1 && item.consume <= item.quantity) {
-                    return dispatch(startRemoveItem(item.uid, areaId, 3, item.consume))
-                }
+            if (item.quantity !== null && item.consume) {
+                return dispatch(startRemoveItem(item.uid, areaId, 3, item.consume))
             } else {
                 return dispatch(startRemoveItem(item.uid, areaId, 2))
             }
@@ -69,11 +67,13 @@ export const TakeItemModal = ({areaId, spaces}) => {
     }
 
     const handleSetConsume = (e, itemid, quantity) => {
-        selectedItems.forEach((item) => {
-            if (item.uid === itemid) {
-                item.consume = e.target.value
-            }
-        })
+        if (e.target.value >= 1 && e.target.value <= quantity) {
+            selectedItems.forEach((item) => {
+                if (item.uid === itemid) {
+                    item.consume = e.target.value
+                }
+            })
+        }
     }
     
     const handleSpaceChange = (e) => {
@@ -132,11 +132,11 @@ export const TakeItemModal = ({areaId, spaces}) => {
         if (items.length > 0) {
             return <List>
                         {items.map((item) => {
-                            const qty = item.quantity ? `| Cant: ${item.quantity}` : ''
+                            const qty = item.quantity !== null ? `| Cant: ${item.quantity}` : ''
                             const spaceName = searchType === 1 ? `${item.space.name} |` : ''
 
                             return [
-                                <ListItem key={item.uid} button onClick={(e) => handleCheckItem(item.uid)}>
+                                <ListItem key={item.uid} button onClick={(e) => handleCheckItem(item.uid)} disabled={item.quantity === 0}>
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
                                             <ShowImage itemId={item.uid} />
@@ -147,6 +147,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                         <Checkbox
                                             color="primary"
                                             edge="end"
+                                            disabled={item.quantity === 0}
                                             onChange={(e) => handleCheckItem(item.uid)}
                                             checked={checked.indexOf(item.uid) !== -1}
                                         />
@@ -173,24 +174,17 @@ export const TakeItemModal = ({areaId, spaces}) => {
 
                             const showConsumeOption = () => {
                                 if (item.quantity) {
-                                    return <Select
-                                                native
-                                                placeholder="Cant"
+                                    return <FormControl
                                                 variant="outlined"
-                                                onChange={e => handleSetConsume(e, item.uid, item.quantity)}
+                                                size="small"
                                             >
-                                                {showOptionsColRow(item.quantity, false)}
-                                            </Select>
-                                            // <TextField 
-                                            //     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                            //     onChange={e => handleSetConsume(e, item.uid, item.quantity)}
-                                            //     style={{width:"80px"}}
-                                            //     placeholder="Cant"
-                                            //     InputLabelProps={{ shrink: true }}
-                                            //     variant="outlined"
-                                            //     type="number"
-                                            // />
-                                        
+                                                <Select
+                                                    native
+                                                    onChange={e => handleSetConsume(e, item.uid, item.quantity)}
+                                                >
+                                                    {showOptionsColRow(item.quantity)}
+                                                </Select>
+                                            </FormControl>
                                 }
                             }
 
@@ -270,7 +264,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                             color="primary"
                         />
                         }
-                        label={searchType === 1 ? "Buscar por espacio" : "Buscar por nombre"}
+                        label={searchType === 1 ? "Buscar por posición" : "Buscar por nombre"}
                     />
                     {
                         searchType ===  1 ? (

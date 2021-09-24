@@ -30,7 +30,7 @@ export const ItemInfoScreen = () => {
         item.takedBy && createData("Portador", item.takedBy?.name),
         item.takedDate  && createData("Retirado", moment(item.takedDate).locale("es").format('DD/MM/YY HH:mm')),
         item.expiryDate && createData("Vencimiento", moment.utc(item.expiryDate).locale("es").format('DD/MM/YY')),
-        item.quantity && createData("Cantidad", item.quantity),
+        item.quantity !== null &&createData("Cantidad", item.quantity),
         createData("Espacio", item.space?.name),
         createData("Fila", item.row),
         createData("Columna", item.column),

@@ -145,10 +145,10 @@ export const ItemsTable = ({itemList, spaceId}) => {
                         {selected.length} Seleccionados
                     </h3>
                 ) : (
-                    [<h1 id="tableTitle" className="mr-auto text-xl">Articulos</h1>,
-                    <IconButton className="toolBar-icon">
-                        <FontAwesomeIcon icon={faSearch}/>
-                    </IconButton>]
+                    <h1 id="tableTitle" className="mr-auto text-xl">Articulos</h1>
+                    // <IconButton className="toolBar-icon">
+                    //     <FontAwesomeIcon icon={faSearch}/>
+                    // </IconButton>]
                 )}
                 {selected.length > 1 ? (
                     <IconButton 
@@ -218,7 +218,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                         key={item.id}
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}
-                                        style={item.takedDate !== "-" ? {backgroundColor:"#321A24"} : null}
+                                        style={item.takedDate !== "-" ? {backgroundColor:"#321A24"} : null || item.quantity === 0 ? {backgroundColor:"#302120"} : null}
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
