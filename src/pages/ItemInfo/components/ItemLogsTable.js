@@ -4,8 +4,7 @@ import 'moment/locale/es'
 import React, { useState } from 'react'
 import { logType } from '../../../helpers/logType'
 
-export const LogsTable = ({logs}) => {
-
+export const ItemLogsTable = ({logs}) => {
     const createData = () => {
         return (
             logs.map((log, index) => (
@@ -14,6 +13,7 @@ export const LogsTable = ({logs}) => {
                     user: log.user.name,
                     row: log.row || "-",
                     column: log.column || "-",
+                    quantity: log.quantity || null,
                     type: log.type,
                     date: log.time
                 }
@@ -121,7 +121,7 @@ export const LogsTable = ({logs}) => {
                                         <TableCell>{log.user}</TableCell>
                                         <TableCell padding="none">{log.row}</TableCell>
                                         <TableCell padding="none">{log.column}</TableCell>
-                                        <TableCell><div className={`w-min p-1 rounded bg-opacity-40 ${logBgColor}`}>{labelType}</div></TableCell>
+                                        <TableCell><div className={`w-min p-1 rounded bg-opacity-40 whitespace-nowrap ${logBgColor}`}>{labelType} {log.quantity !== null ? `(${log.quantity})` : ''}</div></TableCell>
                                         <TableCell>{moment(log.date).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
                                     </TableRow>
                                 )

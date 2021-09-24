@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { openModal } from '../../redux/actions/ui';
 import { clearLogs, startLoadingLogs } from '../../redux/actions/log'
-import { LogsTable } from './components/LogsTable';
+import { ItemLogsTable } from './components/ItemLogsTable';
 import { ModifyItemModal } from './components/ModifyItemModal';
 import { IconButton } from '@material-ui/core';
 import { ShowImage } from '../../components/ShowImage';
@@ -29,7 +29,7 @@ export const ItemInfoScreen = () => {
     const features = [
         item.takedBy && createData("Portador", item.takedBy?.name),
         item.takedDate  && createData("Retirado", moment(item.takedDate).locale("es").format('DD/MM/YY HH:mm')),
-        item.expiryDate && createData("Vencimiento", moment(item.expiryDate).locale("es").format('DD/MM/YY')),
+        item.expiryDate && createData("Vencimiento", moment.utc(item.expiryDate).locale("es").format('DD/MM/YY')),
         item.quantity && createData("Cantidad", item.quantity),
         createData("Espacio", item.space?.name),
         createData("Fila", item.row),
@@ -120,7 +120,7 @@ export const ItemInfoScreen = () => {
                 <h1 className="text-lg px-1 font-medium mt-3 mb-2">
                     Ultimos Movimientos
                 </h1>
-                <LogsTable logs={logs} />
+                <ItemLogsTable logs={logs} />
             </div>
             <ModifyItemModal item={item} areaId={areaId} />
         </div>

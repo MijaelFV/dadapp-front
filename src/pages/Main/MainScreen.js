@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { startLoadingLogs } from '../../redux/actions/log'
 import { openModal } from '../../redux/actions/ui'
 import { ProfileModal } from '../../components/ProfileModal'
-import { Logs } from './components/Logs'
+import { AreaLogs } from './components/AreaLogs'
 import { ShowAvatar } from '../../components/ShowAvatar'
 import { TakeItemModal } from './components/TakeItemModal'
 import { ReturnItemModal } from './components/ReturnItemModal'
@@ -120,7 +120,7 @@ export const MainScreen = () => {
                 logs.length > 0
                 ?   (<div className="flex flex-col rounded-xl mx-2 mt-9 py-1">
                         {logs.map((log) => (
-                            <Logs key={log.uid} log={log} history={history} dispatch={dispatch}/>
+                            <AreaLogs key={log.uid} log={log} history={history} dispatch={dispatch}/>
                         ))}
                     </div>)
                 :   (

@@ -9,7 +9,7 @@ import { getUserById } from '../../../redux/actions/user'
 import { logType } from '../../../helpers/logType'
 
 
-export const Logs = ({log, history, dispatch}) => {
+export const AreaLogs = ({log, history, dispatch}) => {
     const time = moment(log.time).locale("es").format('DD/MM/YY HH:mm')
 
     const ColRowInfo = () => {
@@ -85,7 +85,7 @@ export const Logs = ({log, history, dispatch}) => {
                 {ColRowInfo()}
             </div>
             <p className={`${labelBgColor} mx-2 mb-2 rounded-br-md rounded-bl-md text-center`}>
-                {labelTypeLong}
+                {labelTypeLong} {log.quantity ? `(${log.quantity})` : ''}
             </p>
         </>
     )

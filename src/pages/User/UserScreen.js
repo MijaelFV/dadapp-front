@@ -40,7 +40,7 @@ export const UserScreen = () => {
                     Usuario
                 </p>
             </div>
-            <div className="flex mt-4 mx-4">
+            <div className="flex mx-4">
                 <div className="w-20 h-20">
                     <ShowAvatar userId={user.uid} username={user.name} />
                 </div>

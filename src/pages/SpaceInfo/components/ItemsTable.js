@@ -23,7 +23,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                     column: item.column,
                     takedBy: item.takedBy !== null ? item.takedBy.name : "-",
                     takedDate: item.takedDate !== null ? moment(item.takedDate).locale("es").format('DD/MM HH:mm') : "-",
-                    expiryDate: item.expiryDate !== null ? moment(item.expiryDate).locale("es").format('DD/MM/YY') : "-",
+                    expiryDate: item.expiryDate !== null ? moment.utc(item.expiryDate).locale("es").format('DD/MM/YY') : "-",
                     quantity: item.quantity !== null ? item.quantity : "-"
                 }
             ))

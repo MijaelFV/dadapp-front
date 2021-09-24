@@ -104,9 +104,9 @@ export const startModifyItem = (item, name, description, category, row, column, 
     }
 }
 
-export const startRemoveItem = (item, area, type = 1) => {
+export const startRemoveItem = (item, area, type = 1, consume) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/item/${item}`, {area, type}, 'DELETE');
+        const resp = await fetch(`api/item/${item}`, {area, type, consume}, 'DELETE');
         if (resp.status === 200) {
             dispatch(removeFromInventory(item));
         } else {

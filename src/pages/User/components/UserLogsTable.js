@@ -14,6 +14,7 @@ export const UserLogsTable = ({logs}) => {
                     space: log.space.name,
                     row: log.row,
                     column: log.column,
+                    quantity: log.quantity || null,
                     type: log.type,
                     date: log.time
                 }
@@ -124,7 +125,7 @@ export const UserLogsTable = ({logs}) => {
                                     <TableCell>{log.space}</TableCell>
                                     <TableCell padding="none">{log.row}</TableCell>
                                     <TableCell padding="none">{log.column}</TableCell>
-                                    <TableCell><div className={`w-min p-1 rounded bg-opacity-40 ${logBgColor}`}>{labelType}</div></TableCell>
+                                    <TableCell><div className={`w-min p-1 rounded bg-opacity-40 whitespace-nowrap ${logBgColor}`}>{labelType} {log.quantity !== null ? `(${log.quantity})` : ''}</div></TableCell>
                                     <TableCell>{moment(log.date).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
                                 </TableRow>
                             )
