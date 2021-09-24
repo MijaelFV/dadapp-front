@@ -125,7 +125,7 @@ export const ModifySpaceModal = ({space}) => {
                                 }}
                             />}
                         />
-                        <div className="flex flex-col h-24 w-52 mt-3 box-border rounded font-medium overscroll-y-auto pb-0.5 bg-gray-500 bg-opacity-20">
+                        <div className="flex flex-col h-24 w-52 mt-3 box-border rounded font-medium overflow-y-auto pb-0.5 bg-gray-500 bg-opacity-20">
                             {showCategories()}
                         </div>
                     </div>

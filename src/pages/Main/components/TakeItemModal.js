@@ -52,18 +52,25 @@ export const TakeItemModal = ({areaId, spaces}) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        const finishSubmit = () => {
+            handleCloseModal();
+            setTimeout(() => {
+                dispatch(getInventoryByTaked(areaId))
+                dispatch(startLoadingLogs(areaId, 1));
+            }, 800)
+        }
         await selectedItems.forEach((item) => {
-            if (item.quantity !== null && item.consume) {
+            if (item.quantity >= 0 && item.consume >= 1) {
+                finishSubmit();
+                console.log('consumido');
                 return dispatch(startRemoveItem(item.uid, areaId, 3, item.consume))
-            } else {
+            } else if (item.quantity === null) {
+                finishSubmit();
+                console.log('retirado');
                 return dispatch(startRemoveItem(item.uid, areaId, 2))
             }
         })
-        handleCloseModal();
-        setTimeout(() => {
-            dispatch(getInventoryByTaked(areaId))
-            dispatch(startLoadingLogs(areaId, 1));
-        }, 800)
+
     }
 
     const handleSetConsume = (e, itemid, quantity) => {
