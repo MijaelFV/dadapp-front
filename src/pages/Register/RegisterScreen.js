@@ -3,19 +3,21 @@ import { Button, TextField } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startRegister } from '../../redux/actions/auth';
 import { Controller, useForm } from 'react-hook-form';
+import { hasError } from '../../helpers/hasError';
+import { errorClear } from '../../redux/actions/error';
 
 
 export const RegisterScreen = () => {
-
     const dispatch = useDispatch();
+    const errors = useSelector(state => state.error)
 
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
             name: 'Mijael',
-            email: 'mijael@hotmail.com',
+            email: 'mijael-x@hotmail.com',
             password: '123456',
             password2: '123456'
         }
@@ -23,18 +25,18 @@ export const RegisterScreen = () => {
 
 
     const onSubmit = (data) => {
-        if (data.password === data.password2) {
-            dispatch(startRegister(data.name, data.email, data.password))
+        dispatch(startRegister(data.name, data.email, data.password, data.password2))
+        if (!errors) {
             reset();
         }
     }
 
     return (
         <div 
-            className="text-white bg-gray-900 w-full h-auto min-h-full flex flex-col justify-center items-center" 
+            className="text-white bg-gradient-to-t from-gray-900 to-black flex flex-col w-full h-auto min-h-full items-center" 
             style={{maxWidth:"500px", marginInline:"auto"}}
         >
-            <div className="flex flex-col items-center justify-center rounded-md p-1 w-auto">
+            <div className="flex flex-col items-center justify-center rounded-md mt-20 p-1 w-max">
                 <div className="flex flex-col mb-8 items-center">
                     <FontAwesomeIcon icon={faUserCircle} size="4x"/>
                     <p className="mt-3 font-medium text-2xl">
@@ -52,7 +54,7 @@ export const RegisterScreen = () => {
                         <TextField 
                             {...field} 
                             fullWidth
-                            label="Correo Electronico"
+                            label="Nombre"
                             variant="filled"
                             type="text"
                         />}
@@ -66,6 +68,8 @@ export const RegisterScreen = () => {
                             {...field} 
                             autoComplete={false}
                             fullWidth
+                            error={hasError(errors, "email")}
+                            helperText={hasError(errors, "email", "helper")}
                             label="Correo Electronico"
                             variant="filled"
                             type="email"
@@ -79,6 +83,8 @@ export const RegisterScreen = () => {
                         <TextField 
                             {...field} 
                             fullWidth
+                            error={hasError(errors, "password")}
+                            helperText={hasError(errors, "password", "helper")}
                             label="Contraseña"
                             variant="filled"
                             type="password"
@@ -92,6 +98,8 @@ export const RegisterScreen = () => {
                         <TextField 
                             {...field} 
                             fullWidth
+                            error={hasError(errors, "password2")}
+                            helperText={hasError(errors, "password2", "helper")}
                             label="Repetir Contraseña"
                             variant="filled"
                             type="password"
@@ -108,16 +116,19 @@ export const RegisterScreen = () => {
                             Registrarse
                         </Button>
                     </div>
-                    
+                    <div className="flex mt-9 items-center">
+                        <p className="text-gray-500">
+                            ¿Ya tienes una cuenta?
+                        </p>
+                        <Link 
+                            to="/login" 
+                            className="pointer no-tap-highlight ml-2" 
+                            onClick={() => dispatch(errorClear())}
+                        >
+                            Iniciar Sesion
+                        </Link>
+                    </div>
                 </form>
-                <div className="flex mt-9 -mb-6 items-center">
-                    <p className="text-gray-500">
-                        ¿Ya tienes una cuenta?
-                    </p>
-                    <Link to="/login" className="pointer no-tap-highlight ml-2">
-                        Iniciar Sesion
-                    </Link>
-                </div>
             </div>
         </div>
     )

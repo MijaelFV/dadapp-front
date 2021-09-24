@@ -7,7 +7,7 @@ import { store } from './redux/store';
 
 export const DadApp = () => {
     const theme = createTheme(
-        {
+        {   
             palette: {
                 type: "dark",
                 primary: {
@@ -17,7 +17,7 @@ export const DadApp = () => {
                     main: '#0b101f'
                 },
             },
-        }, 
+        },
         esES
     )
     theme.overrides = {

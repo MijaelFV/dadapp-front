@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { areaReducer } from "./areaReducer";
 import { authReducer } from "./authReducer";
+import { errorReducer } from "./errorReducer";
 import { invReducer } from "./invReducer";
 import { logReducer } from "./logReducer";
 import { searchReducer } from "./searchReducer";
@@ -10,6 +11,7 @@ import { userReducer } from "./userReducer";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
+    error: errorReducer,
     space: spaceReducer,
     ui: uiReducer,
     inv: invReducer,

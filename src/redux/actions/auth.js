@@ -1,6 +1,7 @@
 import { types } from "../types";
 import { fetch } from "../../helpers/axios";
 import { startClearArea } from "./area";
+import { errorLoad } from "./error";
 
 const login = (user) => ({
     type: types.authLogin,
@@ -34,14 +35,18 @@ export const startLogin = (email, password) => {
                 name: resp.data.loggedUser.name
             }));
         } else {
-            console.log(resp.data)
+            const data = {
+                param: resp.data.param || resp.data.errors[0].param,
+                msg: resp.data.msg || resp.data.errors[0].msg
+            }
+            dispatch(errorLoad(data))
         }
     }
 }
 
-export const startRegister = (name, email, password) => {
+export const startRegister = (name, email, password, password2) => {
     return async(dispatch) => {
-        const resp = await fetch('api/user', {name, email, password}, 'POST');
+        const resp = await fetch('api/user', {name, email, password, password2}, 'POST');
         if (resp.status === 201) {
             localStorage.setItem('token', resp.data.createdUser.token);
             localStorage.setItem('token-init-date', new Date().getTime());
@@ -50,7 +55,11 @@ export const startRegister = (name, email, password) => {
                 name: resp.data.createdUser.name
             }));
         } else {
-            console.log(resp.data)
+            const data = {
+                param: resp.data.param || resp.data.errors[0].param,
+                msg: resp.data.msg || resp.data.errors[0].msg
+            }
+            dispatch(errorLoad(data))
         }
     }
 }

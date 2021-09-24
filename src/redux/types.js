@@ -10,6 +10,9 @@ export const types = {
     authLogin: '[AUTH] Login',
     authLogOut: '[AUTH] LogOut',
 
+    errorLoad: "[ERROR] New Errors",
+    errorClear: "[ERROR] Errors Cleared",
+
     spaceLoad: '[SPACE] Loaded',
     spaceAdd: '[SPACE] Added',
     spaceDelete: '[SPACE] Deleted',
