@@ -54,6 +54,9 @@ export const UserScreen = () => {
                 </div>
             </div>
             <div className="rounded mt-6 mx-3 bg-gray-500 bg-opacity-20 px-2">
+                <h1 className="text-lg px-1 font-medium mt-3 mb-2">
+                    Ultimos Movimientos
+                </h1>
                 <UserLogsTable logs={logs} />
             </div>
         </div>
