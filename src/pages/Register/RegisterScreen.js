@@ -24,8 +24,8 @@ export const RegisterScreen = () => {
     });
 
 
-    const onSubmit = (data) => {
-        dispatch(startRegister(data.name, data.email, data.password, data.password2))
+    const onSubmit = async (data) => {
+        await dispatch(startRegister(data.name, data.email, data.password, data.password2))
         if (!errors) {
             reset();
         }
@@ -66,7 +66,6 @@ export const RegisterScreen = () => {
                         render={({ field }) => 
                         <TextField 
                             {...field} 
-                            autoComplete={false}
                             fullWidth
                             error={hasError(errors, "email")}
                             helperText={hasError(errors, "email", "helper")}

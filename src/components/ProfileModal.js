@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react'
+import React, { createRef } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../redux/actions/ui';
@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faCogs, faDoorOpen, faFileImage, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ShowAvatar } from './ShowAvatar';
 import { useModalIsOpen } from '../hooks/useModalIsOpen';
-import { Button, IconButton, List, ListItem } from '@mui/material';
+import { IconButton, List, ListItem } from '@mui/material';
 import { useHistory } from 'react-router';
 import { uploadUserImage } from '../redux/actions/user';
 import { SwalMixin } from './SwalMixin';

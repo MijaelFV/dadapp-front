@@ -48,12 +48,7 @@ export const startRegister = (name, email, password, password2) => {
     return async(dispatch) => {
         const resp = await fetch('api/user', {name, email, password, password2}, 'POST');
         if (resp.status === 201) {
-            localStorage.setItem('token', resp.data.createdUser.token);
-            localStorage.setItem('token-init-date', new Date().getTime());
-            dispatch(login({
-                uid: resp.data.createdUser.uid,
-                name: resp.data.createdUser.name
-            }));
+            dispatch(startLogin(email, password))
         } else {
             const data = {
                 param: resp.data.param || resp.data.errors[0].param,
@@ -67,6 +62,7 @@ export const startRegister = (name, email, password, password2) => {
 export const startChecking = () => {
     return async(dispatch) => {
         const resp = await fetch('api/auth/renew');
+        console.log(resp);
         if (resp.status === 200) {
             localStorage.setItem('token', resp.data.checkedUser.token);
             localStorage.setItem('token-init-date', new Date().getTime());

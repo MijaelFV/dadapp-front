@@ -2,7 +2,7 @@ import { Button, FormControl, InputLabel, Select, TextField } from '@mui/materia
 import React, { useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { startCreateItem, uploadItemImage } from '../../../redux/actions/inv';
+import { startCreateItem } from '../../../redux/actions/inv';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
