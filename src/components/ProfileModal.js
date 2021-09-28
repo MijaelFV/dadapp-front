@@ -11,6 +11,7 @@ import { useModalIsOpen } from '../hooks/useModalIsOpen';
 import { Button, IconButton, List, ListItem } from '@mui/material';
 import { useHistory } from 'react-router';
 import { uploadUserImage } from '../redux/actions/user';
+import { SwalMixin } from './SwalMixin';
 
 Modal.setAppElement('#root');
 export const ProfileModal = () => {
@@ -24,7 +25,16 @@ export const ProfileModal = () => {
     const thisModalIsOpen = useModalIsOpen("ProfileModal")
 
     const handleLogOutClick = () => {
-        dispatch(startLogout());
+        SwalMixin.fire({
+            text: "¿Estás seguro de cerrar la sesión?", 
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: "Salir",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(startLogout());
+            }
+        })
     }
 
     const handleChangeAreaClick = () => {
