@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { createRef, useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../redux/actions/ui';
 import { startLogout } from '../redux/actions/auth';
 import { startClearArea, startLoadingAreaById } from '../redux/actions/area';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCogs, faDoorOpen, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCogs, faDoorOpen, faFileImage, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ShowAvatar } from './ShowAvatar';
 import { useModalIsOpen } from '../hooks/useModalIsOpen';
-import { IconButton, List, ListItem } from '@mui/material';
+import { Button, IconButton, List, ListItem } from '@mui/material';
 import { useHistory } from 'react-router';
+import { uploadUserImage } from '../redux/actions/user';
 
 Modal.setAppElement('#root');
 export const ProfileModal = () => {
@@ -25,7 +26,7 @@ export const ProfileModal = () => {
     const handleLogOutClick = () => {
         dispatch(startLogout());
     }
-    
+
     const handleChangeAreaClick = () => {
         dispatch(startClearArea());
     }
@@ -41,6 +42,16 @@ export const ProfileModal = () => {
     const handleCloseModal = () => {
         dispatch(closeModal());
     }  
+
+    const inputOpenFileRef = createRef()
+
+    const showOpenFileDlg = () => {
+        inputOpenFileRef.current.click()
+    }
+
+    const handleUploadFile = async(e) => {
+        dispatch(uploadUserImage(user.uid, e.target.files[0]))
+    }
 
     const showManageArea = () => {
         if (isUserAdmin) {
@@ -88,8 +99,20 @@ export const ProfileModal = () => {
         >
             <div className="flex flex-col items-center">
                 <div className="flex w-full">
-                    <div className="flex w-16 h-16">
+                    <div className="flex w-16 h-16 relative">
                         <ShowAvatar avatarClass="border-2 border-white border-solid" username={user.name} userId={user.uid} />
+                        <div 
+                            className="cursor-pointer no-tap-highlight overflow-hidden absolute bottom-0.5 right-0.5 rounded-xl bg-gray-500 w-6 h-6 flex justify-center items-center"
+                            onClick={showOpenFileDlg}
+                        >
+                            <input
+                                ref={inputOpenFileRef}
+                                type="file"
+                                onChange={handleUploadFile}
+                                hidden
+                            />
+                            <FontAwesomeIcon icon={faFileImage}  />
+                        </div>
                     </div>
                     <div className="ml-4 mt-1 text-lg font-bold justify-center flex flex-col">
                         <p>{user.name}</p>
@@ -137,6 +160,7 @@ export const ProfileModal = () => {
                     <ListItem
                         key={2}
                         button 
+                        disabled
                         style={listItemStyle}
                     >
                         <IconButton 

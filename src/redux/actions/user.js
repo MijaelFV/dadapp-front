@@ -10,6 +10,17 @@ export const clearUser = () => ({
     type: types.userClear,
 })
 
+export const uploadUserImage = (user, image) => {
+    return async() => {
+        const formData = new FormData();
+        formData.append('file', image);
+        const resp = await fetch(`api/upload/users/${user}`, formData, 'PUT');
+        if (resp.status !== 200) {
+            console.log(resp.data)
+        }
+    }
+}
+
 export const getUserById = (id) => {
     return async(dispatch) => {
         const resp = await fetch(`api/user/${id}`);

@@ -5,6 +5,6 @@ export const ShowImage = ({itemId}) => {
     const url = `${baseUrl}api/upload/items/${itemId}`;
 
     return (
-        <img src={url} alt="Item" />
+        <img key={Date.now()} src={url} alt="Item" />
     )
 }

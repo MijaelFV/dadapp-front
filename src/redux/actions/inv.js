@@ -75,7 +75,7 @@ export const getInventoryBySpace = (spaceId) => {
 }
  
 export const uploadItemImage = (item, image) => {
-    return async(dispatch) => {
+    return async() => {
         const formData = new FormData();
         formData.append('file', image);
         const resp = await fetch(`api/upload/items/${item}`, formData, 'PUT');
