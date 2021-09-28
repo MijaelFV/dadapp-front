@@ -8,8 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faCogs, faDoorOpen, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ShowAvatar } from './ShowAvatar';
 import { useModalIsOpen } from '../hooks/useModalIsOpen';
-import { IconButton, List, ListItem } from '@material-ui/core';
-import { showUserRole } from '../helpers/showUserRole';
+import { IconButton, List, ListItem } from '@mui/material';
 import { useHistory } from 'react-router';
 
 Modal.setAppElement('#root');
@@ -19,6 +18,7 @@ export const ProfileModal = () => {
     
     const user = useSelector(state => state.auth)
     const activeArea = useSelector(state => state.area.active);
+    const isUserAdmin = useSelector(state => state.area.isUserAdmin);
     
     const thisModalIsOpen = useModalIsOpen("ProfileModal")
 
@@ -43,10 +43,9 @@ export const ProfileModal = () => {
     }  
 
     const showManageArea = () => {
-        const userRole = showUserRole(activeArea, user.uid);
-
-        if (userRole === "Administrador") {
+        if (isUserAdmin) {
             return <ListItem
+                key={4}
                 button 
                 style={listItemStyle}
                 onClick={handleAdminAreaClick}  
@@ -96,7 +95,7 @@ export const ProfileModal = () => {
                         <p>{user.name}</p>
                         {
                             activeArea
-                            ? <p className="font-medium text-base text-gray-400">{showUserRole(activeArea, user.uid)}</p>
+                            ? <p className="font-medium text-base text-gray-400">{isUserAdmin ? "Administrador" : "Miembro"}</p>
                             : null
                         }
                     </div>
@@ -107,6 +106,7 @@ export const ProfileModal = () => {
                         activeArea
                         ? ([
                             <ListItem
+                                key={1}
                                 button 
                                 style={listItemStyle}
                                 onClick={handleChangeAreaClick}
@@ -135,6 +135,7 @@ export const ProfileModal = () => {
                     }
                     
                     <ListItem
+                        key={2}
                         button 
                         style={listItemStyle}
                     >
@@ -157,6 +158,7 @@ export const ProfileModal = () => {
                         </IconButton>
                     </ListItem>
                     <ListItem
+                        key={3}
                         button 
                         style={listItemStyle}
                         onClick={handleLogOutClick}

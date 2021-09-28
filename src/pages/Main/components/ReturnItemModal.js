@@ -1,4 +1,4 @@
-import { ListItemSecondaryAction, Checkbox, Button, FormControl, InputLabel, List, ListItemAvatar, ListItem, Select, ListItemText, Avatar } from '@material-ui/core';
+import { ListItemSecondaryAction, Checkbox, Button, FormControl, InputLabel, List, ListItemAvatar, ListItem, Select, ListItemText, Avatar } from '@mui/material';
 import React, { useState } from 'react'
 import Modal from 'react-modal';
 import moment from 'moment'
@@ -111,10 +111,10 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form style={{width:"370px"}} className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex justify-between">
+            <form className="flex flex-col w-full" onSubmit={handleSubmit(onSubmit)}>
+                <div className="grid grid-cols-3 gap-2">
                     <FormControl
-                        style={{width:"115px"}}
+                        // style={{width:"80px"}}
                         variant="outlined"
                         size="small"
                     >
@@ -142,7 +142,6 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"115px"}}
                         variant="outlined"
                         size="small"
                     >
@@ -167,7 +166,6 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"115px"}}
                         variant="outlined"
                         size="small"
                     >

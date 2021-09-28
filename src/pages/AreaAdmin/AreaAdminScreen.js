@@ -2,18 +2,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Button, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, TextField } from '@material-ui/core'
+import { Button, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Menu, MenuItem, TextField } from '@mui/material'
 import { faArrowLeft, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { ShowAvatar } from '../../components/ShowAvatar'
 import { getUserById } from '../../redux/actions/user'
-import { deleteArea, modifyArea, renewAreaInviteCode } from '../../redux/actions/area'
+import { changeUserRole, deleteArea, deleteAreaUser, modifyArea, renewAreaInviteCode } from '../../redux/actions/area'
 import { useForm, Controller } from 'react-hook-form'
+import { SwalMixin } from '../../components/SwalMixin'
 
 export const AreaAdminScreen = () => {
     const history = useHistory() 
     const dispatch = useDispatch();
 
     const area = useSelector(state => state.area.active);
+    const userid = useSelector(state => state.auth.uid);
 
     const [codeCopied, setCodeCopied] = useState(false)
     const [changingAreaName, setChangingAreaName] = useState(false)
@@ -40,6 +42,17 @@ export const AreaAdminScreen = () => {
             dispatch(modifyArea(area.uid, data.name))
         }
         setChangingAreaName(false)
+        reset()
+    }
+
+    const handleChangeUserRole = (userid) => {
+        handleClose()
+        dispatch(changeUserRole(area.uid, userid))
+    }
+
+    const handleDeleteAreUser = (userid) => {
+        handleClose()
+        dispatch(deleteAreaUser(area.uid, userid))
     }
 
     const handleShowChangeName = () => {
@@ -63,11 +76,39 @@ export const AreaAdminScreen = () => {
     }
     
     const handleDeleteArea = () => {
-        // dispatch(deleteArea(area.uid))
-        console.log('borrando area');
+        SwalMixin.fire({
+            toast: false,
+            titleText: "¿Estás seguro de eliminar el área?", 
+            text: `Escribe el nombre para confirmar la eliminación. ${area.name}`,
+            input: 'text',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (result.value === area.name) {
+                    dispatch(deleteArea(area.uid))
+                } else {
+                    SwalMixin.fire({
+                        icon: "info",
+                        text: "Se ingreso un nombre incorrecto.",
+                        confirmButtonText: "Aceptar",
+                    })
+                }
+            }
+        })
     }
 
-    const showUsers = (result) => (
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const showUsers = (result) => ([
         <ListItem key={result._id} button onClick={() => handleUserClick(result._id)}>
             <ListItemAvatar>
                 <div className="w-10 h-10">
@@ -76,12 +117,25 @@ export const AreaAdminScreen = () => {
             </ListItemAvatar>
             <ListItemText primary={result.name} secondary={result.email}  />
             <ListItemSecondaryAction>
-                <IconButton edge="end" color="primary">
+                <IconButton 
+                    disabled={result._id === userid}
+                    edge="end" 
+                    color="primary"
+                    onClick={handleClick}
+                >
                     <FontAwesomeIcon icon={faEllipsisV} />
                 </IconButton>
             </ListItemSecondaryAction>
-        </ListItem>
-    )
+        </ListItem>,
+        <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+        >
+            <MenuItem onClick={() => handleChangeUserRole(result._id)}>Cambiar Rol</MenuItem>
+            <MenuItem onClick={() => handleDeleteAreUser(result._id)}>Eliminar</MenuItem>
+        </Menu>
+    ])
 
     return (
         <div 
@@ -98,7 +152,7 @@ export const AreaAdminScreen = () => {
                     />
                 </IconButton>
                 <p className="ml-1 text-xl mr-auto">
-                    Administración de área
+                    Admin. de área
                 </p>
                 <IconButton
                     color="primary"
@@ -123,6 +177,8 @@ export const AreaAdminScreen = () => {
                                     render={({ field }) => 
                                     <TextField 
                                         {...field}
+                                        required
+                                        InputLabelProps={{ required: false}}
                                         autoFocus={true}
                                         size="small"
                                         variant="standard"

@@ -12,7 +12,7 @@ import { TakeItemModal } from './components/TakeItemModal'
 import { ReturnItemModal } from './components/ReturnItemModal'
 import { startLoadingSpaces } from '../../redux/actions/space'
 import { getInventoryByTaked } from '../../redux/actions/inv'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Skeleton } from '@mui/material'
 
 export const MainScreen = () => {
     const history = useHistory() 
@@ -21,8 +21,9 @@ export const MainScreen = () => {
     const area = useSelector(state => state.area.active);
     const spaces = useSelector(state => state.space.spaces);
     const user = useSelector(state => state.auth)
-    const logs = useSelector(state => state.log.logs);
+    const logs = useSelector(state => state.log.areaLogs);
     const itemsToReturn = useSelector(state => state.inv.toReturn);
+    const isLoading = useSelector(state => state.ui.isLoading)
 
     useMemo(() => {
         dispatch(getInventoryByTaked(area.uid))
@@ -40,6 +41,31 @@ export const MainScreen = () => {
     
     const handleTakeClick = () => {
         dispatch(openModal("TakeItemModal"));
+    }
+
+    const showLogs = () => {
+        if (logs.length > 0 ) {
+            return  <div className="flex flex-col rounded-xl mt-9 py-1">
+                        {logs.map((log) => (
+                            <AreaLogs key={log.uid} log={log} history={history} dispatch={dispatch}/>
+                        ))}
+                    </div>
+        } else {
+            return  <div className="mx-auto my-auto flex flex-col items-center text-gray-400">
+                        <FontAwesomeIcon icon={faHistory} size="4x" />
+                        <p className="mt-3">No hay movimientos para mostrar</p>
+                    </div>
+        }
+    }
+
+    const showSkeleton = () => {
+        const n = 10;
+
+        return  <div className="flex flex-col mt-9 py-1">
+                    {[...Array(n)].map((e, i) => {
+                        return <Skeleton variant="rectangular" height={88} className="rounded mb-2 mx-2" />
+                    })}
+                </div>
     }
 
     // const handleLogScroll = (e) => {
@@ -69,10 +95,10 @@ export const MainScreen = () => {
             </div>
             <div className="-mt-9 flex flex-col items-center">
                 <div className="flex flex-col items-center">
-                    <h3 className="m-0 text-xl text-gray-400">
+                    <h3 className="text-xl text-gray-400">
                         ÁREA
                     </h3>
-                    <h1 className="m-0 text-3xl font-bold">
+                    <h1 className="text-3xl font-bold p-2 text-center">
                         {area.name}
                     </h1>
                 </div>
@@ -117,17 +143,9 @@ export const MainScreen = () => {
                 </div>
             </div>
             {
-                logs.length > 0
-                ?   (<div className="flex flex-col rounded-xl mx-2 mt-9 py-1">
-                        {logs.map((log) => (
-                            <AreaLogs key={log.uid} log={log} history={history} dispatch={dispatch}/>
-                        ))}
-                    </div>)
-                :   (
-                    <div className="mx-auto my-auto flex flex-col items-center text-gray-400">
-                        <FontAwesomeIcon icon={faHistory} size="4x" />
-                        <p className="mt-3">No hay movimientos para mostrar</p>
-                    </div>)
+                isLoading === true && logs.length < 1
+                ?   showSkeleton() 
+                :   showLogs()
             }
             <ProfileModal />
             <ReturnItemModal areaId={area.uid} spaces={spaces} items={itemsToReturn} />

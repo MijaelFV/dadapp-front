@@ -1,6 +1,6 @@
 import React from 'react';
 import bgImage from '../../assets/loginImage.png'
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { startLogin } from '../../redux/actions/auth';
@@ -28,13 +28,13 @@ export const LoginScreen = () => {
 
     return (
         <div 
-            className="text-white bg-gradient-to-t from-gray-900 to-black flex flex-col w-full h-auto min-h-full items-center" 
+            className="text-white bg-gradient-to-t from-gray-900 to-black items-center flex flex-col w-full h-auto min-h-full" 
             style={{maxWidth:"500px", marginInline:"auto"}}
         >
-            <div className="flex flex-col items-center justify-center rounded-md mt-32 p-1 w-max">
-                <div className="flex items-center h-2/6 mb-8">
-                    <img src={bgImage} alt="background img" width="200"/>
-                    <div className="flex flex-col">
+            <div className="flex flex-col items-center justify-center rounded-md py-4 px-0.5 w-full mt-auto mb-auto">
+                <div className="flex flex-wrap items-center justify-center w-11/12 h-2/6 mx-2 mb-8 overflow-hidden">
+                    <img src={bgImage} alt="background img" width="185px"/>
+                    <div className="flex flex-col text-center mt-2 justify-center items-center">
                         <p className="ml-3 text-3xl w-min font-medium">
                             Inventory Administrator
                         </p>
@@ -43,7 +43,7 @@ export const LoginScreen = () => {
                         </p>
                     </div>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} className="w-96">
+                <form onSubmit={handleSubmit(onSubmit)} className="w-11/12">
                     <Controller 
                         name="email"
                         control={control}

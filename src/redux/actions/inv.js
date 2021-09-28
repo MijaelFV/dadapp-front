@@ -1,5 +1,6 @@
 import { types } from "../types";
 import { fetch } from "../../helpers/axios";
+import { setLoadingFinish, setLoadingStart } from "./ui";
 
 export const loadInventory = (inventory) => ({
     type: types.invLoad,
@@ -62,7 +63,9 @@ export const getInventoryByTaked = (areaId) => {
 
 export const getInventoryBySpace = (spaceId) => {
     return async(dispatch) => {
+        dispatch(setLoadingStart())
         const resp = await fetch(`api/item/inventory/${spaceId}`);
+        dispatch(setLoadingFinish())
         if (resp.status === 200) {
             dispatch(loadInventory(resp.data))
         } else {
@@ -104,9 +107,20 @@ export const startModifyItem = (item, name, description, category, row, column, 
     }
 }
 
-export const startRemoveItem = (item, area, type = 1, consume) => {
+export const startRemoveItem = (item, area, type, consume) => {
     return async(dispatch) => {
-        const resp = await fetch(`api/item/${item}`, {area, type, consume}, 'DELETE');
+        const resp = await fetch(`api/item/remove/${item}`, {area, type, consume}, 'PUT');
+        if (resp.status === 200) {
+            dispatch(removeFromInventory(item));
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const startDeleteItem = (item, area) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/item/${item}`, {area}, 'DELETE');
         if (resp.status === 200) {
             dispatch(removeFromInventory(item));
         } else {

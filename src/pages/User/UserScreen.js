@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { IconButton  } from '@material-ui/core';
+import { IconButton  } from '@mui/material';
 import { ShowAvatar } from '../../components/ShowAvatar';
 import { clearLogs, startLoadingLogs } from '../../redux/actions/log';
 import { UserLogsTable } from './components/UserLogsTable';
@@ -13,7 +13,7 @@ export const UserScreen = () => {
     const dispatch = useDispatch();
         
     const areaid = useSelector(state => state.area.active.uid);
-    const logs = useSelector(state => state.log.logs);
+    const logs = useSelector(state => state.log.userLogs);
     const user = useSelector(state => state.user);
 
     useEffect(() => {

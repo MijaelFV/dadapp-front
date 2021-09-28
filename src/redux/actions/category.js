@@ -1,5 +1,6 @@
 import { types } from "../types";
 import { fetch } from "../../helpers/axios";
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 export const loadCategories = (categories) => ({
     type: types.invLoadCategories,
@@ -34,7 +35,17 @@ export const deleteCategory = (spaceId, categoryUid) => {
         if (resp.status === 200) {
             dispatch(getCategoriesBySpace(spaceId))
         } else {
-            console.log(resp.data)
+            Swal.fire({
+                toast: true,
+                text: resp.data.msg,
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'text-black px-4 py-1.5 min-w-max text-sm font-medium uppercase rounded bg-white' //insert class here
+                },
+                background: "#232A39",
+                icon: 'warning',
+                confirmButtonText: "Aceptar",
+            })
         }
     }
 }

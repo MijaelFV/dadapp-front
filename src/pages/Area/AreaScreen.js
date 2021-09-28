@@ -1,22 +1,15 @@
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { activeArea, createArea, joinArea, startLoadingAreas } from '../../redux/actions/area';
+import { activeArea, createArea, joinArea, setUserRole, startLoadingAreas } from '../../redux/actions/area';
 import { ProfileModal } from '../../components/ProfileModal';
 import { ShowAvatar } from '../../components/ShowAvatar';
-import { Avatar, AppBar, Collapse, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, TextField, Toolbar, Divider } from '@material-ui/core';
+import { Avatar, AppBar, Collapse, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, TextField, Toolbar, Divider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faFolderPlus, faPlus, faSadTear, faSignInAlt, faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { Controller, useForm } from 'react-hook-form';
-import { withStyles } from '@material-ui/styles';
-import { showUserRole } from '../../helpers/showUserRole';
+import { userIsAdmin } from '../../helpers/userIsAdmin';
 
 export const AreaScreen = () => {
-    const StyledAppBar = withStyles({
-        root: {
-            backgroundColor:"#080e1bfa",
-        },
-    })(AppBar);
-
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth);
     const areas = useSelector(state => state.area.areas);
@@ -26,7 +19,7 @@ export const AreaScreen = () => {
 
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
-            name: '',
+            areaname: '',
             code: '',
         }
     });
@@ -36,7 +29,13 @@ export const AreaScreen = () => {
     }, [dispatch])
 
     const handleOpenArea = (area) => {
+        const isUserAdmin = userIsAdmin(area, user.uid);
         dispatch(activeArea(area))
+        if (isUserAdmin) {
+            dispatch(setUserRole(true))
+        } else {
+            dispatch(setUserRole(false))
+        }
     }
 
     const handleShowForm = () => {
@@ -48,7 +47,7 @@ export const AreaScreen = () => {
     }
 
     const handleNewArea = (data) => {
-        dispatch(createArea(data.name))
+        dispatch(createArea(data.areaname))
         setIsFormOpen(false);
         reset()
     }
@@ -72,7 +71,7 @@ export const AreaScreen = () => {
                             <FontAwesomeIcon icon={faWarehouse}/>
                         </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={area.name} secondary={showUserRole(area, user.uid)}/>
+                    <ListItemText primary={area.name} secondary={userIsAdmin(area, user.uid) ? "Administrador" : "Miembro"}/>
                     <IconButton 
                         edge="end" 
                         disabled={isFormOpen}
@@ -105,26 +104,29 @@ export const AreaScreen = () => {
                                     <FontAwesomeIcon icon={faFolderPlus} />
                                 </Avatar>
                             </ListItemAvatar>
-                                <form onSubmit={handleSubmit(handleNewArea)} autoComplete="off">
-                                    <Controller 
-                                        name="name"
-                                        control={control}
-                                        render={({ field }) => 
-                                        <TextField 
-                                            {...field}
-                                            autoFocus={true}
-                                            size="small"
-                                            label="Nombre de Área"
-                                            variant="outlined"
-                                            type="text"
-                                        />}
-                                    />
-                                    <ListItemSecondaryAction>
-                                        <IconButton edge="end" color="primary" type="submit">
-                                            <FontAwesomeIcon icon={faPlus} />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </form>
+                            <form onSubmit={handleSubmit(handleNewArea)} autoComplete="off">
+                                <Controller 
+                                    name="areaname"
+                                    control={control}
+                                    render={({ field }) => 
+                                    <TextField 
+                                        {...field}
+                                        autoFocus={true}
+                                        style={{width:"85%"}}
+                                        required
+                                        InputLabelProps={{ required: false, shrink: true }}
+                                        size="small"
+                                        label="Nombre de Área"
+                                        variant="outlined"
+                                        type="text"
+                                    />}
+                                /> 
+                                <ListItemSecondaryAction>
+                                    <IconButton edge="end" color="primary" type="submit">
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </form>
                         </ListItem>
                     </List>
                 </Collapse>
@@ -140,7 +142,7 @@ export const AreaScreen = () => {
                 </div>)
             } 
             <div className="mt-auto">
-                <StyledAppBar position="static" color="default">
+                <AppBar position="static" color="default" sx={{backgroundColor:"#080e1bfa", backgroundImage:"none"}}>
                     <Toolbar>
                         <form onSubmit={handleSubmit(handleJoinArea)} autoComplete="off">
                             <Controller 
@@ -149,6 +151,9 @@ export const AreaScreen = () => {
                                 render={({ field }) => 
                                 <TextField 
                                     {...field} 
+                                    sx={{
+                                        width:"90%"
+                                    }}
                                     size="small"
                                     variant="outlined"
                                     placeholder="Codigo de invitacion"
@@ -160,7 +165,7 @@ export const AreaScreen = () => {
                             <ShowAvatar avatarClass="border-2" username={user.name} userId={user.uid} profile={true} />
                         </div>
                     </Toolbar>
-                </StyledAppBar>    
+                </AppBar>    
             </div>
             <ProfileModal />
         </div>

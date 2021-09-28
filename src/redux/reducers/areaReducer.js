@@ -28,6 +28,12 @@ export const areaReducer = (state = initialState, action) => {
                 }
             }
 
+        case types.areaSetRole:
+            return {
+                ...state,
+                isUserAdmin: action.payload
+            }
+
         case types.areaClear:
             return {
                 ...initialState

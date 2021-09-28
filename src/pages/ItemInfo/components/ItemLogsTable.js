@@ -1,10 +1,13 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel } from '@material-ui/core'
+import { LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel } from '@mui/material'
 import moment from 'moment'
 import 'moment/locale/es'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { logType } from '../../../helpers/logType'
 
 export const ItemLogsTable = ({logs}) => {
+    const isLoading = useSelector(state => state.ui.isLoading)
+    
     const createData = () => {
         return (
             logs.map((log, index) => (
@@ -85,6 +88,11 @@ export const ItemLogsTable = ({logs}) => {
     return (
         <div>
             <TableContainer>
+                {
+                    isLoading === true
+                    ?   <LinearProgress />
+                    :   null 
+                }
                 <Table size="small">
                     <TableHead>
                         <TableRow>

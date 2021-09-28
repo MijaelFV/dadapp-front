@@ -3,6 +3,8 @@ export const types = {
     uiOpenModal: '[UI] Open Modal',
     uiCloseModal: '[UI] Close Modal',
     uiSetNavValue: '[UI] Nav Value Setted',
+    uiLoadingStart: '[UI] Loading Start',
+    uiLoadingFinish: '[UI] Loading Finish',
     uiClear: '[UI] Cleared',
 
     authCheckingFinish: '[AUTH] Finished Checking Login State',
@@ -29,11 +31,14 @@ export const types = {
     invLoadCategories: '[INV] Categories Loaded',
     invClear: '[INV] Inventory Cleared',
     
-    logLoad: '[LOG] Loaded',
+    logAreaLoad: '[LOG] Area Loaded',
+    logUserLoad: '[LOG] User Loaded',
+    logItemLoad: '[LOG] Item Loaded',
     logClear: '[LOG] Cleared',
 
     areaLoad: '[AREA] Loaded',
     areaActive: '[AREA] Set Active Area',
+    areaSetRole: '[AREA] Set User Role',
     areaClear: '[AREA] Area Cleared',
     areaChangeCode: '[AREA] Code Changed',
 

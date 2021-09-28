@@ -1,16 +1,18 @@
-import { faSearch, faSignInAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faSignInAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar } from '@material-ui/core'
+import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, LinearProgress } from '@mui/material'
 import moment from 'moment'
 import 'moment/locale/es'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { startRemoveItem } from '../../../redux/actions/inv'
+import { startDeleteItem } from '../../../redux/actions/inv'
+import { SwalMixin } from '../../../components/SwalMixin'
 
 export const ItemsTable = ({itemList, spaceId}) => {
     const dispatch = useDispatch();
     const areaId = useSelector(state => state.area.active.uid);
+    const isLoading = useSelector(state => state.ui.isLoading)
 
     const createData = () => {
         return (
@@ -119,8 +121,19 @@ export const ItemsTable = ({itemList, spaceId}) => {
         history.push(`/item/${spaceId}/${itemId}`)
     };
 
-    const handleRemoveItem = () => {
-        dispatch(startRemoveItem(itemId, areaId));
+    const handleDeleteItem = () => {
+        SwalMixin.fire({
+            text: "¿Estas seguro de eliminar el o los articulos seleccionados?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                selected.forEach((item) => (
+                    dispatch(startDeleteItem(item, areaId))
+                ))
+            }
+        })
     }
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -152,7 +165,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                 )}
                 {selected.length > 1 ? (
                     <IconButton 
-                        onClick={handleRemoveItem}
+                        onClick={handleDeleteItem}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </IconButton>
@@ -163,12 +176,17 @@ export const ItemsTable = ({itemList, spaceId}) => {
                         <FontAwesomeIcon icon={faSignInAlt}/>
                     </IconButton>,
                     <IconButton 
-                        onClick={handleRemoveItem}
+                        onClick={handleDeleteItem}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </IconButton>]
                 ) : null}
             </Toolbar>
+            {
+                isLoading === true
+                ? <LinearProgress />
+                : null
+            }
             <TableContainer>
                 <Table
                     aria-labelledby="tableTitle"
@@ -201,6 +219,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                             ))}
                         </TableRow>
                     </TableHead>
+                    
                     <TableBody>
                         {
                             stableSort(rows, getComparator(order, orderBy))

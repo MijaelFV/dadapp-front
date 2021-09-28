@@ -1,6 +1,6 @@
  import React, { useEffect } from 'react'
 import { faArrowLeft, faSlidersH } from '@fortawesome/free-solid-svg-icons'
-import { InputBase, IconButton, Chip } from '@material-ui/core'
+import { InputBase, IconButton, Chip, LinearProgress } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,6 +12,7 @@ import { Controller, useForm, useWatch } from 'react-hook-form'
 export const SearchScreen = () => {
     const dispatch = useDispatch();
     const areaId = useSelector(state => state.area.active.uid)
+    const isLoading = useSelector(state => state.ui.isLoading)
 
     const history = useHistory()
     const handleReturnClick = () => {
@@ -64,6 +65,7 @@ export const SearchScreen = () => {
                 <div className="mr-auto"/>
                 <IconButton
                     color="primary"
+                    disabled
                     // onClick={handleShowFiltersClick}
                 >
                     <FontAwesomeIcon 
@@ -71,6 +73,11 @@ export const SearchScreen = () => {
                     />
                 </IconButton>
             </div>
+            {
+                isLoading === true
+                ? <LinearProgress />
+                : null
+            }
             {
                 query.length >= 1 
                 ?   <div>

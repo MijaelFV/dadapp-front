@@ -11,6 +11,7 @@
 
 import { fetch } from "../../helpers/axios";
 import { types } from "../types";
+import { setLoadingFinish, setLoadingStart } from "./ui";
 
 export const loadSearch = (data) => ({
     type: types.searchLoad,
@@ -23,7 +24,9 @@ export const clearSearch = () => ({
 
 export const getSearch = (type, areaId, query, spaceid = '') => {
     return async(dispatch) => {
+        dispatch(setLoadingStart())
         const resp = await fetch(`api/search/${type}/${areaId}?query=${query}&spaceid=${spaceid}`);
+        dispatch(setLoadingFinish())
         if (resp.status === 200) {
             dispatch(loadSearch(resp.data))
         } else {

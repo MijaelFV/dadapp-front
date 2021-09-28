@@ -1,6 +1,6 @@
 import React from 'react';
-import { createTheme, MuiThemeProvider } from '@material-ui/core';
-import { esES } from '@material-ui/core/locale';
+import { createTheme, ThemeProvider } from '@mui/material';
+import { esES } from '@mui/material/locale';
 import { Provider } from 'react-redux';
 import { AppRouter } from './router/AppRouter';
 import { store } from './redux/store';
@@ -9,7 +9,7 @@ export const DadApp = () => {
     const theme = createTheme(
         {   
             palette: {
-                type: "dark",
+                mode: "dark",
                 primary: {
                     main: '#FFFFFF'
                 },
@@ -20,24 +20,12 @@ export const DadApp = () => {
         },
         esES
     )
-    theme.overrides = {
-        // MuiTableCell: {
-        //     root: {
-        //         padding: '12px'
-        //     }
-        // },
-        // MuiButton: {
-        //     label: {
-        //         color: 'white'
-        //     }
-        // }
-    }
 
     return (
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
             <Provider store={store}>
                 <AppRouter />
             </Provider>
-        </MuiThemeProvider>
+        </ThemeProvider>
     )
 }

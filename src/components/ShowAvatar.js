@@ -1,9 +1,9 @@
-import { Avatar } from '@material-ui/core'
+import { Avatar } from '@mui/material'
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { openModal } from '../redux/actions/ui';
 
-export const ShowAvatar = ({avatarClass, username, userId, profile}) => {
+export const ShowAvatar = ({avatarClass, username, userId, profile, variant}) => {
     const dispatch = useDispatch();
     
     const baseUrl = process.env.REACT_APP_API_URL;
@@ -16,6 +16,6 @@ export const ShowAvatar = ({avatarClass, username, userId, profile}) => {
     }
 
     return (
-        <Avatar className={avatarClass} style={{width:"100%", height:"100%"}} onClick={handleProfileClick} src={url} alt={username} />
+        <Avatar variant={variant} className={avatarClass} style={{width:"100%", height:"100%"}} onClick={handleProfileClick} src={url} alt={username} />
     )
 }

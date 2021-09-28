@@ -15,7 +15,7 @@ export const logType = (type) => {
 
         case "MODIFY":
                 labelBgColor = "bg-blue-500"
-                labelType = "Modificado"
+                labelType = "Reubicado"
                 labelTypeLong = "Posición Modificada"
                 logBgColor = "bg-blue-900"
             break;

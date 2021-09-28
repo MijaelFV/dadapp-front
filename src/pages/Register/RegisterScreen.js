@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -16,10 +16,10 @@ export const RegisterScreen = () => {
 
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
-            name: 'Mijael',
-            email: 'mijael-x@hotmail.com',
-            password: '123456',
-            password2: '123456'
+            name: '',
+            email: '',
+            password: '',
+            password2: ''
         }
     });
 
@@ -36,17 +36,17 @@ export const RegisterScreen = () => {
             className="text-white bg-gradient-to-t from-gray-900 to-black flex flex-col w-full h-auto min-h-full items-center" 
             style={{maxWidth:"500px", marginInline:"auto"}}
         >
-            <div className="flex flex-col items-center justify-center rounded-md mt-20 p-1 w-max">
+            <div className="flex flex-col items-center justify-center rounded-md py-4 px-0.5 w-full mt-auto mb-auto">
                 <div className="flex flex-col mb-8 items-center">
                     <FontAwesomeIcon icon={faUserCircle} size="4x"/>
                     <p className="mt-3 font-medium text-2xl">
                         Crear Cuenta    
                     </p>
-                    <p className="text-gray-400">
+                    <p className="text-gray-400 text-center">
                         Complete el formulario para crear su usuario
                     </p>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} className="w-96">
+                <form onSubmit={handleSubmit(onSubmit)} className="w-11/12">
                     <Controller 
                         name="name"
                         control={control}
@@ -116,7 +116,7 @@ export const RegisterScreen = () => {
                             Registrarse
                         </Button>
                     </div>
-                    <div className="flex mt-9 items-center">
+                    <div className="flex mt-9 justify-center">
                         <p className="text-gray-500">
                             ¿Ya tienes una cuenta?
                         </p>

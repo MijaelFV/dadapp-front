@@ -7,10 +7,11 @@ import { faArrowLeft, faCogs, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NumToArray } from '../../helpers/numToArray';
 import { openModal } from '../../redux/actions/ui';
 import { CreateItemModal } from './components/CreateItemModal';
-import { Button, IconButton } from '@material-ui/core';
+import { Button, IconButton } from '@mui/material';
 import { ModifySpaceModal } from './components/ModifySpaceModal';
 import { getCategoriesBySpace } from '../../redux/actions/category';
 import { ItemsTable } from './components/ItemsTable';
+import { SwalMixin } from '../../components/SwalMixin';
 
 export const SpaceInfoScreen = () => {
     const history = useHistory()
@@ -18,6 +19,7 @@ export const SpaceInfoScreen = () => {
 
     const {spaceId} = useParams();
     const spaces = useSelector(state => state.space.spaces);
+    const categories = useSelector(state => state.inv.categories);
     const space = spaces.find(space => space.uid === spaceId)
 
     // Convierte x numero en un array
@@ -54,8 +56,16 @@ export const SpaceInfoScreen = () => {
         col: null
     });
 
-    const handleOpenItemModal = () => {
-        dispatch(openModal("CreateItemModal"));
+    const handleOpenCreateItemModal = () => {
+        if (categories.length === 0) {
+            SwalMixin.fire({
+                text: `El espacio debe tener al menos una categoria para poder crear un articulo`,
+                icon: 'info',
+                confirmButtonText: "Aceptar",
+            })
+        } else {
+            dispatch(openModal("CreateItemModal"));
+        }
     }
 
     const handleOpenModifyModal = () => {
@@ -81,7 +91,7 @@ export const SpaceInfoScreen = () => {
                 <IconButton
                     color="primary"
                     onClick={() => {
-                        handleOpenItemModal()
+                        handleOpenCreateItemModal()
                         handleFilterByPositionClick(null, null, true)
                     }}
                     style={{marginRight:"8px"}}

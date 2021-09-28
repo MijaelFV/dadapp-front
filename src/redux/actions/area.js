@@ -11,6 +11,11 @@ export const loadAreas = (areas) => ({
     payload: areas
 })
 
+export const setUserRole = (value) => ({
+    type: types.areaSetRole,
+    payload: value
+})
+
 export const activeArea = (area) => ({
     type: types.areaActive,
     payload: area
@@ -24,6 +29,28 @@ export const updateInviteCode = (newCode) => ({
     type: types.areaChangeCode,
     payload: newCode
 })
+
+export const changeUserRole = (areaid, userid) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/area/changerole`, {areaid, userid}, "PUT");
+        if (resp.status === 200) {
+            dispatch(startLoadingAreaById(areaid))
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
+
+export const deleteAreaUser = (areaid, userid) => {
+    return async(dispatch) => {
+        const resp = await fetch(`api/area/user/kick`, {areaid, userid}, "PUT");
+        if (resp.status === 200) {
+            dispatch(startLoadingAreaById(areaid))
+        } else {
+            console.log(resp.data)
+        }
+    }
+}
 
 export const joinArea = (code) => {
     return async(dispatch) => {

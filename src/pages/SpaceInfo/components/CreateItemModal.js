@@ -1,4 +1,4 @@
-import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, Select, TextField } from '@mui/material';
 import React from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,48 +46,50 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col w-full h-full">
                 <Controller 
                     name="name"
                     control={control}
                     render={({ field }) => 
                     <TextField 
                         {...field} 
-                        fullWidth
+                        required
+                        InputLabelProps={{ required: false, shrink: true}}
                         label="Nombre de objeto"
                         variant="outlined"
                         type="text"
                     />}
                 />
-                <div className="h-3"/>
+                <div className="h-2"/>
                 <Controller 
                     name="description"
                     control={control}
                     render={({ field }) => 
                     <TextField 
                         {...field} 
-                        fullWidth
                         multiline
+                        InputLabelProps={{ shrink: true }}
                         rows={2}
                         maxRows={4}
                         label="Descripcion"
                         variant="outlined"
                     />}
                 />
-                <div className="h-3"/>
-                <div className="w-96 flex justify-between">
+                <div className="h-2"/>
+                <div className="grid grid-cols-3 gap-2">
                     <FormControl
-                        style={{width:"120px"}}
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="category-select">Categoria</InputLabel>
+                        <InputLabel shrink htmlFor="category-select">Categoria</InputLabel>
                         <Controller 
                             name="category"
                             control={control}
                             render={({field}) => 
                                 <Select
                                     {...field} 
+                                    notched
                                     native
+                                    required
                                     label="category"
                                     inputProps={{
                                         name: "category",
@@ -103,10 +105,9 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"120px"}} 
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="row-select">Fila</InputLabel>
+                        <InputLabel shrink htmlFor="row-select">Fila</InputLabel>
                         <Controller 
                             name="row"
                             control={control}
@@ -114,6 +115,8 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                                 <Select
                                     {...field} 
                                     native
+                                    required
+                                    notched
                                     label="row"
                                     inputProps={{
                                         name: "row",
@@ -129,10 +132,9 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"120px"}} 
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="column-select">Columna</InputLabel>
+                        <InputLabel shrink htmlFor="column-select">Columna</InputLabel>
                         <Controller 
                             name="column"
                             control={control}
@@ -140,6 +142,8 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                                 <Select
                                     {...field} 
                                     native
+                                    notched
+                                    required
                                     label="column"
                                     inputProps={{
                                         name: "column",
@@ -155,15 +159,14 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                 </div>
-                <div className="h-3"/>
-                <div className="flex justify-between">
+                <div className="h-2"/>
+                <div className="grid grid-cols-2 gap-2">
                     <Controller 
                         name="expiryDate"
                         control={control}
                         render={({ field }) => 
                         <TextField 
                             {...field} 
-                            style={{width:"186px"}} 
                             label="Vencimiento"
                             variant="outlined"
                             type="date"
@@ -176,7 +179,6 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         render={({ field }) => 
                         <TextField 
                             {...field} 
-                            style={{width:"186px"}} 
                             label="Cantidad"
                             placeholder="Ilimitado"
                             InputLabelProps={{ shrink: true }}
@@ -187,17 +189,15 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                 </div>
                 <div className="mt-4 flex">
                     <Button
-                        size="large"
+                        fullWidth
                         style={{marginRight:"4px"}}
                         variant="contained"
                         color="primary"
-                        fullWidth={true}
                         type="submit"
                     >
                         Crear
                     </Button>
                     <Button
-                        fullWidth
                         style={{width:"180px"}}
                         onClick={handleCloseModal}
                         variant="contained"

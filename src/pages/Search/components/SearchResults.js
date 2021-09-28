@@ -1,8 +1,9 @@
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core'
-import React from 'react'
+import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText } from '@mui/material'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { ItemFeaturesCollapse } from '../../../components/ItemFeaturesCollapse'
 import { ShowAvatar } from '../../../components/ShowAvatar'
 import { ShowImage } from '../../../components/ShowImage'
 import { getItemById } from '../../../redux/actions/inv'
@@ -10,6 +11,8 @@ import { getUserById } from '../../../redux/actions/user'
 
 export const SearchResults = ({type, history, dispatch}) => {
     const searchResults = useSelector(state => state.search)
+
+    const [isFormOpen, setIsFormOpen] = useState(false)
 
     const handleItemClick = async(itemId, spaceId) => {
         if (itemId && spaceId) {
@@ -25,8 +28,21 @@ export const SearchResults = ({type, history, dispatch}) => {
         }
     }
 
-    const showItems = (result) => (
-        <ListItem key={result.uid} button onClick={() => handleItemClick(result.uid, result.space._id)}>
+    const handleShowForm = (i) => {
+        if (i !== isFormOpen) {
+            setIsFormOpen(i)
+        } else {
+            setIsFormOpen(false)
+        }
+    }
+
+    const showItems = (result, index) => ([
+        <ListItem 
+            key={result.uid}
+            button 
+            onClick={() => handleShowForm(index)} 
+            style={isFormOpen === index ? {backgroundColor:"rgb(55 65 81)"} : {}}
+        >
             <ListItemAvatar>
                 <Avatar variant="rounded">
                     <div>
@@ -34,12 +50,15 @@ export const SearchResults = ({type, history, dispatch}) => {
                     </div>
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={result.name} secondary={`${result.space.name} | Fila ${result.row} - Columna ${result.column}`}  />
-            <IconButton edge="end" style={{color:"#ffffff"}} disableTouchRipple disabled>
-                <FontAwesomeIcon icon={faSignInAlt} />
-            </IconButton>
-        </ListItem>
-    )
+            <ListItemText primary={result.name} />
+            <ListItemSecondaryAction>
+                <IconButton edge="end" onClick={() => handleItemClick(result.uid, result.space._id)}>
+                    <FontAwesomeIcon icon={faSignInAlt} />
+                </IconButton>
+            </ListItemSecondaryAction>
+        </ListItem>,
+        <ItemFeaturesCollapse item={result} isFormOpen={isFormOpen} index={index} />
+    ])
 
     const showUsers = (result) => (
             <ListItem key={result.uid} button onClick={() => handleUserClick(result.uid)}>
@@ -60,8 +79,8 @@ export const SearchResults = ({type, history, dispatch}) => {
             return [
                 [<span className="font-semibold ml-3">Articulos</span>,
                 <List className="mb-5">
-                    {searchResults.items.map((result) => (
-                    showItems(result)
+                    {searchResults.items.map((result, index) => (
+                    showItems(result, index)
                 ))}
                 </List>],
                 [<span className="font-semibold ml-3">Usuarios</span>,

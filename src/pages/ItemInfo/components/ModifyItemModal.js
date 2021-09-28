@@ -1,4 +1,4 @@
-import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +8,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
-import { startModifyItem, startRemoveItem, uploadItemImage } from '../../../redux/actions/inv';
+import { startDeleteItem, startModifyItem, uploadItemImage } from '../../../redux/actions/inv';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import moment from 'moment';
 import { getCategoriesBySpace } from '../../../redux/actions/category';
+import { SwalMixin } from '../../../components/SwalMixin';
 
 
 Modal.setAppElement('#root');
@@ -57,10 +58,19 @@ export const ModifyItemModal = ({item, areaId}) => {
     }
 
     const handleRemoveItem = () => {
-        history.replace(`/space/${spaceId}`);
-        dispatch(startRemoveItem(item.uid, areaId));
-        dispatch(closeModal());
-        reset();
+        SwalMixin.fire({
+            text: "¿Estas seguro de eliminar el articulo?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                history.replace(`/space/${spaceId}`);
+                dispatch(startDeleteItem(item.uid, areaId));
+                dispatch(closeModal());
+                reset();
+            }
+        })
     }
     
     const handleCloseModal = () => {
@@ -80,7 +90,7 @@ export const ModifyItemModal = ({item, areaId}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col w-full h-full">
                 <div className="flex mb-5 items-center">
                     <Button
                         size="small"
@@ -103,21 +113,22 @@ export const ModifyItemModal = ({item, areaId}) => {
                     render={({ field }) => 
                     <TextField 
                         {...field} 
-                        fullWidth
+                        required
+                        InputLabelProps={{ required: false, shrink: true}}
                         label="Nombre de objeto"
                         variant="outlined"
                         type="text"
                     />}
                 />
-                <div className="h-3"/>
+                <div className="h-2"/>
                 <Controller 
                     name="description"
                     control={control}
                     render={({ field }) => 
                     <TextField 
                         {...field} 
-                        fullWidth
                         multiline
+                        InputLabelProps={{ shrink: true }}
                         rows={2}
                         maxRows={4}
                         label="Descripcion"
@@ -125,13 +136,12 @@ export const ModifyItemModal = ({item, areaId}) => {
                         className="form-textField"
                     />}
                 />
-                <div className="h-3"/>
-                <div className="w-96 flex justify-between">
+                <div className="h-2"/>
+                <div className="grid grid-cols-3 gap-2">
                     <FormControl
-                        style={{width:"120px"}}
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="category-select">Categoria</InputLabel>
+                        <InputLabel shrink htmlFor="category-select">Categoria</InputLabel>
                         <Controller 
                             name="category"
                             control={control}
@@ -140,7 +150,9 @@ export const ModifyItemModal = ({item, areaId}) => {
                                 <Select
                                     {...field} 
                                     native
+                                    notched
                                     label="category"
+                                    required
                                     inputProps={{
                                         name: "category",
                                         id: "category-select"
@@ -155,10 +167,9 @@ export const ModifyItemModal = ({item, areaId}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"120px"}}
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="row-select">Fila</InputLabel>
+                        <InputLabel shrink htmlFor="row-select">Fila</InputLabel>
                         <Controller 
                             name="row"
                             control={control}
@@ -166,6 +177,8 @@ export const ModifyItemModal = ({item, areaId}) => {
                                 <Select
                                     {...field} 
                                     native
+                                    notched
+                                    required
                                     label="row"
                                     inputProps={{
                                         name: "row",
@@ -178,7 +191,6 @@ export const ModifyItemModal = ({item, areaId}) => {
                         />
                     </FormControl>
                     <FormControl
-                        style={{width:"120px"}} 
                         variant="outlined"
                     >
                         <InputLabel htmlFor="column-select">Columna</InputLabel>
@@ -189,6 +201,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                                 <Select
                                     {...field} 
                                     native
+                                    required
                                     label="column"
                                     inputProps={{
                                         name: "column",
@@ -201,15 +214,14 @@ export const ModifyItemModal = ({item, areaId}) => {
                         />
                     </FormControl>
                 </div>
-                <div className="h-3"/>
-                <div className="flex justify-between">
+                <div className="h-2"/>
+                <div className="grid grid-cols-2 gap-2">
                     <Controller 
                         name="expiryDate"
                         control={control}
                         render={({ field }) => 
                         <TextField 
                             {...field} 
-                            style={{width:"186px"}} 
                             label="Vencimiento"
                             variant="outlined"
                             type="date"
@@ -222,7 +234,6 @@ export const ModifyItemModal = ({item, areaId}) => {
                         render={({ field }) => 
                         <TextField 
                             {...field} 
-                            style={{width:"186px"}} 
                             label="Cantidad"
                             placeholder="Ilimitado"
                             InputLabelProps={{ shrink: true }}

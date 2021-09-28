@@ -18,11 +18,12 @@ html, body, #root{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 220px;
-    max-width: 385px;
+    max-width: 460px;
+    max-height: 90%;
     box-sizing: content-box;
-    padding: 15px;
-    margin-bottom: 40px;
+    padding-block: 12px;
+    padding-inline: 8px;
+    overflow-y: auto;
     right: auto;
     bottom: auto;
     outline: none;

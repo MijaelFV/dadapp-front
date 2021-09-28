@@ -1,4 +1,4 @@
-import { ListItemSecondaryAction, Checkbox, Button, FormControl, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, FormControlLabel, Switch, Avatar, Tabs, Tab } from '@material-ui/core';
+import { ListItemSecondaryAction, Checkbox, Button, FormControl, LinearProgress, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, FormControlLabel, Switch, Avatar, Tabs, Tab } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { ShowImage } from '../../../components/ShowImage';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import { startLoadingLogs } from '../../../redux/actions/log';
 import { clearSearch, getSearch } from '../../../redux/actions/search';
+import { ItemFeaturesCollapse } from '../../../components/ItemFeaturesCollapse';
 
 
 Modal.setAppElement('#root');
@@ -24,7 +25,9 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const [selectedRow, setSelectedRow] = useState('');
     const [selectedCol, setSelectedCol] = useState('');
     const [items, setItems] = useState([]);
+    const [isFormOpen, setIsFormOpen] = useState(false)
     
+    const isLoading = useSelector(state => state.ui.isLoading)
     const space = spaces?.find(space => space.uid === selectedSpace)
     const res = useSelector(state => state.search.items);
     let selectedItems = res.filter(item => checked.includes(item.uid))
@@ -62,15 +65,21 @@ export const TakeItemModal = ({areaId, spaces}) => {
         await selectedItems.forEach((item) => {
             if (item.quantity >= 0 && item.consume >= 1) {
                 finishSubmit();
-                console.log('consumido');
-                return dispatch(startRemoveItem(item.uid, areaId, 3, item.consume))
+                return dispatch(startRemoveItem(item.uid, areaId, 2, item.consume))
             } else if (item.quantity === null) {
                 finishSubmit();
-                console.log('retirado');
-                return dispatch(startRemoveItem(item.uid, areaId, 2))
+                return dispatch(startRemoveItem(item.uid, areaId, 1))
             }
         })
 
+    }
+
+    const SetDefaultConsume = () => {
+        selectedItems.forEach((item) => {
+            if (item.quantity && !item.consume) {
+                item.consume = 1
+            }
+        })
     }
 
     const handleSetConsume = (e, itemid, quantity) => {
@@ -100,7 +109,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
     }
 
     const handleQueryChange = (e) => {
-        if (e.target.value.length > 2) {
+        if (e.target.value.length >= 1) {
             dispatch(getSearch("items", areaId, e.target.value))
         }
     }
@@ -125,8 +134,17 @@ export const TakeItemModal = ({areaId, spaces}) => {
             newChecked.splice(currentIndex, 1);
         }
         setChecked(newChecked);
+        SetDefaultConsume();
     };
     
+    const handleShowForm = (i) => {
+        if (i !== isFormOpen) {
+            setIsFormOpen(i)
+        } else {
+            setIsFormOpen(false)
+        }
+    }
+
     const handleCloseModal = () => {
         setSearchType(1);
         setChecked([]);
@@ -138,36 +156,40 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const showItems = () => {
         if (items.length > 0) {
             return <List>
-                        {items.map((item) => {
-                            const qty = item.quantity !== null ? `| Cant: ${item.quantity}` : ''
-                            const spaceName = searchType === 1 ? `${item.space.name} |` : ''
-
+                        {items.map((item, index) => {
                             return [
-                                <ListItem key={item.uid} button onClick={(e) => handleCheckItem(item.uid)} disabled={item.quantity === 0}>
+                                <ListItem 
+                                    key={item.uid} 
+                                    button 
+                                    disabled={item.quantity === 0}
+                                    onClick={() => handleShowForm(index)} 
+                                    style={isFormOpen === index ? {backgroundColor:"rgb(55 65 81)"} : {}}
+                                >
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
                                             <ShowImage itemId={item.uid} />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={item.name} secondary={`${spaceName} F: ${item.row} C: ${item.column} ${qty}`}  />
+                                    <ListItemText primary={item.name} />
                                     <ListItemSecondaryAction>
                                         <Checkbox
                                             color="primary"
                                             edge="end"
                                             disabled={item.quantity === 0}
-                                            onChange={(e) => handleCheckItem(item.uid)}
+                                            onChange={() => handleCheckItem(item.uid)}
                                             checked={checked.indexOf(item.uid) !== -1}
                                         />
                                     </ListItemSecondaryAction>
-                                </ListItem>
+                                </ListItem>,
+                                <ItemFeaturesCollapse item={item} isFormOpen={isFormOpen} index={index} />
                             ]
                         })}
                     </List>
         } else {
             return <div className="mx-auto my-auto flex flex-col items-center text-gray-400">
                 <FontAwesomeIcon icon={faDolly} size="4x" />
-                <b className="mt-2">No hay articulos para mostrar</b>
-                <p className="text-center w-2/3">Si colocaste datos asegurate de que sean correctos</p>
+                <b className="mt-2 text-center">No hay articulos para mostrar</b>
+                <p className="text-center w-2/3">Asegurate de que los datos sean correctos</p>
             </div>
         }
     }
@@ -175,10 +197,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const showSelectedItems = () => {
         if (checked.length > 0) {
             return <List>
-                        {selectedItems.map((item) => {
-                            const qty = item.quantity ? `| Cant: ${item.quantity}` : ''
-                            const spaceName = searchType === 1 ? `${item.space.name} |` : ''
-
+                        {selectedItems.map((item, index) => {
                             const showConsumeOption = () => {
                                 if (item.quantity) {
                                     return <FormControl
@@ -187,22 +206,26 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                             >
                                                 <Select
                                                     native
+                                                    defaultValue={item.consume ? item.consume : 1}
                                                     onChange={e => handleSetConsume(e, item.uid, item.quantity)}
                                                 >
-                                                    {showOptionsColRow(item.quantity)}
+                                                    {showOptionsColRow(item.quantity, false)}
                                                 </Select>
                                             </FormControl>
                                 }
                             }
 
                             return [
-                                <ListItem key={item.uid}>
+                                <ListItem 
+                                    key={item.uid}
+                                    style={isFormOpen === index ? {backgroundColor:"rgb(55 65 81)"} : {}}
+                                >
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
                                             <ShowImage itemId={item.uid} />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={item.name} secondary={`${spaceName} F: ${item.row} C: ${item.column} ${qty}`}  />
+                                    <ListItemText primary={item.name} onClick={() => handleShowForm(index)}  />
                                     {showConsumeOption()}
                                     <ListItemSecondaryAction>
                                         <Checkbox
@@ -212,14 +235,15 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                             checked={checked.indexOf(item.uid) !== -1}
                                         />
                                     </ListItemSecondaryAction>
-                                </ListItem>
+                                </ListItem>,
+                                <ItemFeaturesCollapse item={item} isFormOpen={isFormOpen} index={index} />
                             ]
                         })}
                     </List>
         } else {
             return <div className="mx-auto my-auto flex flex-col items-center text-gray-400">
                 <FontAwesomeIcon icon={faHandPointer} size="4x" />
-                <b className="mt-2">No hay articulos seleccionados</b>
+                <b className="mt-2 text-center">No hay articulos seleccionados</b>
                 <p className="text-center w-2/3">Aqui apareceran los articulos que estes por retirar</p>
             </div>
         }
@@ -228,7 +252,8 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const TabPanel = ({children, value, index, ...other}) => {      
         return (
           <div
-            className={value === index ? "flex flex-col h-full" : ''}
+            className={value === index ? "flex flex-col overflow-auto" : ''}
+            style={value === index ? {height:"40vh", width:"90vw", maxWidth: "450px"} : {}}
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
@@ -261,7 +286,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form style={{width:"370px"}} className="flex flex-col" onSubmit={onSubmit}>
+            <form className="flex flex-col w-full h-full" onSubmit={onSubmit}>
                     <FormControlLabel
                         style={{marginTop:"-5px", marginBottom:"5px"}}
                         control={
@@ -285,9 +310,8 @@ export const TakeItemModal = ({areaId, spaces}) => {
                         />
                 
                         ) : (
-                        <div className="flex justify-between">
+                        <div className="grid grid-cols-3 gap-2">
                             <FormControl
-                                style={{width:"115px"}}
                                 variant="outlined"
                                 size="small"
                             >
@@ -308,7 +332,6 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                 </Select>
                             </FormControl>
                             <FormControl
-                                style={{width:"115px"}}
                                 variant="outlined"
                                 size="small"
                             >
@@ -327,7 +350,6 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                 </Select>
                             </FormControl>
                             <FormControl
-                                style={{width:"115px"}}
                                 variant="outlined"
                                 size="small"
                             >
@@ -348,12 +370,17 @@ export const TakeItemModal = ({areaId, spaces}) => {
                         </div>
                     )
                 }
-                <div className="mt-3 bg-gray-500 bg-opacity-20 rounded overflow-y-auto">
+                <div className="mt-3 bg-gray-500 bg-opacity-20 rounded overflow-x-hidden">
                     <Tabs value={tabValue} onChange={handleChange} variant="fullWidth">
-                        <Tab label="Busqueda" {...a11yProps(0)} />
-                        <Tab label={`Seleccionados ${checked.length > 0 ? checked.length : ''}`} {...a11yProps(1)} />
+                        <Tab label="Busqueda" {...a11yProps(0)} onClick={() => setIsFormOpen(null)} />
+                        <Tab label="Seleccionado" {...a11yProps(1)} onClick={() => setIsFormOpen(null)} />
                     </Tabs>
-                    <div className="flex flex-col h-80">
+                    <div className="flex flex-col">
+                        {
+                            isLoading
+                            ? <LinearProgress />
+                            : null
+                        }
                         <TabPanel value={tabValue} index={0}>
                             {showItems()}
                         </TabPanel>

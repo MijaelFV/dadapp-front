@@ -9,7 +9,7 @@ import { openModal } from '../../redux/actions/ui';
 import { clearLogs, startLoadingLogs } from '../../redux/actions/log'
 import { ItemLogsTable } from './components/ItemLogsTable';
 import { ModifyItemModal } from './components/ModifyItemModal';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import { ShowImage } from '../../components/ShowImage';
 
 export const ItemInfoScreen = () => {
@@ -21,7 +21,8 @@ export const ItemInfoScreen = () => {
     const item = items.find(item => item.uid === itemId)
 
     const areaId = useSelector(state => state.area.active.uid);
-    const logs = useSelector(state => state.log.logs);
+    const isUserAdmin = useSelector(state => state.area.isUserAdmin);
+    const logs = useSelector(state => state.log.itemLogs);
 
     const createData = (label, value) => {
         return { label, value };
@@ -64,15 +65,19 @@ export const ItemInfoScreen = () => {
                 <p className="ml-1 text-xl mr-auto">
                     Articulo
                 </p>
-                <IconButton
-                    color="primary"
-                    onClick={handleOpenModifyModal}
-                    disabled={item.takedDate}
-                >
-                    <FontAwesomeIcon 
-                        icon={faCogs} 
-                    />
-                </IconButton>
+                {
+                    isUserAdmin === true
+                    ?   <IconButton
+                            color="primary"
+                            onClick={handleOpenModifyModal}
+                            disabled={item.takedDate}
+                        >
+                            <FontAwesomeIcon 
+                                icon={faCogs} 
+                            />
+                        </IconButton>
+                    :   null
+                }
             </div>
             <div className="rounded mx-3 bg-black bg-opacity-50 h-60 overflow-hidden justify-center flex border-4 border-solid border-gray-500 border-opacity-20">
                 <ShowImage itemId={item.uid} />

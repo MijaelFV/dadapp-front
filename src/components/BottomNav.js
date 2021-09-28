@@ -1,22 +1,12 @@
 import React from 'react'
 import { faHome, faPallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BottomNavigation, BottomNavigationAction, withStyles } from "@material-ui/core";
+import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNavValue } from '../redux/actions/ui';
 
 export const BottomNav = ({isActiveArea}) => {
-    const StyledNavBar = withStyles({
-        root: {    
-            backdropFilter: "blur(2px)",
-            backgroundColor:"#080e1bf0",
-            maxWidth:"500px",
-            marginLeft:"auto",
-            marginRight:"auto"
-        },
-    })(BottomNavigation);
-
     const dispatch = useDispatch();
     const {pathname} = useLocation();
     const {navValue} = useSelector(state => state.ui)
@@ -30,7 +20,14 @@ export const BottomNav = ({isActiveArea}) => {
     } else {
         return (
             <>
-                <StyledNavBar 
+                <BottomNavigation
+                    sx={{
+                        backdropFilter: "blur(2px)",
+                        backgroundColor:"#080e1bf0",
+                        maxWidth:"500px",
+                        marginLeft:"auto",
+                        marginRight:"auto"
+                    }} 
                     value={navValue}
                     onChange={handleChange}
                     style={{position:"fixed", bottom:"0px", left:"0px", right:"0px"}}
@@ -49,7 +46,7 @@ export const BottomNav = ({isActiveArea}) => {
                         label="Espacios" 
                         icon={<FontAwesomeIcon icon={faPallet}/>}
                     />
-                </StyledNavBar>
+                </BottomNavigation>
             </>
         )
     }
