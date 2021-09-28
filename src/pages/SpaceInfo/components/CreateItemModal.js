@@ -1,8 +1,8 @@
 import { Button, FormControl, InputLabel, Select, TextField } from '@mui/material';
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { startCreateItem } from '../../../redux/actions/inv';
+import { startCreateItem, uploadItemImage } from '../../../redux/actions/inv';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
@@ -14,6 +14,8 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
     const area = useSelector(state => state.area.active)
     
     const thisModalIsOpen = useModalIsOpen("CreateItemModal")
+
+    const [selectedFile, setSelectedFile] = useState();
 
     const { control, reset, handleSubmit } = useForm({
         defaultValues: {
@@ -28,15 +30,19 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
     });
 
     const onSubmit = (data) => {
-        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, spaceId, area.uid));
-        reset();
+        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, spaceId, area.uid, selectedFile));
         dispatch(closeModal());
+        reset();
     }
     
     const handleCloseModal = () => {
         reset();
         dispatch(closeModal());
     }  
+
+    const handleUploadFile = (e) => {
+        setSelectedFile(e.target.files[0]);
+    }
 
     return (
         <Modal
@@ -47,6 +53,22 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
             overlayClassName="modal-background"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col w-full h-full">
+                <div className="flex mb-5 items-center">
+                    <Button
+                        size="small"
+                        component="label"
+                        variant="contained"
+                        color="primary"
+                    >
+                        Subir Imagen
+                        <input
+                            type="file"
+                            onChange={handleUploadFile}
+                            hidden
+                        />
+                    </Button>
+                    {selectedFile !== undefined && <p className="w-52 overflow-hidden text-xs ml-2 whitespace-nowrap overflow-ellipsis">Archivo: {selectedFile.name}</p>}
+                </div>
                 <Controller 
                     name="name"
                     control={control}

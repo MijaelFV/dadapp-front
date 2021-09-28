@@ -129,10 +129,13 @@ export const startDeleteItem = (item, area) => {
     }
 }
 
-export const startCreateItem = (name, description, category, row, column, expiryDate, quantity, space, area) => {
+export const startCreateItem = (name, description, category, row, column, expiryDate, quantity, space, area, selectedFile) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item`, {name, description, category, row, column, expiryDate, quantity, space, area}, 'POST');
         if (resp.status === 201) {
+            if (selectedFile) {
+                await dispatch(uploadItemImage(resp.data.uid, selectedFile))
+            }
             dispatch(getInventoryBySpace(space));
         } else {
             console.log(resp.data)
