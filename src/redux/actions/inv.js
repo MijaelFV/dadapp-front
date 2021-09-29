@@ -78,23 +78,27 @@ export const getInventoryBySpace = (spaceId) => {
  
 export const uploadItemImage = (item, image) => {
     return async() => {
-        SwalMixin.fire({
-            titleText: "Por favor espere mientras se sube el archivo al servidor.",
-            icon: "info",
-            showConfirmButton: false
-        })
-        const options = {
-            maxSizeMB: 0.6,
-            maxWidthOrHeight: 1920,
-        }
-        const compressedFile = await imageCompression(image, options);
-        const formData = new FormData();
-        formData.append('file', compressedFile);
-        const resp = await fetch(`api/upload/items/${item}`, formData, 'PUT');
-        SwalMixin.close()
-        if (resp.status === 200) {
-        } else {
-            console.log(resp.data)
+        if (image) {
+            SwalMixin.fire({
+                titleText: "Por favor espere mientras se sube el archivo al servidor.",
+                icon: "info",
+                showConfirmButton: false
+            })
+    
+            const options = {
+                maxSizeMB: 0.6,
+                maxWidthOrHeight: 1920,
+            }
+            const compressedFile = await imageCompression(image, options);
+    
+            const formData = new FormData();
+            formData.append('file', compressedFile);
+            const resp = await fetch(`api/upload/items/${item}`, formData, 'PUT');
+    
+            SwalMixin.close()
+            if (resp.status !== 200) {
+                console.log(resp.data)
+            }
         }
     }
 }

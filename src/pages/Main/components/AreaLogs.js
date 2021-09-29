@@ -54,7 +54,7 @@ export const AreaLogs = ({log, history, dispatch}) => {
     return (
         <>
             <div className={`flex mx-2 py-2 px-2 items-center bg-opacity-30 rounded-tr-md rounded-tl-md overflow-hidden ${logBgColor}`}>
-                <div className="w-10 h-10 flex flex-shrink-0 mr-3">
+                <div className={`w-10 h-10 flex flex-shrink-0 mr-3 p-0.5 rounded bg-opacity-30 ${labelBgColor}`}>
                     <ShowAvatar variant="rounded" username={log.user.name} userId={log.user._id} />
                 </div>
                 <div className="flex flex-col mr-auto justify-evenly">
