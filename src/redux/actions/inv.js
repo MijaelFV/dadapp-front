@@ -1,6 +1,7 @@
 import { types } from "../types";
 import { fetch } from "../../helpers/axios";
 import { setLoadingFinish, setLoadingStart } from "./ui";
+import imageCompression from 'browser-image-compression';
 
 export const loadInventory = (inventory) => ({
     type: types.invLoad,
@@ -76,8 +77,14 @@ export const getInventoryBySpace = (spaceId) => {
  
 export const uploadItemImage = (item, image) => {
     return async() => {
+        const options = {
+            maxSizeMB: 0.6,
+            maxWidthOrHeight: 1920,
+        }
+        const compressedFile = await imageCompression(image, options);
+
         const formData = new FormData();
-        formData.append('file', image);
+        formData.append('file', compressedFile);
         const resp = await fetch(`api/upload/items/${item}`, formData, 'PUT');
         if (resp.status !== 200) {
             console.log(resp.data)
