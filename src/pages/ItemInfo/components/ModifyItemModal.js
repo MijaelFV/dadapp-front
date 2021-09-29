@@ -237,7 +237,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                         <TextField 
                             {...field} 
                             label="Cantidad"
-                            placeholder="Ilimitado"
+                            placeholder="No consumible"
                             InputLabelProps={{ shrink: true }}
                             variant="outlined"
                             type="number"
