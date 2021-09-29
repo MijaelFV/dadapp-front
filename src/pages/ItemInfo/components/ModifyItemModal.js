@@ -54,6 +54,7 @@ export const ModifyItemModal = ({item, areaId}) => {
             dispatch(uploadItemImage(item.uid, selectedFile));
         }
         dispatch(closeModal());
+        setSelectedFile()
         reset({name: data.name, description: data.description, category: data.category, row: data.row, column: data.column, expiryDate: data.expiryDate, quantity: data.quantity});
     }
 
@@ -75,6 +76,7 @@ export const ModifyItemModal = ({item, areaId}) => {
     
     const handleCloseModal = () => {
         dispatch(closeModal());
+        setSelectedFile()
         reset();
     }  
 

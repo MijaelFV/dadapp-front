@@ -18,7 +18,6 @@ export const AppRouter = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            console.log(token);
             dispatch(startChecking());
         }
     }, [dispatch])

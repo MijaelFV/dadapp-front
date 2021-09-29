@@ -32,6 +32,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
     const onSubmit = (data) => {
         dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, spaceId, area.uid, selectedFile));
         dispatch(closeModal());
+        setSelectedFile()
         reset();
     }
     
