@@ -78,16 +78,18 @@ export const SpaceInfoScreen = () => {
 
     return (
         <div className="text-white bg-gray-900 flex flex-col w-full h-auto min-h-full pb-20" style={{maxWidth:"500px", marginInline:"auto"}}>
-            <div className="flex justify-between p-3">
+            <div className="flex items-center p-3">
                 <IconButton
                     color="primary"
                     onClick={handleReturnClick}
-                    style={{marginRight:"auto"}}
                 >
                     <FontAwesomeIcon 
                         icon={faArrowLeft} 
                     />
                 </IconButton>
+                <p className="ml-1 text-xl mr-auto">
+                    Info. de espacio
+                </p>
                 <IconButton
                     color="primary"
                     onClick={() => {
@@ -112,7 +114,7 @@ export const SpaceInfoScreen = () => {
                     />
                 </IconButton>
             </div>
-            <h1 className="text-center -mt-5 mb-3 text-3xl font-bold">
+            <h1 className="text-center mb-3 text-3xl font-bold w-10/12 ml-auto mr-auto">
                 {space.name}
             </h1>
             <div className="flex flex-col items-center bg-gray-500 bg-opacity-20 m-auto overflow-hidden mx-3 px-1.5 pt-1.5 rounded">
@@ -130,7 +132,6 @@ export const SpaceInfoScreen = () => {
                                     <div className="w-14 h-14 bg-gray-600 rounded flex justify-center items-center">
                                         <p className={`transition-colors duration-150 ease-in ${(((col === showActive.col && row === showActive.row) || showActive.all === true) ? "text-white" : "text-gray-900")}`}>{row}-{col}</p>
                                     </div>
-                                    {/* <FontAwesomeIcon icon={faBox} className="text-gray-600 text-5xl transition-colors duration-150 ease-in"/> */}
                                 </div>
                             ))}
                         </div>

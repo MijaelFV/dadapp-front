@@ -53,7 +53,7 @@ export const AreaLogs = ({log, history, dispatch}) => {
 
     return (
         <>
-            <div className={`flex mx-2 py-2 px-2 items-center bg-opacity-30 rounded-tr-md rounded-tl-md ${logBgColor}`}>
+            <div className={`flex mx-2 py-2 px-2 items-center bg-opacity-30 rounded-tr-md rounded-tl-md overflow-hidden ${logBgColor}`}>
                 <div className="w-10 h-10 flex flex-shrink-0 mr-3">
                     <ShowAvatar variant="rounded" username={log.user.name} userId={log.user._id} />
                 </div>
@@ -70,13 +70,11 @@ export const AreaLogs = ({log, history, dispatch}) => {
                 <div className="flex flex-col items-end justify-evenly">
                     <p 
                         className=" text-lg font-medium overflow-hidden whitespace-nowrap overflow-ellipsis" 
-                        style={{maxWidth:"145px"}} 
                     >
                         {labelType} {log.quantity ? `(${log.quantity})` : ''}
                     </p>
                     <p 
-                        className="text-sm text-gray-300 overflow-hidden whitespace-nowrap overflow-ellipsis"
-                        style={{maxWidth:"145px"}} 
+                        className="text-sm text-right text-gray-300 overflow-hidden max-h-5 overflow-ellipsis"
                     >
                         {log.space.name}
                     </p>

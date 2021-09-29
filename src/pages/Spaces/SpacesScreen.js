@@ -78,7 +78,9 @@ export const SpaceScreen = () => {
                             </div>
                         </div>
                     </ListItemAvatar>
-                    <ListItemText primary={space.name}/>
+                    <p className="w-8/12 overflow-ellipsis mr-auto whitespace-nowrap overflow-hidden">
+                        {space.name}
+                    </p>
                     <IconButton 
                         edge="end" 
                         disabled={isFormOpen}
