@@ -92,8 +92,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         {...field} 
                         multiline
                         InputLabelProps={{ shrink: true }}
-                        rows={2}
-                        maxRows={4}
+                        maxRows={3}
                         label="Descripcion"
                         variant="outlined"
                     />}

@@ -12,7 +12,7 @@ export const ItemLogsTable = ({logs}) => {
         return (
             logs.map((log, index) => (
                 {
-                    id: log.item?._id || index,
+                    id: log.uid,
                     user: log.user.name,
                     row: log.row || "-",
                     column: log.column || "-",

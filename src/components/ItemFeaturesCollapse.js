@@ -23,14 +23,14 @@ export const ItemFeaturesCollapse = ({item, isFormOpen, index}) => {
                     <div className={`w-full flex justify-center rounded-bl-xl rounded-br-xl overflow-hidden transition-colors ${isFormOpen === index ? "bg-gray-700" : ""}`}>
                         <div className="w-11/12 flex flex-col pb-4">
                             {
-                                features.map((feature) => {
+                                features.map((feature, i) => {
                                     if (feature !== null) {
                                         return (
                                             [<div key={feature.label} className={`flex px-1`}>
                                                 <h1 className="text-gray-300 mr-auto">{feature.label}</h1>
                                                 <p className="whitespace-nowrap overflow-ellipsis overflow-hidden" style={{maxWidth:"50%"}}>{feature.value}</p>
                                             </div>,
-                                            <Divider />]
+                                            <Divider key={i} />]
                                         )
                                     }
                                     return null;

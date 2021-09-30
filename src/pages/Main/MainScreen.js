@@ -63,7 +63,7 @@ export const MainScreen = () => {
 
         return  <div className="flex flex-col mt-9 py-1">
                     {[...Array(n)].map((e, i) => {
-                        return <Skeleton variant="rectangular" height={88} className="rounded mb-2 mx-2" />
+                        return <Skeleton key={i} variant="rectangular" height={88} className="rounded mb-2 mx-2" />
                     })}
                 </div>
     }

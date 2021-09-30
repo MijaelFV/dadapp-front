@@ -189,7 +189,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                         />
                                     </ListItemSecondaryAction>
                                 </ListItem>,
-                                <ItemFeaturesCollapse item={item} isFormOpen={isFormOpen} index={index} />
+                                <ItemFeaturesCollapse key={item.name} item={item} isFormOpen={isFormOpen} index={index} />
                             ]
                         })}
                     </List>
@@ -253,7 +253,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                         />
                                     </ListItemSecondaryAction>
                                 </ListItem>,
-                                <ItemFeaturesCollapse item={item} isFormOpen={isFormOpen} index={index} />
+                                <ItemFeaturesCollapse key={item.name} item={item} isFormOpen={isFormOpen} index={index} />
                             ]
                         })}
                     </List>

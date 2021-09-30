@@ -131,8 +131,7 @@ export const ModifyItemModal = ({item, areaId}) => {
                         {...field} 
                         multiline
                         InputLabelProps={{ shrink: true }}
-                        rows={2}
-                        maxRows={4}
+                        maxRows={3}
                         label="Descripcion"
                         variant="outlined"
                         className="form-textField"
