@@ -24,7 +24,11 @@ export const createCategory = (spaceId, name) => {
         if (resp.status === 201) {
             dispatch(getCategoriesBySpace(spaceId))
         } else {
-            console.log(resp.data)
+            SwalMixin.fire({
+                text: resp.data.msg,
+                icon: 'warning',
+                confirmButtonText: "Aceptar",
+            })
         }
     }
 }
