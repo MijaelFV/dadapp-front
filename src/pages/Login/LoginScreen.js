@@ -36,7 +36,7 @@ export const LoginScreen = () => {
                     <img src={bgImage} alt="background img" width="185px"/>
                     <div className="flex flex-col text-center mt-2 justify-center items-center">
                         <p className="ml-3 text-3xl w-min font-medium">
-                            Inventory Administrator
+                            Inventory Organizer
                         </p>
                         <p className="ml-3 w-min whitespace-nowrap text-gray-200">
                             ¡Comienza a inventariar!
