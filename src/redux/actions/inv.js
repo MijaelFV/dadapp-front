@@ -86,7 +86,7 @@ export const uploadItemImage = (item, image) => {
             })
     
             const options = {
-                maxSizeMB: 0.6,
+                maxSizeMB: 0.2,
                 maxWidthOrHeight: 1920,
             }
             const compressedFile = await imageCompression(image, options);
