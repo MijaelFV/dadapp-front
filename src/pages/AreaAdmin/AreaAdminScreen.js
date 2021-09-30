@@ -128,6 +128,7 @@ export const AreaAdminScreen = () => {
             </ListItemSecondaryAction>
         </ListItem>,
         <Menu
+            key={result.name}
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
