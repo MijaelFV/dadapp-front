@@ -9,6 +9,7 @@ import { getUserById } from '../../redux/actions/user'
 import { changeUserRole, deleteArea, deleteAreaUser, modifyArea, renewAreaInviteCode } from '../../redux/actions/area'
 import { useForm, Controller } from 'react-hook-form'
 import { SwalMixin } from '../../components/SwalMixin'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 export const AreaAdminScreen = () => {
     const history = useHistory() 
@@ -68,7 +69,6 @@ export const AreaAdminScreen = () => {
     }
 
     const handleCopyToClipboard = () => {
-        navigator.clipboard.writeText(area.inviteCode)
         setCodeCopied(true);
         setTimeout(() => {
             setCodeCopied(false)
@@ -208,17 +208,19 @@ export const AreaAdminScreen = () => {
                     Codigo de invitación
                 </h1>
                 <div className="flex">
-                    <h1 
-                        className="text-lg bg-gray-500 rounded bg-opacity-20 w-min mx-2 px-2 cursor-pointer no-tap-highlight whitespace-nowrap"
-                        onClick={handleCopyToClipboard}
+                    <CopyToClipboard
+                        onCopy={handleCopyToClipboard}
+                        text={area.inviteCode}
                     >
-                        {
-                            codeCopied
-                            ? "Codigo copiado"
-                            : area.inviteCode
-                            
-                        }
-                    </h1>
+                        <h1 className="text-lg bg-gray-500 rounded bg-opacity-20 w-min mx-2 px-2 cursor-pointer no-tap-highlight whitespace-nowrap">
+                            {
+                                codeCopied
+                                ? "Copiado"
+                                : area.inviteCode
+                                
+                            }
+                        </h1>
+                    </CopyToClipboard>
                     <p 
                         className="text-indigo-200 text-sm flex items-center cursor-pointer no-tap-highlight"
                         onClick={handleChangeInviteCode}
