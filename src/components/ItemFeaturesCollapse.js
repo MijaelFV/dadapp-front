@@ -28,7 +28,7 @@ export const ItemFeaturesCollapse = ({item, isFormOpen, index}) => {
                                         return (
                                             [<div key={feature.label} className={`flex px-1`}>
                                                 <h1 className="text-gray-300 mr-auto">{feature.label}</h1>
-                                                <p>{feature.value}</p>
+                                                <p className="whitespace-nowrap overflow-ellipsis overflow-hidden" style={{maxWidth:"50%"}}>{feature.value}</p>
                                             </div>,
                                             <Divider />]
                                         )

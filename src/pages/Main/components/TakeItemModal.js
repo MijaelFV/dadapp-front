@@ -1,4 +1,4 @@
-import { ListItemSecondaryAction, Checkbox, Button, FormControl, LinearProgress, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, FormControlLabel, Switch, Avatar, Tabs, Tab } from '@mui/material';
+import { MobileStepper, ListItemSecondaryAction, Checkbox, Button, FormControl, LinearProgress, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, FormControlLabel, Switch, Avatar, Tabs, Tab } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,8 @@ import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import { startLoadingLogs } from '../../../redux/actions/log';
 import { clearSearch, getSearch } from '../../../redux/actions/search';
 import { ItemFeaturesCollapse } from '../../../components/ItemFeaturesCollapse';
+import { invalid } from 'moment';
+import { SwalMixin } from '../../../components/SwalMixin';
 
 
 Modal.setAppElement('#root');
@@ -26,6 +28,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
     const [selectedCol, setSelectedCol] = useState('');
     const [items, setItems] = useState([]);
     const [isFormOpen, setIsFormOpen] = useState(false)
+    const [activeStep, setActiveStep] = React.useState(0);
     
     const isLoading = useSelector(state => state.ui.isLoading)
     const space = spaces?.find(space => space.uid === selectedSpace)
@@ -57,21 +60,30 @@ export const TakeItemModal = ({areaId, spaces}) => {
         e.preventDefault();
         const finishSubmit = () => {
             handleCloseModal();
+            setActiveStep(0);
             setTimeout(() => {
                 dispatch(getInventoryByTaked(areaId))
                 dispatch(startLoadingLogs(areaId, 1));
             }, 800)
         }
-        await selectedItems.forEach((item) => {
+        const invalidConsume = selectedItems.some(e => e.quantity < e.consume || 1 > e.consume);
+        if (invalidConsume) {
+            console.log(invalidConsume);
+            return SwalMixin.fire({
+                icon: "warning",
+                text: "Se ingreso un valor de consumo invalido",
+                confirmButtonText: "Aceptar"
+            })
+        }
+        selectedItems.forEach((item) => {
             if (item.quantity >= 0 && item.consume >= 1) {
+                dispatch(startRemoveItem(item.uid, areaId, 2, item.consume))
                 finishSubmit();
-                return dispatch(startRemoveItem(item.uid, areaId, 2, item.consume))
             } else if (item.quantity === null) {
+                dispatch(startRemoveItem(item.uid, areaId, 1))
                 finishSubmit();
-                return dispatch(startRemoveItem(item.uid, areaId, 1))
             }
         })
-
     }
 
     const SetDefaultConsume = () => {
@@ -83,13 +95,11 @@ export const TakeItemModal = ({areaId, spaces}) => {
     }
 
     const handleSetConsume = (e, itemid, quantity) => {
-        if (e.target.value >= 1 && e.target.value <= quantity) {
-            selectedItems.forEach((item) => {
-                if (item.uid === itemid) {
-                    item.consume = e.target.value
-                }
-            })
-        }
+        selectedItems.forEach((item) => {
+            if (item.uid === itemid) {
+                item.consume = e.target.value
+            }
+        })
     }
     
     const handleSpaceChange = (e) => {
@@ -134,7 +144,6 @@ export const TakeItemModal = ({areaId, spaces}) => {
             newChecked.splice(currentIndex, 1);
         }
         setChecked(newChecked);
-        SetDefaultConsume();
     };
     
     const handleShowForm = (i) => {
@@ -147,8 +156,8 @@ export const TakeItemModal = ({areaId, spaces}) => {
 
     const handleCloseModal = () => {
         setSearchType(1);
+        setActiveStep(0)
         setChecked([]);
-        setTabValue(0)
         dispatch(clearSearch());
         dispatch(closeModal());
     }  
@@ -204,19 +213,23 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                                 variant="outlined"
                                                 size="small"
                                             >
-                                                <Select
-                                                    native
+                                                <TextField
+                                                    sx={{
+                                                        width:"70px",
+                                                    }}
                                                     defaultValue={item.consume ? item.consume : 1}
                                                     onChange={e => handleSetConsume(e, item.uid, item.quantity)}
-                                                >
-                                                    {showOptionsColRow(item.quantity, false)}
-                                                </Select>
+                                                    size="small"
+                                                    variant="outlined"
+                                                    type="number"
+                                                />
                                             </FormControl>
                                 }
                             }
 
                             return [
                                 <ListItem 
+                                    button
                                     key={item.uid}
                                     style={isFormOpen === index ? {backgroundColor:"rgb(55 65 81)"} : {}}
                                 >
@@ -225,7 +238,12 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                             <ShowImage itemId={item.uid} />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={item.name} onClick={() => handleShowForm(index)}  />
+                                    <p 
+                                        onClick={() => handleShowForm(index)}
+                                        className="w-2/4 overflow-ellipsis mr-auto whitespace-nowrap overflow-hidden"
+                                    >
+                                        {item.name}
+                                    </p>
                                     {showConsumeOption()}
                                     <ListItemSecondaryAction>
                                         <Checkbox
@@ -249,33 +267,13 @@ export const TakeItemModal = ({areaId, spaces}) => {
         }
     }
 
-    const TabPanel = ({children, value, index, ...other}) => {      
-        return (
-          <div
-            className={value === index ? "flex flex-col overflow-auto" : ''}
-            style={value === index ? {height:"40vh", width:"90vw", maxWidth: "450px"} : {}}
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-          >
-            {value === index && (
-                [children]
-            )}
-          </div>
-        );
-    }
+    const handleNext = () => {
+        SetDefaultConsume();
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
 
-    const a11yProps = (index) => {
-        return {
-            id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`,
-        };
-    }
-    const [tabValue, setTabValue] = React.useState(0);
-    const handleChange = (event, newValue) => {
-        setTabValue(newValue);
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
     return (
@@ -371,29 +369,46 @@ export const TakeItemModal = ({areaId, spaces}) => {
                     )
                 }
                 <div className="mt-3 bg-gray-500 bg-opacity-20 rounded overflow-x-hidden">
-                    <Tabs value={tabValue} onChange={handleChange} variant="fullWidth">
-                        <Tab label="Busqueda" {...a11yProps(0)} onClick={() => setIsFormOpen(null)} />
-                        <Tab label="Seleccionado" {...a11yProps(1)} onClick={() => setIsFormOpen(null)} />
-                    </Tabs>
-                    <div className="flex flex-col">
-                        {
-                            isLoading
-                            ? <LinearProgress />
-                            : null
-                        }
-                        <TabPanel value={tabValue} index={0}>
+                    {
+                        isLoading
+                        ? <LinearProgress />
+                        : null
+                    }
+                    <div 
+                        className={activeStep === 0 ? "flex flex-col overflow-auto" : 'hidden'}
+                        style={activeStep === 0 ? {height:"40vh", width:"95vw", maxWidth: "450px"} : {}}
+                    >
                             {showItems()}
-                        </TabPanel>
-                        <TabPanel value={tabValue} index={1}>
-                            {showSelectedItems()}
-                        </TabPanel>
                     </div>
+                    <div
+                        className={activeStep === 1 ? "flex flex-col overflow-auto" : 'hidden'}
+                        style={activeStep === 1 ? {height:"40vh", width:"95vw", maxWidth: "450px"} : {}}
+                    >
+                            {showSelectedItems()}
+                    </div>
+                    <MobileStepper 
+                        variant="dots"
+                        steps={2}
+                        position="static"
+                        activeStep={activeStep}
+                        sx={{ backgroundColor: "#232a39" }}
+                        nextButton={
+                            <Button size="small" onClick={handleNext} disabled={activeStep === 1}>
+                                SIGUIENTE
+                            </Button>
+                        }
+                        backButton={
+                            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                                ATRAS
+                            </Button>
+                        }
+                    />
                 </div>
-                <div className="mt-4">
+                <div className="mt-1">
                     <Button
                         disabled={checked.length === 0}
+                        style={activeStep === 1 ? {} : {display: "none"}}
                         fullWidth
-                        style={{marginBottom:"4px"}}
                         variant="contained"
                         color="primary"
                         type="submit"
@@ -401,6 +416,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                         Retirar
                     </Button>
                     <Button
+                        style={activeStep !== 1 ? {} : {display: "none"}}
                         fullWidth
                         onClick={handleCloseModal}
                         variant="contained"
