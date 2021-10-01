@@ -20,12 +20,18 @@ export const getCategoriesBySpace = (spaceId) => {
 
 export const createCategory = (spaceId, name) => {
     return async(dispatch) => {
+        SwalMixin.fire({
+            titleText: "Se esta creando la categoria.",
+            icon: "info",
+            showConfirmButton: false
+        })
         const resp = await fetch(`api/category/${spaceId}`, {name}, 'POST');
+        SwalMixin.close();
         if (resp.status === 201) {
             dispatch(getCategoriesBySpace(spaceId))
         } else {
             SwalMixin.fire({
-                text: resp.data.msg,
+                text: resp.data.msg || "No se ingreso un nombre de categoria",
                 icon: 'warning',
                 confirmButtonText: "Aceptar",
             })
