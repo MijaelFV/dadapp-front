@@ -3,6 +3,7 @@ import { areaReducer } from "./areaReducer";
 import { authReducer } from "./authReducer";
 import { errorReducer } from "./errorReducer";
 import { invReducer } from "./invReducer";
+import { itemReducer } from "./itemReducer";
 import { logReducer } from "./logReducer";
 import { searchReducer } from "./searchReducer";
 import { spaceReducer } from "./spaceReducer";
@@ -18,5 +19,6 @@ export const rootReducer = combineReducers({
     log: logReducer,
     area: areaReducer,
     search: searchReducer,
-    user: userReducer
+    user: userReducer,
+    item: itemReducer
 })

@@ -23,10 +23,10 @@ export const ItemsTable = ({itemList, spaceId}) => {
                     category: item.category?.name,
                     row: item.row,
                     column: item.column,
-                    takedBy: item.takedBy !== null ? item.takedBy.name : "-",
-                    takedDate: item.takedDate !== null ? moment(item.takedDate).locale("es").format('DD/MM HH:mm') : "-",
-                    expiryDate: item.expiryDate !== null ? moment.utc(item.expiryDate).locale("es").format('DD/MM/YY') : "-",
-                    quantity: item.quantity !== null ? item.quantity : "-"
+                    takedBy: item.takedBy !== null ? item.takedBy.name : null,
+                    takedDate: item.takedDate !== null ? moment(item.takedDate).locale("es").format('DD/MM HH:mm') : null,
+                    expiryDate: item.expiryDate !== null ? moment.utc(item.expiryDate).locale("es").format('DD/MM/YY') : null,
+                    quantity: item.quantity !== null ? item.quantity : null
                 }
             ))
         )
@@ -237,7 +237,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                         key={item.id}
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}
-                                        style={item.takedDate !== "-" ? {backgroundColor:"#321A24"} : null || item.quantity === 0 ? {backgroundColor:"#302120"} : null}
+                                        style={item.takedDate !== null ? {backgroundColor:"#321A24"} : null || item.quantity === 0 ? {backgroundColor:"#302120"} : null}
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
@@ -252,7 +252,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                         <TableCell>{item.category}</TableCell>
                                         <TableCell padding="none">{item.row}</TableCell>
                                         <TableCell padding="none">{item.column}</TableCell>
-                                        <TableCell>{item.quantity}</TableCell>
+                                        <TableCell >{item.quantity}</TableCell>
                                         <TableCell>{item.expiryDate}</TableCell>
                                         <TableCell>{item.takedBy}</TableCell>
                                         <TableCell>{item.takedDate}</TableCell>

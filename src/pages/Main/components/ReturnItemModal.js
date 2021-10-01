@@ -78,7 +78,7 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                                 <ListItem key={item.uid} button onClick={(e) => handleCheckItem(item.uid)}>
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
-                                            <ShowImage itemId={item.uid} />
+                                            <ShowImage item={item} />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText primary={item.name} secondary={`Retirado ${time}`}  />
@@ -190,7 +190,10 @@ export const ReturnItemModal = ({areaId, spaces, items}) => {
                         />
                     </FormControl>
                 </div>
-                <div className="flex flex-col h-80 mt-3 bg-gray-500 bg-opacity-20 rounded overflow-y-auto">
+                <div 
+                    className="flex flex-col mt-3 bg-gray-500 bg-opacity-20 rounded overflow-y-auto"
+                    style={{height:"40vh", width:"95vw", maxWidth: "450px"}}
+                >
                     {showItems()}
                 </div>
                 <div className="mt-4">

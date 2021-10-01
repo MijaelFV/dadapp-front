@@ -21,9 +21,9 @@ export const NavRoutes = () => {
     const isActiveArea = () => {
         if (activeArea) {
             return [
-                <Route key={1} exact path="/item/:spaceId/:itemId" component={ItemInfoScreen}/>,
+                <Route key={1} exact path="/item/:spaceId/:itemid" component={ItemInfoScreen}/>,
                 <Route key={2} exact path="/space/:spaceId" component={SpaceInfoScreen} />,
-                <Route key={3} exact path="/user/:userId" component={UserScreen}/>,
+                <Route key={3} exact path="/user/:userid" component={UserScreen}/>,
                 <Route key={4} exact path="/spaces" component={SpaceScreen}/>,
                 <Route key={5} exact path="/search" component={SearchScreen}/>,
                 <Route key={5} exact path="/admin" component={AreaAdminScreen}/>,

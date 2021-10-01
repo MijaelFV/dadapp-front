@@ -6,25 +6,21 @@ import { useSelector } from 'react-redux'
 import { ItemFeaturesCollapse } from '../../../components/ItemFeaturesCollapse'
 import { ShowAvatar } from '../../../components/ShowAvatar'
 import { ShowImage } from '../../../components/ShowImage'
-import { getItemById } from '../../../redux/actions/inv'
-import { getUserById } from '../../../redux/actions/user'
 
 export const SearchResults = ({type, history, dispatch}) => {
     const searchResults = useSelector(state => state.search)
 
     const [isFormOpen, setIsFormOpen] = useState(false)
 
-    const handleItemClick = async(itemId, spaceId) => {
-        if (itemId && spaceId) {
-            await dispatch(getItemById(itemId))
-            history.push(`/item/${spaceId}/${itemId}`)
+    const handleItemClick = async(itemid, spaceid) => {
+        if (itemid && spaceid) {
+            history.push(`/item/${spaceid}/${itemid}`)
         }
     }
 
-    const handleUserClick = async(userId) => {
-        if (userId) {
-            await dispatch(getUserById(userId))
-            history.push(`/user/${userId}`)
+    const handleUserClick = async(userid) => {
+        if (userid) {
+            history.push(`/user/${userid}`)
         }
     }
 
@@ -46,7 +42,7 @@ export const SearchResults = ({type, history, dispatch}) => {
             <ListItemAvatar>
                 <Avatar variant="rounded">
                     <div>
-                        <ShowImage itemId={result.uid}/>
+                        <ShowImage item={result}/>
                     </div>
                 </Avatar>
             </ListItemAvatar>
@@ -64,7 +60,7 @@ export const SearchResults = ({type, history, dispatch}) => {
             <ListItem key={result.uid} button onClick={() => handleUserClick(result.uid)}>
                 <ListItemAvatar>
                     <div className="w-10 h-10">
-                        <ShowAvatar userId={result.uid} username={result.name} />
+                        <ShowAvatar user={result} />
                     </div>
                 </ListItemAvatar>
                 <ListItemText primary={result.name} secondary={result.email}  />

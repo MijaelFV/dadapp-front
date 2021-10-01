@@ -2,17 +2,19 @@ import { LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead,
 import moment from 'moment'
 import 'moment/locale/es'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import { logType } from '../../../helpers/logType'
 
-export const UserLogsTable = ({logs}) => {
-    const isLoading = useSelector(state => state.ui.isLoading)
+export const UserLogsTable = ({logs, isLoading}) => {
+    const history = useHistory();
 
     const createData = () => {
         return (
             logs.map((log, index) => (
                 {
                     id: log.uid,
+                    itemid: log.item._id,
+                    spaceid: log.space._id,
                     item: log.itemName,
                     space: log.space.name,
                     row: log.row,
@@ -67,6 +69,12 @@ export const UserLogsTable = ({logs}) => {
     const createSortHandler = (property) => (event) => {
         handleRequestSort(event, property);
       };
+
+    const handleItemClick = async(itemid, spaceid) => {
+        if (itemid && spaceid) {
+            history.push(`/item/${spaceid}/${itemid}`)
+        }
+    }
 
     // const isSelected = (name) => selected.indexOf(name) !== -1;
         
@@ -126,10 +134,10 @@ export const UserLogsTable = ({logs}) => {
 
                             return (
                                 <TableRow
+                                    key={log.id}
                                     tabIndex={-1}
-                                    // onClick={(event) => handleClick(event, log.id)}
                                 >
-                                    <TableCell>{log.item}</TableCell>
+                                    <TableCell><span className="cursor-pointer no-tap-highlight" onClick={() => handleItemClick(log.itemid, log.spaceid)}>{log.item}</span></TableCell>
                                     <TableCell>{log.space}</TableCell>
                                     <TableCell padding="none">{log.row}</TableCell>
                                     <TableCell padding="none">{log.column}</TableCell>

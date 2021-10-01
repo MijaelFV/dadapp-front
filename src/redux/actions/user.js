@@ -3,6 +3,11 @@ import { types } from "../types";
 import imageCompression from 'browser-image-compression';
 import { SwalMixin } from "../../components/SwalMixin";
 
+const updateProfile = (update) => ({
+    type: types.authProfileUpdate,
+    payload: update
+})
+
 export const loadUser = (user) => ({
     type: types.userLoad,
     payload: user
@@ -13,7 +18,7 @@ export const clearUser = () => ({
 })
 
 export const uploadUserImage = (user, image) => {
-    return async() => {
+    return async(dispatch) => {
         if (image) {
             SwalMixin.fire({
                 titleText: "Por favor espere mientras se sube el archivo al servidor.",
@@ -36,18 +41,26 @@ export const uploadUserImage = (user, image) => {
                 confirmButtonText: "aceptar"
             })
             const resp = await fetch(`api/upload/users/${user}`, formData, 'PUT');
-            if (resp.status !== 200) {
+            if (resp.status === 200) {
+                dispatch(getUserById(user, true))
+            } else {
                 console.log(resp.data)
             }
         }
     }
 }
 
-export const getUserById = (id) => {
+export const getUserById = (id, isProfileUpdate) => {
     return async(dispatch) => {
         const resp = await fetch(`api/user/${id}`);
         if (resp.status === 200) {
-            dispatch(loadUser(resp.data))
+            if (isProfileUpdate === true) {
+                const {name, uid, image} = resp.data
+                console.log(resp.data);
+                dispatch(updateProfile({name, uid, image}))
+            } else {
+                dispatch(loadUser(resp.data))
+            }
         } else {
             console.log(resp.data)
         }

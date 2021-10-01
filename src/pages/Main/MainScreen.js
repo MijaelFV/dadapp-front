@@ -90,7 +90,7 @@ export const MainScreen = () => {
                     />
                 </IconButton>
                 <div className="w-10 h-10 ml-auto cursor-pointer no-tap-highlight">
-                    <ShowAvatar avatarClass="border-2" username={user.name} userId={user.uid} profile={true} />
+                    <ShowAvatar avatarClass="border-2" user={user} profile={true} />
                 </div>
             </div>
             <div className="-mt-9 flex flex-col items-center">

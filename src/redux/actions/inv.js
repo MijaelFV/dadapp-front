@@ -41,11 +41,20 @@ export const clearInventory = () => ({
     type: types.invClear,
 })
 
+export const loadItem = (item) => ({
+    type: types.itemLoad,
+    payload: item
+})
+
+export const clearItem = () => ({
+    type: types.itemClear,
+})
+
 export const getItemById = (id) => {
     return async(dispatch) => {
         const resp = await fetch(`api/item/${id}`);
         if (resp.status === 200) {
-            dispatch(loadInventory([resp.data]))
+            dispatch(loadItem(resp.data))
         } else {
             console.log(resp.data)
         }
@@ -114,11 +123,16 @@ export const returnItem = (item, column, row, space, area) => {
     }
 }
 
-export const startModifyItem = (item, name, description, category, row, column, expiryDate, quantity, space, area) => {
+export const startModifyItem = (item, name, description, category, row, column, expiryDate, quantity, space, area, selectedFile) => {
     return async(dispatch) => {
+        dispatch(setLoadingStart());
         const resp = await fetch(`api/item/${item}`, {name, description, category, row, column, expiryDate, quantity, space, area}, 'PUT');
         if (resp.status === 200) {
-            dispatch(getInventoryBySpace(space));
+            if (selectedFile) {
+                await dispatch(uploadItemImage(item, selectedFile));
+            }
+            dispatch(getItemById(item));
+            dispatch(setLoadingFinish());
         } else {
             console.log(resp.data)
         }

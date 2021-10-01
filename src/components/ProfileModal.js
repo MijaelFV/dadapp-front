@@ -110,7 +110,7 @@ export const ProfileModal = () => {
             <div className="flex flex-col items-center">
                 <div className="flex w-full">
                     <div className="flex w-16 h-16 relative">
-                        <ShowAvatar avatarClass="border-2 border-white border-solid" username={user.name} userId={user.uid} />
+                        <ShowAvatar avatarClass="border-2 border-white border-solid" user={user} />
                         <div 
                             className="cursor-pointer no-tap-highlight overflow-hidden absolute bottom-0.5 right-0.5 rounded-xl bg-gray-500 w-6 h-6 flex justify-center items-center"
                             onClick={showOpenFileDlg}

@@ -4,8 +4,6 @@ import 'moment/locale/es'
 import { faArrowsAltH, faArrowsAltV } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ShowAvatar } from '../../../components/ShowAvatar'
-import { getItemById } from '../../../redux/actions/inv'
-import { getUserById } from '../../../redux/actions/user'
 import { logType } from '../../../helpers/logType'
 
 
@@ -37,17 +35,15 @@ export const AreaLogs = ({log, history, dispatch}) => {
 
     const {logBgColor, labelType, labelBgColor} = logType(log.type)
 
-    const handleItemClick = async(itemId, spaceId) => {
-        if (itemId && spaceId) {
-            await dispatch(getItemById(itemId))
-            history.push(`/item/${spaceId}/${itemId}`)
+    const handleItemClick = async(itemid, spaceid) => {
+        if (itemid && spaceid) {
+            history.push(`/item/${spaceid}/${itemid}`)
         }
     }
 
-    const handleUserClick = async(userId) => {
-        if (userId) {
-            await dispatch(getUserById(userId))
-            history.push(`/user/${userId}`)
+    const handleUserClick = async(userid) => {
+        if (userid) {
+            history.push(`/user/${userid}`)
         }
     }
 
@@ -55,7 +51,7 @@ export const AreaLogs = ({log, history, dispatch}) => {
         <>
             <div className={`flex mx-2 py-2 px-2 items-center bg-opacity-30 rounded-tr-md rounded-tl-md overflow-hidden ${logBgColor}`}>
                 <div className={`w-10 h-10 flex flex-shrink-0 mr-3 p-0.5 rounded bg-opacity-30 ${labelBgColor}`}>
-                    <ShowAvatar variant="rounded" username={log.user.name} userId={log.user._id} />
+                    <ShowAvatar variant="rounded" user={log.user} />
                 </div>
                 <div className="flex flex-col mr-auto justify-evenly">
                     <p 

@@ -175,7 +175,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                 >
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
-                                            <ShowImage itemId={item.uid} />
+                                            <ShowImage item={item} />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText primary={item.name} />
@@ -234,7 +234,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                 >
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
-                                            <ShowImage itemId={item.uid} />
+                                            <ShowImage item={item} />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <p 
@@ -374,7 +374,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                         : null
                     }
                     <div 
-                        className={activeStep === 0 ? "flex flex-col overflow-auto" : 'hidden'}
+                        className={activeStep === 0 ? "flex flex-col overflow-y-auto" : 'hidden'}
                         style={activeStep === 0 ? {height:"40vh", width:"95vw", maxWidth: "450px"} : {}}
                     >
                             {showItems()}

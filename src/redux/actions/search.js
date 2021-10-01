@@ -28,6 +28,7 @@ export const getSearch = (type, areaId, query, spaceid = '') => {
         const resp = await fetch(`api/search/${type}/${areaId}?query=${query}&spaceid=${spaceid}`);
         dispatch(setLoadingFinish())
         if (resp.status === 200) {
+            console.log(resp.data);
             dispatch(loadSearch(resp.data))
         } else {
             console.log(resp.data)

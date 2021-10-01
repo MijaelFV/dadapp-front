@@ -10,6 +10,7 @@ export const types = {
     authCheckingFinish: '[AUTH] Finished Checking Login State',
     authStartLogin: '[AUTH] Start login',
     authLogin: '[AUTH] Login',
+    authProfileUpdate: '[AUTH] Profile Update',
     authLogOut: '[AUTH] LogOut',
 
     errorLoad: "[ERROR] New Errors",
@@ -46,5 +47,8 @@ export const types = {
     searchClear: '[SEARCH] Cleared',
 
     userLoad: '[USER] Loaded',
-    userClear: '[USER] Cleared'
+    userClear: '[USER] Cleared',
+
+    itemLoad: '[ITEM] Loaded',
+    itemClear: '[ITEM] Cleared'
 }

@@ -24,6 +24,8 @@ export const startLogout = () => {
     }
 }
 
+
+
 export const startLogin = (email, password) => {
     return async(dispatch) => {
         const resp = await fetch('api/auth/login', {email, password}, 'POST');
@@ -32,7 +34,8 @@ export const startLogin = (email, password) => {
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(login({
                 uid: resp.data.loggedUser.uid,
-                name: resp.data.loggedUser.name
+                name: resp.data.loggedUser.name,
+                image: resp.data.checkedUser.image
             }));
         } else {
             const data = {
@@ -67,7 +70,8 @@ export const startChecking = () => {
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(login({
                 uid: resp.data.checkedUser.uid,
-                name: resp.data.checkedUser.name
+                name: resp.data.checkedUser.name,
+                image: resp.data.checkedUser.image
             }));
         } else {
             dispatch(checkingFinish());

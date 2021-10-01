@@ -8,7 +8,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
-import { startDeleteItem, startModifyItem, uploadItemImage } from '../../../redux/actions/inv';
+import { startDeleteItem, startModifyItem } from '../../../redux/actions/inv';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import moment from 'moment';
 import { getCategoriesBySpace } from '../../../redux/actions/category';
@@ -16,13 +16,12 @@ import { SwalMixin } from '../../../components/SwalMixin';
 
 
 Modal.setAppElement('#root');
-export const ModifyItemModal = ({item, areaId}) => {
+export const ModifyItemModal = ({item, areaid}) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const categories = useSelector(state => state.inv.categories);
     
     const {spaceId} = useParams();
-    
     useEffect(() => {
         if (categories.length === 0) {
             dispatch(getCategoriesBySpace(spaceId));
@@ -33,7 +32,7 @@ export const ModifyItemModal = ({item, areaId}) => {
     const space = spaces.find(space => space.uid === spaceId)
 
     const thisModalIsOpen = useModalIsOpen("ModifyItemModal")
-    
+
     const [selectedFile, setSelectedFile] = useState();
 
     const { control, handleSubmit, reset} = useForm({
@@ -48,14 +47,14 @@ export const ModifyItemModal = ({item, areaId}) => {
         }
     });
 
+    useEffect(() => {
+        reset({name: item.name, description: item.description, category: item.category?._id, row: item.row, column: item.column, expiryDate: item.expiryDate, quantity: item.quantity});
+    }, [item, reset])
+
     const onSubmit = (data) => {
-        dispatch(startModifyItem(item.uid, data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, space.uid, areaId));
-        if (selectedFile) {
-            dispatch(uploadItemImage(item.uid, selectedFile));
-        }
+        dispatch(startModifyItem(item.uid, data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, space.uid, areaid, selectedFile));
         dispatch(closeModal());
         setSelectedFile()
-        reset({name: data.name, description: data.description, category: data.category, row: data.row, column: data.column, expiryDate: data.expiryDate, quantity: data.quantity});
     }
 
     const handleRemoveItem = () => {
@@ -67,7 +66,7 @@ export const ModifyItemModal = ({item, areaId}) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 history.replace(`/space/${spaceId}`);
-                dispatch(startDeleteItem(item.uid, areaId));
+                dispatch(startDeleteItem(item.uid, areaid));
                 dispatch(closeModal());
                 reset();
             }

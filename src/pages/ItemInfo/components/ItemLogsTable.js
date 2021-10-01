@@ -2,20 +2,22 @@ import { LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead,
 import moment from 'moment'
 import 'moment/locale/es'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import { logType } from '../../../helpers/logType'
 
-export const ItemLogsTable = ({logs}) => {
-    const isLoading = useSelector(state => state.ui.isLoading)
+export const ItemLogsTable = ({logs, isLoading}) => {
+    const history = useHistory();
     
     const createData = () => {
         return (
-            logs.map((log, index) => (
+            logs.map((log) => (
                 {
                     id: log.uid,
-                    user: log.user.name,
-                    row: log.row || "-",
-                    column: log.column || "-",
+                    userid: log.user._id,
+                    spaceid: log.space._id,
+                    username: log.user.name,
+                    row: log.row || null,
+                    column: log.column || null,
                     quantity: log.quantity || null,
                     type: log.type,
                     date: log.time
@@ -75,10 +77,16 @@ export const ItemLogsTable = ({logs}) => {
         setPage(0);
     };
 
+    const handleUserClick = async(userid) => {
+        if (userid) {
+            history.push(`/user/${userid}`)
+        }
+    }
+
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const headCells = [
-        { id: 'user', disablePadding: false, label: 'Usuario' },
+        { id: 'username', disablePadding: false, label: 'Usuario' },
         { id: 'row', disablePadding: true, label: 'F' },
         { id: 'column', disablePadding: true, label: 'C' },
         { id: 'type', disablePadding: false, label: 'Tipo' },
@@ -124,9 +132,8 @@ export const ItemLogsTable = ({logs}) => {
                                     <TableRow
                                         key={log.id}
                                         tabIndex={-1}
-                                        // onClick={(event) => handleClick(event, log.id)}
                                     >
-                                        <TableCell>{log.user}</TableCell>
+                                        <TableCell><span className="cursor-pointer no-tap-highlight" onClick={() => handleUserClick(log.userid, log.spaceid)}>{log.username}</span></TableCell>
                                         <TableCell padding="none">{log.row}</TableCell>
                                         <TableCell padding="none">{log.column}</TableCell>
                                         <TableCell><div className={`w-min p-1 rounded bg-opacity-40 whitespace-nowrap ${logBgColor}`}>{labelType} {log.quantity !== null ? `(${log.quantity})` : ''}</div></TableCell>
