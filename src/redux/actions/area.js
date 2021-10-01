@@ -55,21 +55,23 @@ export const deleteAreaUser = (areaid, userid) => {
 
 export const joinArea = (code) => {
     return async(dispatch) => {
-        SwalMixin.fire({
-            titleText: "Intentando unirse a un área.",
-            icon: "info",
-            showConfirmButton: false
-        })
-        const resp = await fetch(`api/area/code/join`, {code}, "PUT");
-        SwalMixin.close();
-        if (resp.status === 200) {
-            dispatch(startLoadingAreas())
-        } else {
+        if (code.length >= 1) {
             SwalMixin.fire({
-                text: resp.data.msg,
-                icon: 'warning',
-                confirmButtonText: "Aceptar",
+                titleText: "Intentando unirse a un área.",
+                icon: "info",
+                showConfirmButton: false
             })
+            const resp = await fetch(`api/area/code/join`, {code}, "PUT");
+            SwalMixin.close();
+            if (resp.status === 200) {
+                dispatch(startLoadingAreas())
+            } else {
+                SwalMixin.fire({
+                    text: resp.data.msg,
+                    icon: 'warning',
+                    confirmButtonText: "Aceptar",
+                })
+            }
         }
     }
 }
