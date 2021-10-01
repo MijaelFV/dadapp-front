@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,6 +14,8 @@ export const RegisterScreen = () => {
     const dispatch = useDispatch();
     const errors = useSelector(state => state.error)
 
+    const [disableSubmit, setDisableSubmit] = useState(false);
+
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
             name: '',
@@ -25,7 +27,9 @@ export const RegisterScreen = () => {
 
 
     const onSubmit = async (data) => {
+        setDisableSubmit(true);
         await dispatch(startRegister(data.name, data.email, data.password, data.password2))
+        setDisableSubmit(false);
         if (!errors) {
             reset();
         }
@@ -106,6 +110,7 @@ export const RegisterScreen = () => {
                     />
                     <div className="mt-7">
                         <Button
+                            disabled={disableSubmit}
                             size="large"
                             variant="contained"
                             color="primary"

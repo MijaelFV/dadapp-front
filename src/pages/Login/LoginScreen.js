@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import bgImage from '../../assets/loginImage.png'
 import { Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,8 @@ export const LoginScreen = () => {
     const dispatch = useDispatch();
     const errors = useSelector(state => state.error)
 
+    const [disableSubmit, setDisableSubmit] = useState(false);
+
     const { control, handleSubmit, reset} = useForm({
         defaultValues: {
             email: '',
@@ -20,7 +22,9 @@ export const LoginScreen = () => {
     });
     
     const onSubmit = async (data) => {
+        setDisableSubmit(true);
         await dispatch(startLogin(data.email, data.password))
+        setDisableSubmit(false);
         if (!errors) {
           reset();
         }
@@ -82,6 +86,7 @@ export const LoginScreen = () => {
                     </Link>
                     <div className="mt-7">
                         <Button
+                            disabled={disableSubmit}
                             variant="contained"
                             color="primary"
                             size="large"
