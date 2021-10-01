@@ -88,6 +88,15 @@ export const getInventoryBySpace = (spaceId) => {
 export const uploadItemImage = (item, image) => {
     return async() => {
         if (image) {
+            const supportedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg']
+            if (!supportedMimeTypes.includes(image.type)) {
+                return SwalMixin.fire({
+                    icon: "error",
+                    titleText: "Se intento subir un archivo con extensión no soportada. Soportados: JPG, JPEG, PNG",
+                    confirmButtonText: "aceptar"
+                })
+            }
+
             SwalMixin.fire({
                 titleText: "Por favor espere mientras se sube el archivo al servidor.",
                 icon: "info",
