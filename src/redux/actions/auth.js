@@ -35,7 +35,7 @@ export const startLogin = (email, password) => {
             dispatch(login({
                 uid: resp.data.loggedUser.uid,
                 name: resp.data.loggedUser.name,
-                image: resp.data.checkedUser.image
+                image: resp.data.checkedUser?.image
             }));
         } else {
             const data = {
@@ -71,7 +71,7 @@ export const startChecking = () => {
             dispatch(login({
                 uid: resp.data.checkedUser.uid,
                 name: resp.data.checkedUser.name,
-                image: resp.data.checkedUser.image
+                image: resp.data.checkedUser?.image
             }));
         } else {
             dispatch(checkingFinish());
