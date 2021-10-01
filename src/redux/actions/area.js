@@ -5,6 +5,7 @@ import { clearLogs } from "./log";
 import { clearSpace } from "./space";
 import { clearUi } from "./ui";
 import { clearSearch } from "./search";
+import { SwalMixin } from "../../components/SwalMixin";
 
 export const loadAreas = (areas) => ({
     type: types.areaLoad,
@@ -54,11 +55,21 @@ export const deleteAreaUser = (areaid, userid) => {
 
 export const joinArea = (code) => {
     return async(dispatch) => {
+        SwalMixin.fire({
+            titleText: "Intentando unirse a un área.",
+            icon: "info",
+            showConfirmButton: false
+        })
         const resp = await fetch(`api/area/code/join`, {code}, "PUT");
+        SwalMixin.close();
         if (resp.status === 200) {
             dispatch(startLoadingAreas())
         } else {
-            console.log(resp.data)
+            SwalMixin.fire({
+                text: resp.data.msg,
+                icon: 'warning',
+                confirmButtonText: "Aceptar",
+            })
         }
     }
 }
