@@ -76,7 +76,12 @@ export const startRegister = (name, email, password, password2) => {
 
 export const startChecking = () => {
     return async(dispatch) => {
+        SwalMixin.fire({
+            titleText: "Iniciando sesión...",
+            showConfirmButton: false
+        })
         const resp = await fetch('api/auth/renew');
+        SwalMixin.close()
         if (resp?.status === 200) {
             localStorage.setItem('token', resp.data?.checkedUser.token);
             localStorage.setItem('token-init-date', new Date().getTime());

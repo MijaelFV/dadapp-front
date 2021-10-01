@@ -42,9 +42,9 @@ export const ProfileModal = () => {
     }
 
     const handleAdminAreaClick = async() => {
-        if (!activeArea.inviteCode) {
+        // if (!activeArea.inviteCode) {
             await dispatch(startLoadingAreaById(activeArea.uid))
-        }
+        // }
         history.push("/admin");
         dispatch(closeModal());
     }
