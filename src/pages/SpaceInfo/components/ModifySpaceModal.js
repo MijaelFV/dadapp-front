@@ -21,11 +21,12 @@ export const ModifySpaceModal = ({space}) => {
     
     const thisModalIsOpen = useModalIsOpen("ModifySpaceModal")
     
-    const { control, handleSubmit, reset} = useForm({
+    const { control, handleSubmit, reset, getValues} = useForm({
         defaultValues: {
             name: space.name,
             rows: space.rows,
-            columns: space.columns
+            columns: space.columns,
+            newCategory: ''
         }
     });
 
@@ -68,8 +69,9 @@ export const ModifySpaceModal = ({space}) => {
         })
     }
     
-    const handleAddCategory = (data) => {
-        dispatch(createCategory(space.uid, data.newCategory))
+    const handleAddCategory = () => {
+        const newCategory = getValues('newCategory')
+        dispatch(createCategory(space.uid, newCategory))
     }
 
     const handleDeleteCategory = (categoryUid) => {
@@ -180,7 +182,10 @@ export const ModifySpaceModal = ({space}) => {
                         <TextField
                             {...field} 
                             onKeyPress={e => {
-                                if (e.key === 'Enter') e.preventDefault();
+                                if (e.key === 'Enter') {
+                                    handleAddCategory()
+                                    e.preventDefault() 
+                                }
                             }}
                             variant="outlined"
                             type="text"
