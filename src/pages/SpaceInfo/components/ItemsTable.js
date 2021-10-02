@@ -1,6 +1,6 @@
 import { faSignInAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Pagination, Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, LinearProgress } from '@mui/material'
+import { Pagination, Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Toolbar, LinearProgress } from '@mui/material'
 import moment from 'moment'
 import 'moment/locale/es'
 import React, { useEffect, useState } from 'react'

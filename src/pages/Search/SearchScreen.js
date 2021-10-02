@@ -1,20 +1,17 @@
- import React, { useEffect } from 'react'
+ import React from 'react'
 import { faArrowLeft, faSlidersH } from '@fortawesome/free-solid-svg-icons'
 import { InputBase, IconButton, Chip, LinearProgress } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch, useSelector } from 'react-redux'
-import { clearSearch, getSearch } from '../../redux/actions/search'
+import { useSelector } from 'react-redux'
 import { SearchResults } from './components/SearchResults'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 
 
 export const SearchScreen = () => {
-    const dispatch = useDispatch();
-    const areaId = useSelector(state => state.area.active.uid)
+    const history = useHistory()
     const isLoading = useSelector(state => state.ui.isLoading)
 
-    const history = useHistory()
     const handleReturnClick = () => {
         history.push("/home")
     }
@@ -25,14 +22,6 @@ export const SearchScreen = () => {
         }
     })
     const query = useWatch({control, name: 'query'})
-
-    useEffect(() => {
-        if (query.length >= 1) {
-            dispatch(getSearch("all", areaId, query))
-        } else {
-            dispatch(clearSearch())
-        }
-    }, [query, areaId, dispatch])
 
     const handleDeleteQuery = () => {
         reset()
@@ -91,7 +80,7 @@ export const SearchScreen = () => {
                     </div>
                 :   null
             }
-            <SearchResults type={"all"} history={history} dispatch={dispatch}/>
+            <SearchResults type={"all"} query={query}/>
         </div>
     )
 }

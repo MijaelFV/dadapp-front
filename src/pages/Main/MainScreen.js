@@ -154,13 +154,13 @@ export const MainScreen = () => {
                 </div>
             </div>
             {
-                isLoading === true
+                isLoading === true && logs.length < 1
                 ?   showSkeleton() 
                 :   showLogs()
             }
             <ProfileModal />
             <ReturnItemModal areaId={area.uid} spaces={spaces} items={itemsToReturn} />
-            <TakeItemModal areaId={area.uid} spaces={spaces} />
+            <TakeItemModal areaid={area.uid} spaces={spaces} />
         </div>
     )
 }

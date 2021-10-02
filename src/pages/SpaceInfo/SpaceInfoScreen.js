@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { getInventoryBySpace } from '../../redux/actions/inv';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faCogs, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NumToArray } from '../../helpers/numToArray';

@@ -1,7 +1,13 @@
 import { types } from "../types";
 const initialState = {
-    items: [],
-    users: [],
+    items: {
+        docs: [],
+        totalPages: 0
+    },
+    users: {
+        docs: [],
+        totalPages: 0
+    },
 }
 
 export const searchReducer = (state = initialState, action) => {

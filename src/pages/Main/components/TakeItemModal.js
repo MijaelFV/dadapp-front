@@ -1,4 +1,4 @@
-import { MobileStepper, ListItemSecondaryAction, Checkbox, Button, FormControl, LinearProgress, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, FormControlLabel, Switch, Avatar } from '@mui/material';
+import { Pagination, MobileStepper, ListItemSecondaryAction, Checkbox, Button, FormControl, LinearProgress, InputLabel, List, ListItemAvatar, ListItem, Select, TextField, ListItemText, FormControlLabel, Switch, Avatar } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,39 +16,37 @@ import { SwalMixin } from '../../../components/SwalMixin';
 
 
 Modal.setAppElement('#root');
-export const TakeItemModal = ({areaId, spaces}) => {
+export const TakeItemModal = ({areaid, spaces}) => {
     const dispatch = useDispatch();
 
     const thisModalIsOpen = useModalIsOpen("TakeItemModal")
     const [searchType, setSearchType] = useState(1);
-    const [checked, setChecked] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
     const [selectedSpace, setSelectedSpace] = useState('');
     const [selectedRow, setSelectedRow] = useState('');
     const [selectedCol, setSelectedCol] = useState('');
-    const [items, setItems] = useState([]);
-    const [isFormOpen, setIsFormOpen] = useState(false)
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [isCollapseOpen, setIsCollapseOpen] = useState(false)
+    const [activeStep, setActiveStep] = useState(0);
+    const [page, setPage] = useState(1);
+    const [rowsPerPage] = useState(15);
     
     const isLoading = useSelector(state => state.ui.isLoading)
     const space = spaces?.find(space => space.uid === selectedSpace)
-    const res = useSelector(state => state.search.items);
-    let selectedItems = res.filter(item => checked.includes(item.uid))
+    const items = useSelector(state => state.search.items.docs);
+    const totalPages = useSelector(state => state.search.items.totalPages)
 
     useEffect(() => {
-        if (Number(selectedRow) >= 1 && selectedCol === '') {
-            setItems(res.filter(item => item.row === Number(selectedRow)))
-        } else if (selectedRow === '' && Number(selectedCol) >= 1) {
-            setItems(res.filter(item => item.column === Number(selectedCol)))
-        } else if (Number(selectedRow) >= 1 && Number(selectedCol) >= 1) {
-            setItems(res.filter(item => item.row === Number(selectedRow) && item.column === Number(selectedCol)))
-        } else {
-            setItems(res)
+        if (thisModalIsOpen && searchType === 2) {
+            dispatch(getSearch("items", areaid, '', selectedSpace, page, rowsPerPage, selectedRow, selectedCol))
         }
-    }, [selectedRow, selectedCol, res])
+    }, [dispatch, areaid, selectedSpace, page, rowsPerPage, selectedRow, selectedCol, searchType, thisModalIsOpen])
+
+    useEffect(() => {
+        setPage(1)
+    }, [selectedRow, selectedCol, selectedSpace, searchType])
 
     useEffect(() => {
         if (searchType === 1) {
-            setItems([])
             setSelectedRow('')
             setSelectedCol('')
             setSelectedSpace('')
@@ -61,8 +59,8 @@ export const TakeItemModal = ({areaId, spaces}) => {
             handleCloseModal();
             setActiveStep(0);
             setTimeout(() => {
-                dispatch(getInventoryByTaked(areaId))
-                dispatch(startLoadingLogs(areaId, 1));
+                dispatch(getInventoryByTaked(areaid))
+                dispatch(startLoadingLogs(areaid, 1));
             }, 800)
         }
         const invalidConsume = selectedItems.some(e => e.quantity < e.consume || 1 > e.consume);
@@ -76,10 +74,10 @@ export const TakeItemModal = ({areaId, spaces}) => {
         }
         selectedItems.forEach((item) => {
             if (item.quantity >= 0 && item.consume >= 1) {
-                dispatch(startRemoveItem(item.uid, areaId, 2, item.consume))
+                dispatch(startRemoveItem(item.uid, areaid, 2, item.consume))
                 finishSubmit();
             } else if (item.quantity === null) {
-                dispatch(startRemoveItem(item.uid, areaId, 1))
+                dispatch(startRemoveItem(item.uid, areaid, 1))
                 finishSubmit();
             }
         })
@@ -102,11 +100,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
     }
     
     const handleSpaceChange = (e) => {
-        setChecked([]);
         setSelectedSpace(e.target.value)
-        if (e.target.value) {
-            dispatch(getSearch("items", areaId, '', e.target.value))
-        }
     }
 
     const handlePositionChange = (e, type) => {
@@ -119,12 +113,11 @@ export const TakeItemModal = ({areaId, spaces}) => {
 
     const handleQueryChange = (e) => {
         if (e.target.value.length >= 1) {
-            dispatch(getSearch("items", areaId, e.target.value))
+            dispatch(getSearch("items", areaid, e.target.value, '', page, rowsPerPage))
         }
     }
 
     const handleTypeChange = () => {
-        setChecked([]);
         dispatch(clearSearch());        
         if (searchType === 1) {
             setSearchType(2);
@@ -133,37 +126,39 @@ export const TakeItemModal = ({areaId, spaces}) => {
         }
     }
 
-    const handleCheckItem = (value) => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
+    const handleCheckItem = async(item) => {
+        const isItemSelected = selectedItems.filter((i) => i.uid === item.uid).length !== 0 ? true : false
 
-        if (currentIndex === -1) {
-            newChecked.push(value);
+        if (isItemSelected === false) {
+            setSelectedItems(arr => [...arr, item]);
         } else {
-            newChecked.splice(currentIndex, 1);
+            setSelectedItems(selectedItems.filter((i) => i.uid !== item.uid));
         }
-        setChecked(newChecked);
     };
     
     const handleShowForm = (i) => {
-        if (i !== isFormOpen) {
-            setIsFormOpen(i)
+        if (i !== isCollapseOpen) {
+            setIsCollapseOpen(i)
         } else {
-            setIsFormOpen(false)
+            setIsCollapseOpen(false)
         }
     }
 
     const handleCloseModal = () => {
         setSearchType(1);
         setActiveStep(0)
-        setChecked([]);
+        setSelectedItems([]);
         dispatch(clearSearch());
         dispatch(closeModal());
     }  
 
+    const handleChangePage = (e, newPage) => {
+        setPage(newPage);
+    };
+
     const showItems = () => {
         if (items.length > 0) {
-            return <List>
+            return [<List>
                         {items.map((item, index) => {
                             return [
                                 <ListItem 
@@ -171,7 +166,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                     button 
                                     disabled={item.quantity === 0}
                                     onClick={() => handleShowForm(index)} 
-                                    style={isFormOpen === index ? {backgroundColor:"rgb(55 65 81)"} : {}}
+                                    style={isCollapseOpen === index ? {backgroundColor:"rgb(55 65 81)"} : {}}
                                 >
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
@@ -184,15 +179,18 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                             color="primary"
                                             edge="end"
                                             disabled={item.quantity === 0}
-                                            onChange={() => handleCheckItem(item.uid)}
-                                            checked={checked.indexOf(item.uid) !== -1}
+                                            onChange={() => handleCheckItem(item)}
+                                            checked={selectedItems.some((i) => i.uid === item.uid)}
                                         />
                                     </ListItemSecondaryAction>
                                 </ListItem>,
-                                <ItemFeaturesCollapse key={item.name} item={item} isFormOpen={isFormOpen} index={index} />
+                                <ItemFeaturesCollapse key={item.name} item={item} isCollapseOpen={isCollapseOpen} index={index} />
                             ]
                         })}
-                    </List>
+                    </List>,
+                    <div className="flex justify-center my-2">
+                        <Pagination count={totalPages} size="small" page={page} onChange={handleChangePage} hidden={totalPages < 2} />
+                    </div>]
         } else {
             return <div className="mx-auto my-auto flex flex-col items-center text-gray-400">
                 <FontAwesomeIcon icon={faDolly} size="4x" />
@@ -203,7 +201,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
     }
 
     const showSelectedItems = () => {
-        if (checked.length > 0) {
+        if (selectedItems.length > 0) {
             return <List>
                         {selectedItems.map((item, index) => {
                             const showConsumeOption = () => {
@@ -230,7 +228,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                 <ListItem 
                                     button
                                     key={item.uid}
-                                    style={isFormOpen === index ? {backgroundColor:"rgb(55 65 81)"} : {}}
+                                    style={isCollapseOpen === index ? {backgroundColor:"rgb(55 65 81)"} : {}}
                                 >
                                     <ListItemAvatar>
                                         <Avatar variant="rounded">
@@ -248,12 +246,12 @@ export const TakeItemModal = ({areaId, spaces}) => {
                                         <Checkbox
                                             color="primary"
                                             edge="end"
-                                            onChange={(e) => handleCheckItem(item.uid)}
-                                            checked={checked.indexOf(item.uid) !== -1}
+                                            onChange={() => handleCheckItem(item)}
+                                            checked={selectedItems.some((i) => i.uid === item.uid)}
                                         />
                                     </ListItemSecondaryAction>
                                 </ListItem>,
-                                <ItemFeaturesCollapse key={item.name} item={item} isFormOpen={isFormOpen} index={index} />
+                                <ItemFeaturesCollapse key={item.name} item={item} isCollapseOpen={isCollapseOpen} index={index} />
                             ]
                         })}
                     </List>
@@ -268,10 +266,12 @@ export const TakeItemModal = ({areaId, spaces}) => {
 
     const handleNext = () => {
         SetDefaultConsume();
+        setIsCollapseOpen(false)
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
     const handleBack = () => {
+        setIsCollapseOpen(false)
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
@@ -405,7 +405,7 @@ export const TakeItemModal = ({areaId, spaces}) => {
                 </div>
                 <div className="mt-1">
                     <Button
-                        disabled={checked.length === 0}
+                        disabled={selectedItems.length === 0}
                         style={activeStep === 1 ? {} : {display: "none"}}
                         fullWidth
                         variant="contained"

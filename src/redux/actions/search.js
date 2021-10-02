@@ -22,13 +22,12 @@ export const clearSearch = () => ({
     type: types.searchClear,
 })
 
-export const getSearch = (type, areaId, query, spaceid = '') => {
+export const getSearch = (type, areaId, query, spaceid = '', page, limit = 10, row = '', col = '') => {
     return async(dispatch) => {
         dispatch(setLoadingStart())
-        const resp = await fetch(`api/search/${type}/${areaId}?query=${query}&spaceid=${spaceid}`);
+        const resp = await fetch(`api/search/${type}/${areaId}?query=${query}&spaceid=${spaceid}&page=${page}&limit=${limit}&row=${row}&column=${col}`);
         dispatch(setLoadingFinish())
         if (resp.status === 200) {
-            console.log(resp.data);
             dispatch(loadSearch(resp.data))
         } else {
             console.log(resp.data)
