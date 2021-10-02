@@ -21,15 +21,15 @@ export const ModifyItemModal = ({item, areaid}) => {
     const dispatch = useDispatch();
     const categories = useSelector(state => state.inv.categories);
     
-    const {spaceId} = useParams();
+    const {spaceid} = useParams();
     useEffect(() => {
         if (categories.length === 0) {
-            dispatch(getCategoriesBySpace(spaceId));
+            dispatch(getCategoriesBySpace(spaceid));
         }
-    }, [categories, spaceId, dispatch])
+    }, [categories, spaceid, dispatch])
 
     const spaces = useSelector(state => state.space.spaces);
-    const space = spaces.find(space => space.uid === spaceId)
+    const space = spaces.find(space => space.uid === spaceid)
 
     const thisModalIsOpen = useModalIsOpen("ModifyItemModal")
 
@@ -66,7 +66,7 @@ export const ModifyItemModal = ({item, areaid}) => {
             confirmButtonText: "Eliminar",
         }).then((result) => {
             if (result.isConfirmed) {
-                history.replace(`/space/${spaceId}`);
+                history.replace(`/space/${spaceid}`);
                 dispatch(startDeleteItem(item.uid, areaid));
                 dispatch(closeModal());
                 reset();
@@ -186,7 +186,7 @@ export const ModifyItemModal = ({item, areaid}) => {
                                         id: "row-select"
                                     }}
                                 >
-                                    {showOptionsColRow(space.rows)}
+                                    {showOptionsColRow(space?.rows)}
                                 </Select>
                             }
                         />

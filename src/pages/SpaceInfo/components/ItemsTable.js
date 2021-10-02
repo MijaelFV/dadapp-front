@@ -1,22 +1,39 @@
 import { faSignInAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, LinearProgress } from '@mui/material'
+import { Pagination, Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, LinearProgress } from '@mui/material'
 import moment from 'moment'
 import 'moment/locale/es'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { startDeleteItem } from '../../../redux/actions/inv'
+import { getInventoryBySpace, startDeleteItem } from '../../../redux/actions/inv'
 import { SwalMixin } from '../../../components/SwalMixin'
 
-export const ItemsTable = ({itemList, spaceId}) => {
+export const ItemsTable = ({spaceid, row, column}) => {
+    const history = useHistory();
     const dispatch = useDispatch();
+
     const areaId = useSelector(state => state.area.active.uid);
     const isLoading = useSelector(state => state.ui.isLoading)
 
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('');
+    const [selected, setSelected] = useState([]);
+    const [page, setPage] = useState(1);
+    const [rowsPerPage] = useState(15);
+
+    useEffect(() => {
+        dispatch(getInventoryBySpace(spaceid, page, rowsPerPage, row, column));
+    }, [dispatch, spaceid, page, rowsPerPage, row, column])
+    useEffect(() => {
+        setPage(1)
+    }, [row, column])
+    const items = useSelector(state => state.inv.items);
+    const totalPages = useSelector(state => state.inv.totalPages)
+
     const createData = () => {
         return (
-            itemList.map((item) => (
+            items.map((item) => (
                 {
                     id: item.uid,
                     name: item.name,
@@ -32,15 +49,6 @@ export const ItemsTable = ({itemList, spaceId}) => {
         )
     }
     const rows = createData()
-
-    const history = useHistory();
-
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
-    const [selected, setSelected] = useState([]);
-    const itemId = selected[0];
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const descendingComparator = (a, b, orderBy) => {
         if (b[orderBy] < a[orderBy]) {
@@ -108,17 +116,14 @@ export const ItemsTable = ({itemList, spaceId}) => {
     };
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
-        const handleChangePage = (event, newPage) => {
+
+    const handleChangePage = (e, newPage) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
     const handleOpenItemInfo = () => {
-        history.push(`/item/${spaceId}/${itemId}`)
+        const itemid = selected[0];
+        history.push(`/item/${spaceid}/${itemid}`)
     };
 
     const handleDeleteItem = () => {
@@ -136,7 +141,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
         })
     }
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - rows.length
 
     const headCells = [
         { id: 'name', disablePadding: true, label: 'Nombre' },
@@ -149,9 +154,8 @@ export const ItemsTable = ({itemList, spaceId}) => {
         { id: 'takedDate', disablePadding: false, label: 'Retirado' },
     ];
 
-
     return (
-        <div>
+        <>
             <Toolbar className="flex">
                 {selected.length > 0 ? (
                     <h3 className={(selected.length > 0) ? "mr-auto" : null}>
@@ -159,9 +163,6 @@ export const ItemsTable = ({itemList, spaceId}) => {
                     </h3>
                 ) : (
                     <h1 id="tableTitle" className="mr-auto text-xl">Articulos</h1>
-                    // <IconButton className="toolBar-icon">
-                    //     <FontAwesomeIcon icon={faSearch}/>
-                    // </IconButton>]
                 )}
                 {selected.length > 1 ? (
                     <IconButton 
@@ -219,11 +220,9 @@ export const ItemsTable = ({itemList, spaceId}) => {
                             ))}
                         </TableRow>
                     </TableHead>
-                    
                     <TableBody>
                         {
                             stableSort(rows, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((item, index) => {
                                 const isItemSelected = isSelected(item.id);
                                 const labelId = `table-checkbox-${index}`;
@@ -261,22 +260,16 @@ export const ItemsTable = ({itemList, spaceId}) => {
                             })
                         }
                         {emptyRows > 0 && (
-                            <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableRow style={{ height: 41 * emptyRows }}>
                                 <TableCell colSpan={6} />
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 15, 20]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </div>
+            <div className="flex justify-center my-2">
+                <Pagination count={totalPages} size="small" page={page} onChange={handleChangePage} hidden={totalPages < 2} />
+            </div>
+        </>
     )
 }

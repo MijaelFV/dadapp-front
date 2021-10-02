@@ -1,5 +1,6 @@
 import { types } from "../types";
 const initialState = {
+    totalPages: 1,
     items: [],
     toReturn: [],
     categories: []
@@ -7,6 +8,12 @@ const initialState = {
 
 export const invReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.invSetTotalPages: 
+            return {
+                ...state,
+                totalPages: action.payload
+            }
+
         case types.invLoad: 
             return {
                 ...state,

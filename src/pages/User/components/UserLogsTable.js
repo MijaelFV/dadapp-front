@@ -151,7 +151,7 @@ export const UserLogsTable = ({userid, isLoading}) => {
                             })
                         }
                         {emptyRows > 0 && (
-                            <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableRow style={{ height: 41 * emptyRows }}>
                                 <TableCell colSpan={6} />
                             </TableRow>
                         )}
@@ -159,7 +159,7 @@ export const UserLogsTable = ({userid, isLoading}) => {
                 </Table>
             </TableContainer>
             <div className="flex justify-center my-2">
-                <Pagination count={totalPages} size="small" page={page} onChange={handleChangePage} />
+                <Pagination count={totalPages} size="small" page={page} onChange={handleChangePage} hidden={totalPages < 2} />
             </div>
         </>
     )

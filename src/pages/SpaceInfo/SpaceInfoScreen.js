@@ -17,44 +17,34 @@ export const SpaceInfoScreen = () => {
     const history = useHistory()
     const dispatch = useDispatch();
 
-    const {spaceId} = useParams();
+    const {spaceid} = useParams();
     const spaces = useSelector(state => state.space.spaces);
     const categories = useSelector(state => state.inv.categories);
-    const space = spaces.find(space => space.uid === spaceId)
+    const space = spaces.find(space => space.uid === spaceid)
 
     // Convierte x numero en un array
     const cols = NumToArray(space.columns)
     const rows = NumToArray(space.rows)
     
-    useMemo(() => {
-        dispatch(getCategoriesBySpace(spaceId));
-        dispatch(getInventoryBySpace(spaceId));
-    }, [dispatch, spaceId]) 
+    useEffect(() => {
+        dispatch(getCategoriesBySpace(spaceid));
+    }, [dispatch, spaceid]) 
     
-    const items = useSelector(state => state.inv.items);
-    const [filteredList, setFilteredList] = useState(Array);
-    useEffect(() => {setFilteredList(items)}, [items] )
+    // State en el que se guarda que posicion se debe mostrar
+    const [activePosition, setActivePosition] = useState({
+        all: true,
+        row: 0,
+        col: 0
+    });
 
     // Indica cual posicion se selecciono
     const handleFilterByPositionClick = (row, column, all) => {
         if (all !== true) {
-            const res = items?.filter(
-                item => (item.row === row && item.column === column) 
-            );
-            setFilteredList(res);
-            setShowActive({all: false})
+            setActivePosition({all: false, row, col: column})
         } else {
-            setFilteredList(items);
-            setShowActive({all: true})
+            setActivePosition({all: true, row: 0, col: 0})
         }
     };
-
-    // Activa el color en el item seleccionado
-    const [showActive, setShowActive] = useState({
-        all: true,
-        row: null,
-        col: null
-    });
 
     const handleOpenCreateItemModal = () => {
         if (categories.length === 0) {
@@ -122,15 +112,15 @@ export const SpaceInfoScreen = () => {
                     {rows.map((row) => (
                         <div key={row} className="flex">
                             {cols.map((col) => (
-                                <div className={`no-tap-highlight flex flex-col justify-evenly items-center p-1 m-1 font-bold text-xl w-15 h-15 cursor-pointer transition-colors duration-150 ease-in rounded relative ${(((col === showActive.col && row === showActive.row) || showActive.all === true) ? "bg-gray-100" : "bg-gray-900")}`}
+                                <div className={`no-tap-highlight flex flex-col justify-evenly items-center p-1 m-1 font-bold text-xl w-15 h-15 cursor-pointer transition-colors duration-150 ease-in rounded relative ${(((col === activePosition.col && row === activePosition.row) || activePosition.all === true) ? "bg-gray-100" : "bg-gray-900")}`}
                                     onClick={()=>{
                                         handleFilterByPositionClick(row, col, false)
-                                        setShowActive({col: col, row: row})
+                                        setActivePosition({col: col, row: row})
                                     }}
                                     key={row+col} 
                                 >
                                     <div className="w-14 h-14 bg-gray-600 rounded flex justify-center items-center">
-                                        <p className={`transition-colors duration-150 ease-in ${(((col === showActive.col && row === showActive.row) || showActive.all === true) ? "text-white" : "text-gray-900")}`}>{row}-{col}</p>
+                                        <p className={`transition-colors duration-150 ease-in ${(((col === activePosition.col && row === activePosition.row) || activePosition.all === true) ? "text-white" : "text-gray-900")}`}>{row}-{col}</p>
                                     </div>
                                 </div>
                             ))}
@@ -148,9 +138,9 @@ export const SpaceInfoScreen = () => {
                 </Button>
             </div>
             <div className="rounded mt-6 mx-3 bg-gray-500 bg-opacity-20 px-2">
-                <ItemsTable itemList={filteredList} spaceId={spaceId} />
+                <ItemsTable spaceid={spaceid} row={activePosition.row} column={activePosition.col} />
             </div>
-            <CreateItemModal spaceId={spaceId} rows={rows} cols={cols} />
+            <CreateItemModal spaceid={spaceid} rows={rows} cols={cols} />
             <ModifySpaceModal space={space} />
         </div>
     )

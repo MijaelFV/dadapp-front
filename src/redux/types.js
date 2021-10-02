@@ -30,6 +30,7 @@ export const types = {
     invRemove: '[INV] Item Removed',
     invDelete: '[INV] Deleted',
     invLoadCategories: '[INV] Categories Loaded',
+    invSetTotalPages: '[INV] Total Pages Setted',
     invClear: '[INV] Inventory Cleared',
     
     logAreaLoad: '[LOG] Area Loaded',

@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 Modal.setAppElement('#root');
-export const CreateItemModal = ({spaceId, cols, rows}) => {
+export const CreateItemModal = ({spaceid, cols, rows}) => {
     const dispatch = useDispatch();
     const {categories} = useSelector(state => state.inv);
     const area = useSelector(state => state.area.active)
@@ -32,7 +32,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
     });
 
     const onSubmit = (data) => {
-        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, spaceId, area.uid, selectedFile));
+        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, spaceid, area.uid, selectedFile));
         dispatch(closeModal());
         setSelectedFile()
         reset();

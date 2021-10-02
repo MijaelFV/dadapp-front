@@ -4,6 +4,11 @@ import { setLoadingFinish, setLoadingStart } from "./ui";
 import imageCompression from 'browser-image-compression';
 import { SwalMixin } from "../../components/SwalMixin";
 
+export const setTotalPagesInventory = (totalPages) => ({
+    type: types.invSetTotalPages,
+    payload: totalPages
+})
+
 export const loadInventory = (inventory) => ({
     type: types.invLoad,
     payload: inventory
@@ -72,13 +77,14 @@ export const getInventoryByTaked = (areaId) => {
     }
 }
 
-export const getInventoryBySpace = (spaceId) => {
+export const getInventoryBySpace = (spaceid, page, limit = 10, row, col) => {
     return async(dispatch) => {
         dispatch(setLoadingStart())
-        const resp = await fetch(`api/item/inventory/${spaceId}`);
+        const resp = await fetch(`api/item/inventory/${spaceid}?page=${page}&limit=${limit}&row=${row}&column=${col}`);
         dispatch(setLoadingFinish())
         if (resp.status === 200) {
-            dispatch(loadInventory(resp.data))
+            dispatch(loadInventory(resp.data.docs))
+            dispatch(setTotalPagesInventory(resp.data.totalPages))
         } else {
             console.log(resp.data)
         }
