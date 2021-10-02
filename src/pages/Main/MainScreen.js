@@ -1,6 +1,6 @@
 import { faHistory, faMinus, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { startLoadingLogs } from '../../redux/actions/log'
@@ -12,7 +12,7 @@ import { TakeItemModal } from './components/TakeItemModal'
 import { ReturnItemModal } from './components/ReturnItemModal'
 import { startLoadingSpaces } from '../../redux/actions/space'
 import { getInventoryByTaked } from '../../redux/actions/inv'
-import { IconButton, Skeleton } from '@mui/material'
+import { IconButton, Pagination, Skeleton } from '@mui/material'
 
 export const MainScreen = () => {
     const history = useHistory() 
@@ -22,14 +22,18 @@ export const MainScreen = () => {
     const spaces = useSelector(state => state.space.spaces);
     const user = useSelector(state => state.auth)
     const logs = useSelector(state => state.log.areaLogs);
+    const totalPages = useSelector(state => state.log.totalPages)
     const itemsToReturn = useSelector(state => state.inv.toReturn);
     const isLoading = useSelector(state => state.ui.isLoading)
 
+    const [page, setPage] = useState(1);
+    const [rowsPerPage] = useState(10);
+
     useMemo(() => {
         dispatch(getInventoryByTaked(area.uid))
-        dispatch(startLoadingLogs(area.uid, 1));
+        dispatch(startLoadingLogs(area.uid, 1, null, page, rowsPerPage));
         dispatch(startLoadingSpaces(area.uid));
-    }, [dispatch, area.uid])
+    }, [dispatch, page, rowsPerPage, area.uid])
 
     const handleSearchClick = () => {
         history.push("/search")
@@ -43,13 +47,20 @@ export const MainScreen = () => {
         dispatch(openModal("TakeItemModal"));
     }
 
+    const handleChangePage = (e, newPage) => {
+        setPage(newPage);
+    };
+
     const showLogs = () => {
         if (logs.length > 0 ) {
-            return  <div className="flex flex-col rounded-xl mt-9 py-1">
+            return  [<div className="flex flex-col rounded-xl mt-9 py-1">
                         {logs.map((log) => (
                             <AreaLogs key={log.uid} log={log} history={history} dispatch={dispatch}/>
                         ))}
-                    </div>
+                    </div>,
+                    <div className="flex justify-center my-2">
+                        <Pagination count={totalPages} size="small" page={page} onChange={handleChangePage} hidden={totalPages < 2} />
+                    </div>]
         } else {
             return  <div className="mx-auto my-auto flex flex-col items-center text-gray-400">
                         <FontAwesomeIcon icon={faHistory} size="4x" />
@@ -143,7 +154,7 @@ export const MainScreen = () => {
                 </div>
             </div>
             {
-                isLoading === true && logs.length < 1
+                isLoading === true
                 ?   showSkeleton() 
                 :   showLogs()
             }

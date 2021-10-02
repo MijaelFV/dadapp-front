@@ -6,7 +6,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { openModal } from '../../redux/actions/ui';
-import { clearLogs, startLoadingLogs } from '../../redux/actions/log'
+import { clearLogs } from '../../redux/actions/log'
 import { ItemLogsTable } from './components/ItemLogsTable';
 import { ModifyItemModal } from './components/ModifyItemModal';
 import { CircularProgress, IconButton, Skeleton } from '@mui/material';
@@ -22,10 +22,8 @@ export const ItemInfoScreen = () => {
         dispatch(clearLogs());
         dispatch(clearItem());
         dispatch(getItemById(itemid))
-        dispatch(startLoadingLogs(itemid, 2));
     }, [dispatch, itemid])
 
-    const logs = useSelector(state => state.log.itemLogs);
     const item = useSelector(state => state.item);
 
     const areaid = useSelector(state => state.area.active.uid);
@@ -144,7 +142,7 @@ export const ItemInfoScreen = () => {
                 <h1 className="text-lg px-1 font-medium mt-3 mb-2">
                     Ultimos Movimientos
                 </h1>
-                <ItemLogsTable logs={logs} isLoading={isLoading} />
+                <ItemLogsTable itemid={itemid} isLoading={isLoading} />
             </div>
             <ModifyItemModal item={item} areaid={areaid} />
         </div>

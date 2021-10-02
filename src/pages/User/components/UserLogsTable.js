@@ -1,19 +1,35 @@
-import { LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material'
+import { Pagination, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material'
 import moment from 'moment'
 import 'moment/locale/es'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { logType } from '../../../helpers/logType'
+import { startLoadingLogs } from '../../../redux/actions/log'
 
-export const UserLogsTable = ({logs, isLoading}) => {
+export const UserLogsTable = ({userid, isLoading}) => {
     const history = useHistory();
+    const dispatch = useDispatch();
+
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('');
+    const [page, setPage] = useState(1);
+    const [rowsPerPage] = useState(10);
+
+    const areaid = useSelector(state => state.area.active.uid);
+
+    useEffect(() => {
+        dispatch(startLoadingLogs(userid, 3, areaid, page, rowsPerPage));
+    }, [dispatch, userid, areaid, page, rowsPerPage])
+    const logs = useSelector(state => state.log.userLogs);
+    const totalPages = useSelector(state => state.log.totalPages)
 
     const createData = () => {
         return (
             logs.map((log, index) => (
                 {
                     id: log.uid,
-                    itemid: log.item._id,
+                    itemid: log.item?._id || null,
                     spaceid: log.space._id,
                     item: log.itemName,
                     space: log.space.name,
@@ -27,12 +43,6 @@ export const UserLogsTable = ({logs, isLoading}) => {
         )
     }
     const rows = createData()
-
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
-    // const [selected, setSelected] = useState([]);
-    // const [page, setPage] = useState(0);
-    // const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const descendingComparator = (a, b, orderBy) => {
         if (b[orderBy] < a[orderBy]) {
@@ -76,18 +86,11 @@ export const UserLogsTable = ({logs, isLoading}) => {
         }
     }
 
-    // const isSelected = (name) => selected.indexOf(name) !== -1;
-        
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
+    const handleChangePage = (e, newPage) => {
+        setPage(newPage);
+    };
 
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    //     setPage(0);
-    // };
-
-    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - rows.length
 
     const headCells = [
         { id: 'item', disablePadding: false, label: 'Articulo' },
@@ -99,61 +102,65 @@ export const UserLogsTable = ({logs, isLoading}) => {
     ];
 
     return (
-        <TableContainer>
-            {
-                isLoading === true
-                ? <LinearProgress />
-                : null
-            }
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        {headCells.map((headCell) => (
-                            <TableCell
-                                key={headCell.id}
-                                padding={headCell.disablePadding ? 'none' : 'normal'}
-                                sortDirection={orderBy === headCell.id ? order : false}
-                            >
-                                <TableSortLabel
-                                    active={orderBy === headCell.id}
-                                    direction={orderBy === headCell.id ? order : 'asc'}
-                                    onClick={createSortHandler(headCell.id)}
+        <>
+            <TableContainer>
+                {
+                    isLoading === true
+                    ? <LinearProgress />
+                    : null
+                }
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            {headCells.map((headCell) => (
+                                <TableCell
+                                    key={headCell.id}
+                                    padding={headCell.disablePadding ? 'none' : 'normal'}
+                                    sortDirection={orderBy === headCell.id ? order : false}
                                 >
-                                    {headCell.label}
-                                </TableSortLabel>
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        stableSort(rows, getComparator(order, orderBy))
-                        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((log) => {
-                            const {logBgColor, labelType} = logType(log.type)
-
-                            return (
-                                <TableRow
-                                    key={log.id}
-                                    tabIndex={-1}
-                                >
-                                    <TableCell><span className="cursor-pointer no-tap-highlight" onClick={() => handleItemClick(log.itemid, log.spaceid)}>{log.item}</span></TableCell>
-                                    <TableCell>{log.space}</TableCell>
-                                    <TableCell padding="none">{log.row}</TableCell>
-                                    <TableCell padding="none">{log.column}</TableCell>
-                                    <TableCell><div className={`w-min p-1 rounded bg-opacity-40 whitespace-nowrap ${logBgColor}`}>{labelType} {log.quantity !== null ? `(${log.quantity})` : ''}</div></TableCell>
-                                    <TableCell>{moment(log.date).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
-                                </TableRow>
-                            )
-                        })
-                    }
-                    {/* {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
-                            <TableCell colSpan={6} />
+                                    <TableSortLabel
+                                        active={orderBy === headCell.id}
+                                        direction={orderBy === headCell.id ? order : 'asc'}
+                                        onClick={createSortHandler(headCell.id)}
+                                    >
+                                        {headCell.label}
+                                    </TableSortLabel>
+                                </TableCell>
+                            ))}
                         </TableRow>
-                    )} */}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            stableSort(rows, getComparator(order, orderBy))
+                            .map((log) => {
+                                const {logBgColor, labelType} = logType(log.type)
+
+                                return (
+                                    <TableRow
+                                        key={log.id}
+                                        tabIndex={-1}
+                                    >
+                                        <TableCell><span className="cursor-pointer no-tap-highlight" onClick={() => handleItemClick(log.itemid, log.spaceid)}>{log.item}</span></TableCell>
+                                        <TableCell>{log.space}</TableCell>
+                                        <TableCell padding="none">{log.row}</TableCell>
+                                        <TableCell padding="none">{log.column}</TableCell>
+                                        <TableCell><div className={`w-min p-1 rounded bg-opacity-40 whitespace-nowrap ${logBgColor}`}>{labelType} {log.quantity !== null ? `(${log.quantity})` : ''}</div></TableCell>
+                                        <TableCell>{moment(log.date).locale("es").format('DD/MM/YY HH:mm')}</TableCell>
+                                    </TableRow>
+                                )
+                            })
+                        }
+                        {emptyRows > 0 && (
+                            <TableRow style={{ height: 53 * emptyRows }}>
+                                <TableCell colSpan={6} />
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <div className="flex justify-center my-2">
+                <Pagination count={totalPages} size="small" page={page} onChange={handleChangePage} />
+            </div>
+        </>
     )
 }

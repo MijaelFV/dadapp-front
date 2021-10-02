@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { IconButton, Skeleton  } from '@mui/material';
 import { ShowAvatar } from '../../components/ShowAvatar';
-import { clearLogs, startLoadingLogs } from '../../redux/actions/log';
+import { clearLogs } from '../../redux/actions/log';
 import { UserLogsTable } from './components/UserLogsTable';
 import { clearUser, getUserById } from '../../redux/actions/user';
 
@@ -14,18 +14,14 @@ export const UserScreen = () => {
     const dispatch = useDispatch();
 
     const {userid} = useParams();
-    const logs = useSelector(state => state.log.userLogs);
     const user = useSelector(state => state.user);
-        
-    const areaid = useSelector(state => state.area.active.uid);
     const isLoading = useSelector(state => state.ui.isLoading)
 
     useEffect(() => {
         dispatch(clearLogs());
         dispatch(clearUser());
         dispatch(getUserById(userid))
-        dispatch(startLoadingLogs(userid, 3, areaid));
-    }, [dispatch, userid, areaid])
+    }, [dispatch, userid])
 
     const handleReturnClick = () => {
         history.goBack();
@@ -71,7 +67,7 @@ export const UserScreen = () => {
                 <h1 className="text-lg px-1 font-medium mt-3 mb-2">
                     Ultimos Movimientos
                 </h1>
-                <UserLogsTable logs={logs} isLoading={isLoading} />
+                <UserLogsTable userid={userid} isLoading={isLoading} />
             </div>
         </div>
     )

@@ -35,6 +35,7 @@ export const types = {
     logAreaLoad: '[LOG] Area Loaded',
     logUserLoad: '[LOG] User Loaded',
     logItemLoad: '[LOG] Item Loaded',
+    logSetTotalPages: '[LOG] Total Pages Setted',
     logClear: '[LOG] Cleared',
 
     areaLoad: '[AREA] Loaded',

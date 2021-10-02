@@ -1,12 +1,26 @@
-import { LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel } from '@mui/material'
+import { LinearProgress, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material'
 import moment from 'moment'
 import 'moment/locale/es'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { logType } from '../../../helpers/logType'
+import { startLoadingLogs } from '../../../redux/actions/log'
 
-export const ItemLogsTable = ({logs, isLoading}) => {
+export const ItemLogsTable = ({itemid, isLoading}) => {
     const history = useHistory();
+    const dispatch = useDispatch();
+
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('');
+    const [page, setPage] = useState(1);
+    const [rowsPerPage] = useState(10);
+
+    useEffect(() => {
+        dispatch(startLoadingLogs(itemid, 2, null, page, rowsPerPage));
+    }, [dispatch, itemid, page, rowsPerPage])
+    const logs = useSelector(state => state.log.itemLogs);
+    const totalPages = useSelector(state => state.log.totalPages)
     
     const createData = () => {
         return (
@@ -26,11 +40,6 @@ export const ItemLogsTable = ({logs, isLoading}) => {
         )
     }
     const rows = createData()
-
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const descendingComparator = (a, b, orderBy) => {
         if (b[orderBy] < a[orderBy]) {
@@ -58,7 +67,7 @@ export const ItemLogsTable = ({logs, isLoading}) => {
         return stabilizedThis.map((el) => el[0]);
     }
 
-    const handleRequestSort = (event, property) => {
+    const handleRequestSort = (e, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -68,22 +77,17 @@ export const ItemLogsTable = ({logs, isLoading}) => {
         handleRequestSort(event, property);
       };
         
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
     const handleUserClick = async(userid) => {
         if (userid) {
             history.push(`/user/${userid}`)
         }
     }
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const handleChangePage = (e, newPage) => {
+        setPage(newPage);
+    };
+
+    const emptyRows = rowsPerPage - rows.length
 
     const headCells = [
         { id: 'username', disablePadding: false, label: 'Usuario' },
@@ -94,7 +98,7 @@ export const ItemLogsTable = ({logs, isLoading}) => {
     ];
 
     return (
-        <div>
+        <>
             <TableContainer>
                 {
                     isLoading === true
@@ -124,7 +128,6 @@ export const ItemLogsTable = ({logs, isLoading}) => {
                     <TableBody >
                         {
                             stableSort(rows, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((log, index) => {
                                 const {logBgColor, labelType} = logType(log.type)
 
@@ -143,22 +146,16 @@ export const ItemLogsTable = ({logs, isLoading}) => {
                             })
                         }
                         {emptyRows > 0 && (
-                            <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableRow style={{ height: 41 * emptyRows }}>
                                 <TableCell colSpan={6} />
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 15]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </div>
+            <div className="flex justify-center my-2">
+                <Pagination count={totalPages} size="small" page={page} onChange={handleChangePage} />
+            </div>
+        </>
     )
 }
