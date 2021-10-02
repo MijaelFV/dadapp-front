@@ -6,7 +6,7 @@ import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
 import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCheckSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
 import { startDeleteItem, startModifyItem } from '../../../redux/actions/inv';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
@@ -48,7 +48,8 @@ export const ModifyItemModal = ({item, areaid}) => {
     });
 
     useEffect(() => {
-        reset({name: item.name, description: item.description, category: item.category?._id, row: item.row, column: item.column, expiryDate: item.expiryDate, quantity: item.quantity});
+        const expiryDate = item.expiryDate ? moment.utc(item.expiryDate).format("YYYY-MM-DD") : '';
+        reset({name: item.name, description: item.description, category: item.category?._id, row: item.row, column: item.column, expiryDate: expiryDate, quantity: item.quantity});
     }, [item, reset])
 
     const onSubmit = (data) => {
@@ -106,7 +107,7 @@ export const ModifyItemModal = ({item, areaid}) => {
                             hidden
                         />
                     </Button>
-                    {selectedFile !== undefined && <p className="w-52 overflow-hidden text-xs ml-2 whitespace-nowrap overflow-ellipsis">Archivo: {selectedFile.name}</p>}
+                    {selectedFile !== undefined && <FontAwesomeIcon icon={faCheckSquare} size="1x" className="ml-1" />}
                 </div>
                 <Controller 
                     name="name"

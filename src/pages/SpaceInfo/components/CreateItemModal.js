@@ -6,6 +6,8 @@ import { startCreateItem } from '../../../redux/actions/inv';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 Modal.setAppElement('#root');
 export const CreateItemModal = ({spaceId, cols, rows}) => {
@@ -68,7 +70,7 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                             hidden
                         />
                     </Button>
-                    {selectedFile !== undefined && <p className="w-52 overflow-hidden text-xs ml-2 whitespace-nowrap overflow-ellipsis">Archivo: {selectedFile.name}</p>}
+                    {selectedFile !== undefined && <FontAwesomeIcon icon={faCheckSquare} size="1x" className="ml-1" />}
                 </div>
                 <Controller 
                     name="name"

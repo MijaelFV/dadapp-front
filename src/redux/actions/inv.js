@@ -161,7 +161,12 @@ export const startRemoveItem = (item, area, type, consume) => {
 
 export const startDeleteItem = (item, area) => {
     return async(dispatch) => {
+        SwalMixin.fire({
+            titleText: "Eliminando articulo...",
+            showConfirmButton: false
+        })
         const resp = await fetch(`api/item/${item}`, {area}, 'DELETE');
+        SwalMixin.close()
         if (resp.status === 200) {
             dispatch(removeFromInventory(item));
         } else {
