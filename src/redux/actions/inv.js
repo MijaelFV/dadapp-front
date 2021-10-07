@@ -188,7 +188,7 @@ export const startCreateItem = (name, description, category, row, column, expiry
             if (selectedFile) {
                 await dispatch(uploadItemImage(resp.data.uid, selectedFile))
             }
-            dispatch(getInventoryBySpace(space));
+            dispatch(getInventoryBySpace(space, 1, 15, 0, 0))
         } else {
             console.log(resp.data)
         }

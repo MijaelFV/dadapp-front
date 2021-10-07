@@ -36,7 +36,7 @@ export const TakeItemModal = ({areaid, spaces}) => {
     const totalPages = useSelector(state => state.search.items.totalPages)
 
     useEffect(() => {
-        if (thisModalIsOpen && searchType === 2) {
+        if (thisModalIsOpen && searchType === 2 && selectedSpace.length > 1) {
             dispatch(getSearch("items", areaid, '', selectedSpace, page, rowsPerPage, selectedRow, selectedCol))
         }
     }, [dispatch, areaid, selectedSpace, page, rowsPerPage, selectedRow, selectedCol, searchType, thisModalIsOpen])
@@ -114,6 +114,8 @@ export const TakeItemModal = ({areaid, spaces}) => {
     const handleQueryChange = (e) => {
         if (e.target.value.length >= 1) {
             dispatch(getSearch("items", areaid, e.target.value, '', page, rowsPerPage))
+        } else {
+            dispatch(clearSearch())
         }
     }
 

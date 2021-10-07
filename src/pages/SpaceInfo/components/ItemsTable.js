@@ -24,9 +24,11 @@ export const ItemsTable = ({spaceid, row, column}) => {
 
     useEffect(() => {
         dispatch(getInventoryBySpace(spaceid, page, rowsPerPage, row, column));
+        setSelected([])
     }, [dispatch, spaceid, page, rowsPerPage, row, column])
     useEffect(() => {
         setPage(1)
+        setSelected([])
     }, [row, column])
     const items = useSelector(state => state.inv.items);
     const totalPages = useSelector(state => state.inv.totalPages)
@@ -137,6 +139,7 @@ export const ItemsTable = ({spaceid, row, column}) => {
                 selected.forEach((item) => (
                     dispatch(startDeleteItem(item, areaId))
                 ))
+                setSelected([])
             }
         })
     }
