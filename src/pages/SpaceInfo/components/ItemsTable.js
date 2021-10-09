@@ -17,7 +17,7 @@ export const ItemsTable = ({spaceid, row, column}) => {
     const isLoading = useSelector(state => state.ui.isLoading)
 
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
+    const [orderBy, setOrderBy] = useState('expiryDate');
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(1);
     const [rowsPerPage] = useState(15);
@@ -43,8 +43,8 @@ export const ItemsTable = ({spaceid, row, column}) => {
                     row: item.row,
                     column: item.column,
                     takedBy: item.takedBy !== null ? item.takedBy.name : null,
-                    takedDate: item.takedDate !== null ? moment(item.takedDate).locale("es").format('DD/MM HH:mm') : null,
-                    expiryDate: item.expiryDate !== null ? moment.utc(item.expiryDate).locale("es").format('DD/MM/YY') : null,
+                    takedDate: item.takedDate !== null ? item.takedDate : null,
+                    expiryDate: item.expiryDate !== null ? item.expiryDate : null,
                     quantity: item.quantity !== null ? item.quantity : null
                 }
             ))
@@ -61,7 +61,7 @@ export const ItemsTable = ({spaceid, row, column}) => {
         }
         return 0;
     }
-    
+
     const getComparator = (order, orderBy) => {
         return order === 'desc'
             ? (a, b) => descendingComparator(a, b, orderBy)
@@ -255,7 +255,7 @@ export const ItemsTable = ({spaceid, row, column}) => {
                                         <TableCell padding="none">{item.row}</TableCell>
                                         <TableCell padding="none">{item.column}</TableCell>
                                         <TableCell >{item.quantity}</TableCell>
-                                        <TableCell>{item.expiryDate}</TableCell>
+                                        <TableCell>{item.expiryDate && moment.utc(item.expiryDate).locale("es").format('DD/MM/YY')}</TableCell>
                                         <TableCell>{item.takedBy}</TableCell>
                                         <TableCell>{item.takedDate}</TableCell>
                                     </TableRow>
