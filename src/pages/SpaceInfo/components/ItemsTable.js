@@ -257,7 +257,7 @@ export const ItemsTable = ({spaceid, row, column}) => {
                                         <TableCell >{item.quantity}</TableCell>
                                         <TableCell>{item.expiryDate && moment.utc(item.expiryDate).locale("es").format('DD/MM/YY')}</TableCell>
                                         <TableCell>{item.takedBy}</TableCell>
-                                        <TableCell>{item.takedDate}</TableCell>
+                                        <TableCell>{item.takedDate && moment.utc(item.takedDate).locale("es").format('DD/MM/YY')}</TableCell>
                                     </TableRow>
                                 )
                             })

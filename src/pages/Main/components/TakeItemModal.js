@@ -65,7 +65,6 @@ export const TakeItemModal = ({areaid, spaces}) => {
         }
         const invalidConsume = selectedItems.some(e => e.quantity < e.consume || 1 > e.consume);
         if (invalidConsume) {
-            console.log(invalidConsume);
             return SwalMixin.fire({
                 icon: "warning",
                 text: "Se ingreso un valor de consumo invalido",

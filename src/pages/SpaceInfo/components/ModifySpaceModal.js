@@ -45,7 +45,7 @@ export const ModifySpaceModal = ({space}) => {
         SwalMixin.fire({
             toast: false,
             titleText: "¿Estás seguro de eliminar el espacio?", 
-            text: `Escribe el nombre para confirmar la eliminación. ${space.name}`,
+            text: `Escribe el nombre para confirmar la eliminación. "${space.name}"`,
             input: "text",
             icon: 'warning',
             showCancelButton: true,

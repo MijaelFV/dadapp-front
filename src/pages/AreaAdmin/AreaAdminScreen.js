@@ -79,7 +79,7 @@ export const AreaAdminScreen = () => {
         SwalMixin.fire({
             toast: false,
             titleText: "¿Estás seguro de eliminar el área?", 
-            text: `Escribe el nombre para confirmar la eliminación. ${area.name}`,
+            text: `Escribe el nombre para confirmar la eliminación. "${area.name}"`,
             input: 'text',
             icon: 'warning',
             showCancelButton: true,
@@ -141,7 +141,7 @@ export const AreaAdminScreen = () => {
     return (
         <div 
             className="text-white bg-gray-900 flex flex-col w-full h-auto min-h-full pb-20" 
-            style={{maxWidth:"500px", marginInline:"auto"}}
+            style={{maxWidth:"500px", minHeight:"100vh", marginInline:"auto"}}
         >
             <div className="w-full flex items-center p-3">
                 <IconButton

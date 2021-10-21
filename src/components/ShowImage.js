@@ -8,6 +8,6 @@ export const ShowImage = ({item}) => {
 
 
     return (
-        <img key={Date.now()} src={url} alt="Item" />
+        <img key={Date.now()} src={url} alt="Item" className="h-full"/>
     )
 }
