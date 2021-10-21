@@ -1,5 +1,13 @@
 import { types } from "../types";
 
+export const setLoadingStart = () => ({
+    type: types.uiLoadingStart
+})
+
+export const setLoadingFinish = () => ({
+    type: types.uiLoadingFinish
+})
+
 export const closeModal = () => ({
     type: types.uiCloseModal
 })

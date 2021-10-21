@@ -9,9 +9,11 @@ import { BottomNav } from "../components/BottomNav";
 import { AreaScreen } from "../pages/Area/AreaScreen";
 import { MainScreen } from "../pages/Main/MainScreen";
 import { SearchScreen } from "../pages/Search/SearchScreen";
-import { SpaceInfo } from "../pages/SpaceInfo/SpaceInfoScreen";
-import { SpaceItemInfo } from "../pages/ItemInfo/ItemInfoScreen";
+import { SpaceInfoScreen } from "../pages/SpaceInfo/SpaceInfoScreen";
+import { ItemInfoScreen } from "../pages/ItemInfo/ItemInfoScreen";
 import { SpaceScreen } from "../pages/Spaces/SpacesScreen";
+import { UserScreen } from "../pages/User/UserScreen";
+import { AreaAdminScreen } from "../pages/AreaAdmin/AreaAdminScreen";
 
 export const NavRoutes = () => {
 
@@ -19,11 +21,14 @@ export const NavRoutes = () => {
     const isActiveArea = () => {
         if (activeArea) {
             return [
-                <Route exact path="/spaces" component={SpaceScreen}/>,
-                <Route exact path="/search" component={SearchScreen}/>,
-                <Route exact path="/space/:spaceId" component={SpaceInfo} />,
-                <Route exact path="/space/:spaceId/:itemId" component={SpaceItemInfo}/>,
-                <Route exact path="/" component={MainScreen}/>
+                <Route key={1} exact path="/item/:spaceid/:itemid" component={ItemInfoScreen}/>,
+                <Route key={2} exact path="/space/:spaceid" component={SpaceInfoScreen} />,
+                <Route key={3} exact path="/user/:userid" component={UserScreen}/>,
+                <Route key={4} exact path="/spaces" component={SpaceScreen}/>,
+                <Route key={5} exact path="/search" component={SearchScreen}/>,
+                <Route key={5} exact path="/admin" component={AreaAdminScreen}/>,
+                <Route key={6} exact path="/" component={MainScreen}/>
+
             ]
         } else {
             return <Route exact path="/" component={AreaScreen}/>

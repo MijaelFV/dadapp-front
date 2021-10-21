@@ -15,7 +15,23 @@ export const areaReducer = (state = initialState, action) => {
         case types.areaActive:
             return {
                 ...state,
+                areas: [],
                 active: action.payload
+            }
+
+        case types.areaChangeCode:
+            return {
+                ...state,
+                active: {
+                    ...state.active,
+                    inviteCode: action.payload
+                }
+            }
+
+        case types.areaSetRole:
+            return {
+                ...state,
+                isUserAdmin: action.payload
             }
 
         case types.areaClear:

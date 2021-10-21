@@ -1,40 +1,56 @@
-import { faSearch, faSignInAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faSignInAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar } from '@material-ui/core'
-import React, { useState } from 'react'
+import { Pagination, Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Toolbar, LinearProgress } from '@mui/material'
+import moment from 'moment'
+import 'moment/locale/es'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { startRemoveItem } from '../../../redux/actions/inv'
-import { StyTableRow } from '../../../styles/components/materialUi/styledComponents'
+import { getInventoryBySpace, startDeleteItem } from '../../../redux/actions/inv'
+import { SwalMixin } from '../../../components/SwalMixin'
 
-export const ItemsTable = ({itemList, spaceId}) => {
+export const ItemsTable = ({spaceid, row, column}) => {
+    const history = useHistory();
     const dispatch = useDispatch();
+
     const areaId = useSelector(state => state.area.active.uid);
+    const isLoading = useSelector(state => state.ui.isLoading)
+
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('expiryDate');
+    const [selected, setSelected] = useState([]);
+    const [page, setPage] = useState(1);
+    const [rowsPerPage] = useState(15);
+
+    useEffect(() => {
+        dispatch(getInventoryBySpace(spaceid, page, rowsPerPage, row, column));
+        setSelected([])
+    }, [dispatch, spaceid, page, rowsPerPage, row, column])
+    useEffect(() => {
+        setPage(1)
+        setSelected([])
+    }, [row, column])
+    const items = useSelector(state => state.inv.items);
+    const totalPages = useSelector(state => state.inv.totalPages)
 
     const createData = () => {
         return (
-            itemList.map((item) => (
+            items.map((item) => (
                 {
                     id: item.uid,
                     name: item.name,
-                    category: item.category.name,
+                    category: item.category?.name,
                     row: item.row,
                     column: item.column,
-                    description: item.description
+                    takedBy: item.takedBy !== null ? item.takedBy.name : null,
+                    takedDate: item.takedDate !== null ? item.takedDate : null,
+                    expiryDate: item.expiryDate !== null ? item.expiryDate : null,
+                    quantity: item.quantity !== null ? item.quantity : null
                 }
             ))
         )
     }
     const rows = createData()
-
-    const history = useHistory();
-
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
-    const [selected, setSelected] = useState([]);
-    const itemId = selected[0];
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const descendingComparator = (a, b, orderBy) => {
         if (b[orderBy] < a[orderBy]) {
@@ -45,7 +61,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
         }
         return 0;
     }
-    
+
     const getComparator = (order, orderBy) => {
         return order === 'desc'
             ? (a, b) => descendingComparator(a, b, orderBy)
@@ -102,69 +118,79 @@ export const ItemsTable = ({itemList, spaceId}) => {
     };
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
-        const handleChangePage = (event, newPage) => {
+
+    const handleChangePage = (e, newPage) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
     const handleOpenItemInfo = () => {
-        history.push(`/space/${spaceId}/${itemId}`)
+        const itemid = selected[0];
+        history.push(`/item/${spaceid}/${itemid}`)
     };
 
-    const handleRemoveItem = () => {
-        dispatch(startRemoveItem(itemId, areaId));
+    const handleDeleteItem = () => {
+        SwalMixin.fire({
+            text: "¿Estas seguro de eliminar el o los articulos seleccionados?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                selected.forEach((item) => (
+                    dispatch(startDeleteItem(item, areaId))
+                ))
+                setSelected([])
+            }
+        })
     }
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - rows.length
 
     const headCells = [
         { id: 'name', disablePadding: true, label: 'Nombre' },
         { id: 'category', disablePadding: false, label: 'Categoria' },
-        { id: 'row', disablePadding: false, label: 'F' },
-        { id: 'column', disablePadding: false, label: 'C' },
-        { id: 'description', disablePadding: false, label: 'Descripcion' },
+        { id: 'row', disablePadding: true, label: 'F' },
+        { id: 'column', disablePadding: true, label: 'C' },
+        { id: 'quantity', disablePadding: false, label: 'Cantidad' },
+        { id: 'expiryDate', disablePadding: false, label: 'Vencimiento' },
+        { id: 'takedBy', disablePadding: false, label: 'Portador' },
+        { id: 'takedDate', disablePadding: false, label: 'Retirado' },
     ];
 
-
     return (
-        <div className="spaceItemsTable">
-            <Toolbar className="toolBar">
+        <>
+            <Toolbar className="flex">
                 {selected.length > 0 ? (
-                    <h3 className={(selected.length > 0) ? "toolBar-length-selected" : null}>
+                    <h3 className={(selected.length > 0) ? "mr-auto" : null}>
                         {selected.length} Seleccionados
                     </h3>
                 ) : (
-                    [<h2 id="tableTitle" className="toolBar-title">Articulos</h2>,
-                    <IconButton className="toolBar-icon">
-                        <FontAwesomeIcon icon={faSearch}/>
-                    </IconButton>]
+                    <h1 id="tableTitle" className="mr-auto text-xl">Articulos</h1>
                 )}
                 {selected.length > 1 ? (
                     <IconButton 
-                        className={(selected.length > 0) ? "toolBar-icon selected" : null}
-                        onClick={handleRemoveItem}
+                        onClick={handleDeleteItem}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </IconButton>
                 ) : selected.length === 1 ? (
                     [<IconButton 
-                        className="toolBar-icon selected"
                         onClick={handleOpenItemInfo}
                     >
                         <FontAwesomeIcon icon={faSignInAlt}/>
                     </IconButton>,
                     <IconButton 
-                        className={(selected.length > 0) ? "toolBar-icon selected" : null}
-                        onClick={handleRemoveItem}
+                        onClick={handleDeleteItem}
                     >
                         <FontAwesomeIcon icon={faTrashAlt}/>
                     </IconButton>]
                 ) : null}
             </Toolbar>
+            {
+                isLoading === true
+                ? <LinearProgress />
+                : null
+            }
             <TableContainer>
                 <Table
                     aria-labelledby="tableTitle"
@@ -200,13 +226,12 @@ export const ItemsTable = ({itemList, spaceId}) => {
                     <TableBody>
                         {
                             stableSort(rows, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((item, index) => {
                                 const isItemSelected = isSelected(item.id);
                                 const labelId = `table-checkbox-${index}`;
 
                                 return (
-                                    <StyTableRow
+                                    <TableRow
                                         hover
                                         tabIndex={-1}
                                         role="checkbox"
@@ -214,6 +239,7 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                         key={item.id}
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}
+                                        style={item.takedDate !== null ? {backgroundColor:"#321A24"} : null || item.quantity === 0 ? {backgroundColor:"#302120"} : null}
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
@@ -226,30 +252,27 @@ export const ItemsTable = ({itemList, spaceId}) => {
                                             {item.name}
                                         </TableCell>
                                         <TableCell>{item.category}</TableCell>
-                                        <TableCell>{item.row}</TableCell>
-                                        <TableCell>{item.column}</TableCell>
-                                        <TableCell>{item.description}</TableCell>
-                                    </StyTableRow>
+                                        <TableCell padding="none">{item.row}</TableCell>
+                                        <TableCell padding="none">{item.column}</TableCell>
+                                        <TableCell >{item.quantity}</TableCell>
+                                        <TableCell>{item.expiryDate && moment.utc(item.expiryDate).locale("es").format('DD/MM/YY')}</TableCell>
+                                        <TableCell>{item.takedBy}</TableCell>
+                                        <TableCell>{item.takedDate && moment.utc(item.takedDate).locale("es").format('DD/MM/YY')}</TableCell>
+                                    </TableRow>
                                 )
                             })
                         }
                         {emptyRows > 0 && (
-                            <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableRow style={{ height: 41 * emptyRows }}>
                                 <TableCell colSpan={6} />
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 15, 20]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </div>
+            <div className="flex justify-center my-2">
+                <Pagination count={totalPages} size="small" page={page} onChange={handleChangePage} hidden={totalPages < 2} />
+            </div>
+        </>
     )
 }

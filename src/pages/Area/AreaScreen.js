@@ -1,9 +1,13 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { startLoadingAreas } from '../../redux/actions/area';
-import { AreaRow } from './components/AreaRow';
+import { activeArea, createArea, joinArea, setUserRole, startLoadingAreas } from '../../redux/actions/area';
 import { ProfileModal } from '../../components/ProfileModal';
 import { ShowAvatar } from '../../components/ShowAvatar';
+import { Avatar, AppBar, Collapse, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, TextField, Toolbar, Divider } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp, faFolderPlus, faPlus, faSadTear, faSignInAlt, faWarehouse } from '@fortawesome/free-solid-svg-icons';
+import { Controller, useForm } from 'react-hook-form';
+import { userIsAdmin } from '../../helpers/userIsAdmin';
 
 export const AreaScreen = () => {
     const dispatch = useDispatch();
@@ -11,50 +15,157 @@ export const AreaScreen = () => {
     const areas = useSelector(state => state.area.areas);
 
 
-    useMemo(() => {
-        if (areas.length === 0) {
-            dispatch(startLoadingAreas(user.uid));
+    const [isFormOpen, setIsFormOpen] = useState(false)
+
+    const { control, handleSubmit, reset} = useForm({
+        defaultValues: {
+            areaname: '',
+            code: '',
         }
-    }, [dispatch, areas, user])
+    });
 
-    const handleButton1Click = () => {
-        
+    useMemo(() => {
+        dispatch(startLoadingAreas());
+    }, [dispatch])
+
+    const handleOpenArea = (area) => {
+        const isUserAdmin = userIsAdmin(area, user.uid);
+        dispatch(activeArea(area))
+        if (isUserAdmin) {
+            dispatch(setUserRole(true))
+        } else {
+            dispatch(setUserRole(false))
+        }
     }
 
-    const handleButton2Click = () => {
-        
+    const handleShowForm = () => {
+        if (isFormOpen) {
+            setIsFormOpen(false)
+        } else {
+            setIsFormOpen(true)
+        }
     }
+
+    const handleNewArea = (data) => {
+        dispatch(createArea(data.areaname))
+        setIsFormOpen(false);
+        reset()
+    }
+
+    const handleJoinArea = (data) => {
+        dispatch(joinArea(data.code))
+        reset()
+    }
+
+    const showAreas = () => (
+        areas.map((area) => {
+            return [
+                <ListItem
+                    disabled={isFormOpen} 
+                    key={area.uid} 
+                    button 
+                    onClick={() => handleOpenArea(area)}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" style={isFormOpen ? null : {backgroundColor: "white"}}>
+                            <FontAwesomeIcon icon={faWarehouse}/>
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={area.name} secondary={userIsAdmin(area, user.uid) ? "Administrador" : "Miembro"}/>
+                    <IconButton 
+                        edge="end" 
+                        disabled={isFormOpen}
+                    >
+                        <FontAwesomeIcon icon={faSignInAlt} />
+                    </IconButton>
+                </ListItem>
+            ]})
+    )
 
     return (
-        <div className="area-container">
-            <div className="area-column">
-                <div className="areaList-container">
-                    <div className="avatarContainer">
-                        <ShowAvatar username={user.name} userId={user.uid} profile={true} />
-                    </div>
-                    <span className="hint">Selecciona un área para trabajar</span>
-                    <div className="areaList">
-                        {areas.map((area) => (
-                            <AreaRow key={area.uid} area={area} />
-                        ))}
-                    </div>
-                </div>
-                <div className="buttons-container">
-                    <div className="button1">
-                        <span
-                            onClick={{handleButton1Click}}
-                        >
-                            Crear nueva Área
-                        </span>
-                    </div>
-                    <div className="button2">
-                        <span
-                            onClick={{handleButton2Click}}
-                        >
-                            Unirse a un Área existente
-                        </span>
-                    </div>
-                </div>
+        <div className="text-white bg-gray-900 flex flex-col w-full h-auto min-h-full" style={{maxWidth:"500px", marginInline:"auto"}}>
+            <List>
+                <ListItem 
+                    button 
+                    onClick={handleShowForm}
+                >
+                    <ListItemText primary="Crear Área"/>
+                    <IconButton 
+                        edge="end"
+                    >
+                        <FontAwesomeIcon icon={isFormOpen ? faChevronUp : faChevronDown} />
+                    </IconButton>
+                </ListItem>
+                <Collapse in={isFormOpen} timeout="auto" unmountOnExit>
+                    <List>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar variant="rounded" style={{backgroundColor: "white"}}>
+                                    <FontAwesomeIcon icon={faFolderPlus} />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <form onSubmit={handleSubmit(handleNewArea)} autoComplete="off">
+                                <Controller 
+                                    name="areaname"
+                                    control={control}
+                                    render={({ field }) => 
+                                    <TextField 
+                                        {...field}
+                                        autoFocus={true}
+                                        style={{width:"85%"}}
+                                        required
+                                        InputLabelProps={{ required: false, shrink: true }}
+                                        size="small"
+                                        label="Nombre de Área"
+                                        variant="outlined"
+                                        type="text"
+                                    />}
+                                /> 
+                                <ListItemSecondaryAction>
+                                    <IconButton edge="end" color="primary" type="submit">
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </form>
+                        </ListItem>
+                    </List>
+                </Collapse>
+            </List>
+            <Divider/>
+            {
+                areas.length > 0 
+                ? (<List>{showAreas()}</List>)
+                : (<div className="mx-auto my-auto flex flex-col items-center text-gray-400">
+                    <FontAwesomeIcon icon={faSadTear} size="5x" />
+                    <p className="mt-3">No hay areas para mostrar</p>
+                    <p>Agrega una en el apartado <b>Crear Área</b></p>
+                </div>)
+            } 
+            <div className="mt-auto">
+                <AppBar position="static" color="default" sx={{backgroundColor:"#080e1bfa", backgroundImage:"none"}}>
+                    <Toolbar>
+                        <form onSubmit={handleSubmit(handleJoinArea)} autoComplete="off">
+                            <Controller 
+                                name="code"
+                                control={control}
+                                render={({ field }) => 
+                                <TextField 
+                                    {...field} 
+                                    sx={{
+                                        width:"90%"
+                                    }}
+                                    size="small"
+                                    variant="outlined"
+                                    placeholder="Codigo de invitacion"
+                                    type="text"
+                                />}
+                            />
+                        </form>
+                        <div className="w-10 h-10 ml-auto cursor-pointer no-tap-highlight">
+                            <ShowAvatar avatarClass="border-2" user={user} profile={true} />
+                        </div>
+                    </Toolbar>
+                </AppBar>    
             </div>
             <ProfileModal />
         </div>

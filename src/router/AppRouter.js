@@ -16,7 +16,10 @@ export const AppRouter = () => {
     const {uid} = useSelector(state => state.auth) 
 
     useEffect(() => {
-        dispatch(startChecking());
+        const token = localStorage.getItem('token');
+        if (token) {
+            dispatch(startChecking());
+        }
     }, [dispatch])
 
     return (

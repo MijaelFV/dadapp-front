@@ -1,4 +1,4 @@
-import { Button, FormControl, InputAdornment, InputLabel, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, InputAdornment, InputLabel, Select, TextField } from '@mui/material';
 import React from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { startDeleteSpace, startModifySpace } from '../../../redux/actions/space
 import { useHistory } from 'react-router-dom';
 import { showOptionsColRow } from '../../../helpers/showOptionsColRow';
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
+import { SwalMixin } from '../../../components/SwalMixin';
 
 Modal.setAppElement('#root');
 export const ModifySpaceModal = ({space}) => {
@@ -20,11 +21,12 @@ export const ModifySpaceModal = ({space}) => {
     
     const thisModalIsOpen = useModalIsOpen("ModifySpaceModal")
     
-    const { control, handleSubmit, reset} = useForm({
+    const { control, handleSubmit, reset, getValues} = useForm({
         defaultValues: {
             name: space.name,
             rows: space.rows,
-            columns: space.columns
+            columns: space.columns,
+            newCategory: ''
         }
     });
 
@@ -40,14 +42,36 @@ export const ModifySpaceModal = ({space}) => {
     }
 
     const handleDeleteSpace = () => {
-        history.replace('/spaces');
-        dispatch(startDeleteSpace(space.uid));
-        dispatch(closeModal());
-        reset();
+        SwalMixin.fire({
+            toast: false,
+            titleText: "¿Estás seguro de eliminar el espacio?", 
+            text: `Escribe el nombre para confirmar la eliminación. "${space.name}"`,
+            input: "text",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Eliminar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (result.value === space.name) {
+                    history.replace('/spaces');
+                    dispatch(startDeleteSpace(space.uid));
+                    dispatch(closeModal());
+                    reset();
+                } else {
+                    SwalMixin.fire({
+                        icon: "info",
+                        text: "Se ingreso un nombre incorrecto.",
+                        confirmButtonText: "Aceptar",
+                    })
+                }
+            }
+        })
     }
     
-    const handleAddCategory = (data) => {
-        dispatch(createCategory(space.uid, data.newCategory))
+    const handleAddCategory = () => {
+        const newCategory = getValues('newCategory')
+        dispatch(createCategory(space.uid, newCategory))
     }
 
     const handleDeleteCategory = (categoryUid) => {
@@ -57,11 +81,14 @@ export const ModifySpaceModal = ({space}) => {
     const showCategories = () => {
         if (categories.length > 0) {
             return categories.map((category) => (
-                <span key={category.uid}>
+                <span 
+                    className="flex justify-between items-center mx-1 my-0.5 rounded-sm px-1"
+                    key={category.uid}
+                >
                     {category.name}
                     <FontAwesomeIcon 
                         icon={faTimesCircle} 
-                        className="iconButton"
+                        className="cursor-pointer no-tap-highlight"
                         onClick={() => {
                             handleDeleteCategory(category.uid)
                         }}
@@ -69,7 +96,9 @@ export const ModifySpaceModal = ({space}) => {
                 </span>
             ))
         } else {
-            return <span className="noCategories">No hay categorias</span>
+            return <div className="mx-auto my-auto text-sm text-center w-4/5 text-gray-400">
+                <b>No hay categorias para mostrar</b>
+            </div>
         }
     }
 
@@ -81,100 +110,108 @@ export const ModifySpaceModal = ({space}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form className="modifySpaceModal-container" onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col w-full h-full">
                 <Controller 
                     name="name"
                     control={control}
                     render={({ field }) => 
                     <TextField
                         {...field}
-                        fullWidth
+                        required
+                        InputLabelProps={{ required: false, shrink: true}}
                         type="text"
                         variant="outlined"
                         label="Nombre del espacio"
-                        className="form-textField"
                     />}
                 />
-                <div className="options-row">
-                    <div className="categories">
+                <div className="h-2"/>
+                <div className="grid grid-flow-col gap-2">
+                    <FormControl
+                        variant="outlined"
+                    >
+                        <InputLabel shrink htmlFor="rows-select">Filas</InputLabel>
                         <Controller 
-                            name="newCategory"
+                            name="rows"
                             control={control}
                             render={({ field }) => 
-                            <TextField
+                            <Select
                                 {...field} 
-                                variant="outlined"
-                                type="text"
-                                label="Añadir Categoria"
-                                style={{width:"210px"}}
-                                placeholder="Ej: Perforación"
-                                InputProps={{
-                                    endAdornment: <InputAdornment position="end">
-                                        <span 
-                                            onClick={handleSubmit(handleAddCategory)}
-                                            className="categoryAdd"
-                                        >
-                                            <FontAwesomeIcon icon={faPlusCircle}/>
-                                        </span>
-                                    </InputAdornment>,
+                                native
+                                notched
+                                required
+                                label="rows"
+                                inputProps={{
+                                    name: "rows",
+                                    id: "rows-select"
                                 }}
-                            />}
+                            >
+                                {showOptionsColRow(10)}
+                            </Select>}
                         />
-                        <div className="categories-show">
-                            {showCategories()}
-                        </div>
-                    </div>
-                    <div className="vertical-selects">
-                        <FormControl
-                            className="select" 
+                    </FormControl>
+                    <FormControl
+                        variant="outlined"
+                    >
+                        <InputLabel shrink htmlFor="columns-select">Columnas</InputLabel>
+                        <Controller 
+                            name="columns"
+                            control={control}
+                            render={({ field }) => 
+                            <Select
+                                {...field} 
+                                native
+                                notched
+                                required
+                                label="columns"
+                                inputProps={{
+                                    name: "columns",
+                                    id: "columns-select"
+                                }}
+                            >
+                                {showOptionsColRow(10)}
+                            </Select>}
+                        />
+                    </FormControl>
+                </div>
+                <div className="h-2"/>
+                <div className="grid grid-flow-row gap-2">
+                    <Controller 
+                        name="newCategory"
+                        control={control}
+                        render={({ field }) => 
+                        <TextField
+                            {...field} 
+                            onKeyPress={e => {
+                                if (e.key === 'Enter') {
+                                    handleAddCategory()
+                                    e.preventDefault() 
+                                }
+                            }}
                             variant="outlined"
-                        >
-                            <InputLabel htmlFor="rows-select">Filas</InputLabel>
-                            <Controller 
-                                name="rows"
-                                control={control}
-                                render={({ field }) => 
-                                <Select
-                                    {...field} 
-                                    native
-                                    label="rows"
-                                    inputProps={{
-                                        name: "rows",
-                                        id: "rows-select"
-                                    }}
-                                >
-                                    {showOptionsColRow()}
-                                </Select>}
-                            />
-                        </FormControl>
-                        <FormControl
-                            className="select-mt10" 
-                            variant="outlined"
-                        >
-                            <InputLabel htmlFor="columns-select">Columnas</InputLabel>
-                            <Controller 
-                                name="columns"
-                                control={control}
-                                render={({ field }) => 
-                                <Select
-                                    {...field} 
-                                    native
-                                    label="columns"
-                                    inputProps={{
-                                        name: "columns",
-                                        id: "columns-select"
-                                    }}
-                                >
-                                    {showOptionsColRow()}
-                                </Select>}
-                            />
-                        </FormControl>
+                            type="text"
+                            label="Añadir Categoria"
+                            InputLabelProps={{ shrink: true}}
+                            placeholder="Ej: Perforación"
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">
+                                    <span 
+                                        onClick={handleSubmit(handleAddCategory)}
+                                        className="flex items-center cursor-pointer no-tap-highlight h-14 px-1 -mr-2 text-lg"
+                                    >
+                                        <FontAwesomeIcon icon={faPlusCircle}/>
+                                    </span>
+                                </InputAdornment>,
+                            }}
+                        />}
+                    />
+                    <div className="flex flex-col row-span-2 h-24 rounded font-medium overflow-y-auto bg-gray-500 bg-opacity-20">
+                        {showCategories()}
                     </div>
                 </div>
-                <div className="form-button">
+                <div className="mt-4 flex">
                     <Button
                         fullWidth
-                        style={{marginRight:"2px"}}
+                        style={{marginRight:"4px"}}
                         color="primary"
                         variant="contained"
                         type="submit"

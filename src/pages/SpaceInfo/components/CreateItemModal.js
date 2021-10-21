@@ -1,33 +1,51 @@
-import { Button, FormControl, InputLabel, Select, TextField } from '@material-ui/core';
-import React from 'react'
+import { Button, FormControl, InputLabel, Select, TextField } from '@mui/material';
+import React, { useState } from 'react'
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { startCreateItem } from '../../../redux/actions/inv';
 import { closeModal } from '../../../redux/actions/ui';
 import { Controller, useForm } from "react-hook-form";
 import { useModalIsOpen } from '../../../hooks/useModalIsOpen';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 Modal.setAppElement('#root');
-export const CreateItemModal = ({spaceId, cols, rows}) => {
+export const CreateItemModal = ({spaceid, cols, rows}) => {
     const dispatch = useDispatch();
     const {categories} = useSelector(state => state.inv);
     const area = useSelector(state => state.area.active)
     
     const thisModalIsOpen = useModalIsOpen("CreateItemModal")
 
-    const { control, reset, handleSubmit } = useForm();
+    const [selectedFile, setSelectedFile] = useState();
+
+    const { control, reset, handleSubmit } = useForm({
+        defaultValues: {
+            name: '',
+            description: '',
+            category: '',
+            row: '',
+            column: '',
+            expiryDate: '',
+            quantity: ''
+        }
+    });
 
     const onSubmit = (data) => {
-        const space = spaceId
-        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, space, area.uid));
-        reset();
+        dispatch(startCreateItem(data.name, data.description, data.category, data.row, data.column, data.expiryDate, data.quantity, spaceid, area.uid, selectedFile));
         dispatch(closeModal());
+        setSelectedFile()
+        reset();
     }
     
     const handleCloseModal = () => {
         reset();
         dispatch(closeModal());
     }  
+
+    const handleUploadFile = (e) => {
+        setSelectedFile(e.target.files[0]);
+    }
 
     return (
         <Modal
@@ -37,49 +55,65 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
             className="modal"
             overlayClassName="modal-background"
         >
-            <form className="createItemModal-container" onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col w-full h-full">
+                <div className="flex mb-5 items-center">
+                    <Button
+                        size="small"
+                        component="label"
+                        variant="contained"
+                        color="primary"
+                    >
+                        Subir Imagen
+                        <input
+                            type="file"
+                            onChange={handleUploadFile}
+                            hidden
+                        />
+                    </Button>
+                    {selectedFile !== undefined && <FontAwesomeIcon icon={faCheckSquare} size="1x" className="ml-1" />}
+                </div>
                 <Controller 
                     name="name"
                     control={control}
                     render={({ field }) => 
                     <TextField 
                         {...field} 
-                        fullWidth
+                        required
+                        InputLabelProps={{ required: false, shrink: true}}
                         label="Nombre de objeto"
                         variant="outlined"
                         type="text"
-                        className="form-textField"
                     />}
                 />
+                <div className="h-2"/>
                 <Controller 
                     name="description"
                     control={control}
                     render={({ field }) => 
                     <TextField 
                         {...field} 
-                        fullWidth
                         multiline
-                        rows={2}
-                        maxRows={4}
+                        InputLabelProps={{ shrink: true }}
+                        maxRows={3}
                         label="Descripcion"
                         variant="outlined"
-                        className="form-textField"
                     />}
                 />
-                <div className="form-selects">
+                <div className="h-2"/>
+                <div className="grid grid-cols-3 gap-2">
                     <FormControl
-                        className="select"
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="category-select">Categoria</InputLabel>
+                        <InputLabel shrink htmlFor="category-select">Categoria</InputLabel>
                         <Controller 
                             name="category"
                             control={control}
-                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
+                                    notched
                                     native
+                                    required
                                     label="category"
                                     inputProps={{
                                         name: "category",
@@ -95,18 +129,18 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                     <FormControl
-                        className="select" 
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="row-select">Fila</InputLabel>
+                        <InputLabel shrink htmlFor="row-select">Fila</InputLabel>
                         <Controller 
                             name="row"
                             control={control}
-                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
                                     native
+                                    required
+                                    notched
                                     label="row"
                                     inputProps={{
                                         name: "row",
@@ -122,18 +156,18 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                     <FormControl
-                        className="select" 
                         variant="outlined"
                     >
-                        <InputLabel htmlFor="column-select">Columna</InputLabel>
+                        <InputLabel shrink htmlFor="column-select">Columna</InputLabel>
                         <Controller 
                             name="column"
                             control={control}
-                            defaultValue=""
                             render={({field}) => 
                                 <Select
                                     {...field} 
                                     native
+                                    notched
+                                    required
                                     label="column"
                                     inputProps={{
                                         name: "column",
@@ -149,15 +183,51 @@ export const CreateItemModal = ({spaceId, cols, rows}) => {
                         />
                     </FormControl>
                 </div>
-                <div className="form-button">
+                <div className="h-2"/>
+                <div className="grid grid-cols-2 gap-2">
+                    <Controller 
+                        name="expiryDate"
+                        control={control}
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            label="Vencimiento"
+                            variant="outlined"
+                            type="date"
+                            InputLabelProps={{ shrink: true }}
+                        />}
+                    />
+                    <Controller 
+                        name="quantity"
+                        control={control}
+                        render={({ field }) => 
+                        <TextField 
+                            {...field} 
+                            label="Cantidad"
+                            placeholder="No consumible"
+                            InputLabelProps={{ shrink: true }}
+                            variant="outlined"
+                            type="number"
+                        />}
+                    />
+                </div>
+                <div className="mt-4 flex">
                     <Button
-                        size="large"
+                        fullWidth
+                        style={{marginRight:"4px"}}
                         variant="contained"
                         color="primary"
-                        fullWidth={true}
                         type="submit"
                     >
                         Crear
+                    </Button>
+                    <Button
+                        style={{width:"180px"}}
+                        onClick={handleCloseModal}
+                        variant="contained"
+                        color="secondary"
+                    >
+                        Cancelar
                     </Button>
                 </div>
             </form>

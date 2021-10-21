@@ -1,15 +1,13 @@
-import { Avatar } from '@material-ui/core'
 import React from 'react'
-import { useDispatch } from 'react-redux';
-import { openModal } from '../redux/actions/ui';
+import noImage from '../assets/no-image.jpg'
 
-export const ShowImage = ({itemId}) => {
-    const dispatch = useDispatch();
-    
-    const baseUrl = process.env.REACT_APP_API_URL;
-    const url = `${baseUrl}api/upload/items/${itemId}`;
+export const ShowImage = ({item}) => {    
+    // const baseUrl = process.env.REACT_APP_API_URL;
+    // const url = `${baseUrl}api/upload/items/${item?.uid}`;
+    const url = item?.image || noImage;
+
 
     return (
-        <img src={url} />
+        <img key={Date.now()} src={url} alt="Item" className="h-full"/>
     )
 }

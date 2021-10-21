@@ -3,12 +3,18 @@ export const types = {
     uiOpenModal: '[UI] Open Modal',
     uiCloseModal: '[UI] Close Modal',
     uiSetNavValue: '[UI] Nav Value Setted',
+    uiLoadingStart: '[UI] Loading Start',
+    uiLoadingFinish: '[UI] Loading Finish',
     uiClear: '[UI] Cleared',
 
     authCheckingFinish: '[AUTH] Finished Checking Login State',
     authStartLogin: '[AUTH] Start login',
     authLogin: '[AUTH] Login',
+    authProfileUpdate: '[AUTH] Profile Update',
     authLogOut: '[AUTH] LogOut',
+
+    errorLoad: "[ERROR] New Errors",
+    errorClear: "[ERROR] Errors Cleared",
 
     spaceLoad: '[SPACE] Loaded',
     spaceAdd: '[SPACE] Added',
@@ -17,16 +23,34 @@ export const types = {
     spaceClear: '[SPACE] Space Cleared',
  
     invLoad: '[INV] Loaded',
-    invAdd: '[INV] Object Added',
-    invRemove: '[INV] Object Removed',
+    invUnload: '[INV] Unloaded',
+    invLoadToReturn: '[INV] ToReturn Loaded',
+    invRemoveToReturn: '[INV] ToReturn Removed',
+    invAdd: '[INV] Item Added',
+    invRemove: '[INV] Item Removed',
     invDelete: '[INV] Deleted',
     invLoadCategories: '[INV] Categories Loaded',
+    invSetTotalPages: '[INV] Total Pages Setted',
     invClear: '[INV] Inventory Cleared',
     
-    logLoad: '[LOG] Loaded',
+    logAreaLoad: '[LOG] Area Loaded',
+    logUserLoad: '[LOG] User Loaded',
+    logItemLoad: '[LOG] Item Loaded',
+    logSetTotalPages: '[LOG] Total Pages Setted',
     logClear: '[LOG] Cleared',
 
     areaLoad: '[AREA] Loaded',
     areaActive: '[AREA] Set Active Area',
-    areaClear: '[AREA] Area Cleared'
+    areaSetRole: '[AREA] Set User Role',
+    areaClear: '[AREA] Area Cleared',
+    areaChangeCode: '[AREA] Code Changed',
+
+    searchLoad: '[SEARCH] Loaded',
+    searchClear: '[SEARCH] Cleared',
+
+    userLoad: '[USER] Loaded',
+    userClear: '[USER] Cleared',
+
+    itemLoad: '[ITEM] Loaded',
+    itemClear: '[ITEM] Cleared'
 }

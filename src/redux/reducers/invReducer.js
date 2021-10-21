@@ -1,22 +1,50 @@
 import { types } from "../types";
 const initialState = {
+    totalPages: 1,
     items: [],
+    toReturn: [],
     categories: []
 }
 
 export const invReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.invSetTotalPages: 
+            return {
+                ...state,
+                totalPages: action.payload
+            }
+
         case types.invLoad: 
             return {
                 ...state,
                 items: [...action.payload]
             }
 
-        case types.invAdd: 
+        case types.invUnload: 
             return {
                 ...state,
-                items: [...state.items, action.payload]
+                items: []
             }
+
+        case types.invLoadToReturn: 
+            return {
+                ...state,
+                toReturn: [...action.payload]
+            }
+
+        case types.invRemoveToReturn: 
+            return {
+                ...state,
+                toReturn: state.toReturn.filter(
+                    item => (item.uid !== action.payload)
+                ),
+            }
+
+        // case types.invAdd: 
+        //     return {
+        //         ...state,
+        //         items: [...state.items, action.payload]
+        //     }
 
         case types.invRemove: 
             return {
